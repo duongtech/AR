@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☀️ Chuyển Động Mặt Trời – Bài Học Khoa Học</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #000;
+            overflow: hidden;
+            color: #fff
+        }
+
+        #c {
+            width: 100vw;
+            height: 100vh;
+            display: block
+        }
+
+        /* ── Time + elevation banner ── */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            background: rgba(0, 0, 0, .75);
+            border-bottom: 2px solid rgba(255, 215, 0, .3);
+            padding: 8px 28px;
+            backdrop-filter: blur(10px);
+            z-index: 200;
+            border-radius: 0 0 20px 20px
+        }
+
+        .top-bar .block {
+            text-align: center
+        }
+
+        .top-bar .lbl {
+            font-size: 11px;
+            color: #FFD700;
+            letter-spacing: 1px;
+            text-transform: uppercase
+        }
+
+        .top-bar .val {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.1
+        }
+
+        .top-bar .sub {
+            font-size: 12px;
+            color: #FFE082
+        }
+
+        .divider {
+            width: 1px;
+            height: 50px;
+            background: rgba(255, 255, 255, .2)
+        }
+
+        /* ── Season tabs ── */
+        .season-bar {
+            position: fixed;
+            top: 88px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 200
+        }
+
+        .s-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(255, 255, 255, .25);
+            background: rgba(0, 0, 0, .6);
+            color: #ccc;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all .2s;
+            backdrop-filter: blur(8px)
+        }
+
+        .s-btn:hover {
+            border-color: #FFD700;
+            color: #FFD700
+        }
+
+        .s-btn.active {
+            background: rgba(255, 215, 0, .25);
+            border-color: #FFD700;
+            color: #FFD700;
+            font-weight: 700
+        }
+
+        /* ── Right info panel ── */
+        .info-panel {
+            position: fixed;
+            top: 130px;
+            right: 14px;
+            width: 210px;
+            background: rgba(0, 0, 0, .8);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 16px;
+            padding: 14px;
+            backdrop-filter: blur(12px);
+            z-index: 200
+        }
+
+        .info-panel h3 {
+            color: #FFD700;
+            font-size: 13px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 215, 0, .25);
+            padding-bottom: 6px
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px;
+            font-size: 12px
+        }
+
+        .info-row .lbl2 {
+            color: #aaa
+        }
+
+        .info-row .v {
+            color: #fff;
+            font-weight: 700
+        }
+
+        .info-row .v.east {
+            color: #FF6B35
+        }
+
+        .info-row .v.west {
+            color: #1E90FF
+        }
+
+        .info-row .v.north {
+            color: #4FC3F7
+        }
+
+        .shadow-arrow {
+            font-size: 20px;
+            margin-left: 4px
+        }
+
+        /* ── Tooltip overlay ── */
+        .tooltip {
+            position: fixed;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 30, 60, .95);
+            border: 2px solid #FFD700;
+            border-radius: 16px;
+            padding: 14px 20px;
+            max-width: 340px;
+            text-align: center;
+            z-index: 300;
+            animation: fadeIn .4s ease;
+            pointer-events: none
+        }
+
+        .tooltip.hidden {
+            display: none
+        }
+
+        .tooltip .t-title {
+            color: #FFD700;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        .tooltip .t-body {
+            color: #ddd;
+            font-size: 13px;
+            line-height: 1.6
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0)
+            }
+        }
+
+        /* ── Timeline ── */
+        .timeline-wrap {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(600px, 92vw);
+            z-index: 200;
+            text-align: center
+        }
+
+        .timeline-markers {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #aaa;
+            margin-bottom: 4px
+        }
+
+        .timeline-markers span {
+            text-align: center
+        }
+
+        #tl {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, #FF6B35 0%, #FFD700 50%, #FF4500 100%);
+            outline: none;
+            cursor: pointer
+        }
+
+        #tl::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, .6)
+        }
+
+        /* ── Controls bar ── */
+        .ctrl-bar {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: rgba(0, 0, 0, .8);
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 40px;
+            padding: 10px 22px;
+            backdrop-filter: blur(12px);
+            z-index: 200
+        }
+
+        .c-btn {
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .25);
+            color: #fff;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .c-btn:hover {
+            background: rgba(255, 215, 0, .3);
+            border-color: #FFD700;
+            transform: scale(1.1)
+        }
+
+        .spd-box {
+            font-size: 12px;
+            text-align: center;
+            min-width: 34px
+        }
+
+        .spd-box .sv {
+            color: #FFD700;
+            font-weight: 700
+        }
+
+        /* ── Quiz side panel (non-blocking) ── */
+        .quiz-panel {
+            position: fixed;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            width: 270px;
+            background: rgba(10, 15, 40, .94);
+            border: 2px solid #FFD700;
+            border-radius: 20px;
+            padding: 18px 16px 14px;
+            backdrop-filter: blur(16px);
+            z-index: 400;
+            box-shadow: 0 0 30px rgba(255, 215, 0, .2);
+            transition: all .3s ease
+        }
+
+        .quiz-panel.hidden {
+            display: none
+        }
+
+        .qp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px
+        }
+
+        .qp-header h3 {
+            color: #FFD700;
+            font-size: 14px;
+            font-weight: 700
+        }
+
+        .qp-close {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 18px;
+            cursor: pointer;
+            line-height: 1
+        }
+
+        .qp-close:hover {
+            color: #fff
+        }
+
+        .qp-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, .2);
+            border: 1px solid #FFD700;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 11px;
+            color: #FFD700;
+            margin-bottom: 10px
+        }
+
+        .qp-observe {
+            background: rgba(79, 195, 247, .12);
+            border: 1px solid rgba(79, 195, 247, .3);
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 11px;
+            color: #B3E5FC;
+            margin-bottom: 10px;
+            line-height: 1.5
+        }
+
+        .qp-observe b {
+            color: #4FC3F7
+        }
+
+        .qp-q {
+            font-size: 13px;
+            color: #eee;
+            line-height: 1.6;
+            margin-bottom: 12px
+        }
+
+        /* MCQ options */
+        .qp-opts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+            margin-bottom: 10px
+        }
+
+        .qp-opt {
+            background: rgba(255, 255, 255, .07);
+            border: 1.5px solid rgba(255, 255, 255, .18);
+            color: #ccc;
+            border-radius: 10px;
+            padding: 9px 6px;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
+            transition: all .2s
+        }
+
+        .qp-opt:hover {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, .15);
+            color: #FFD700
+        }
+
+        .qp-opt.correct {
+            background: rgba(76, 175, 80, .3);
+            border-color: #4CAF50;
+            color: #A5D6A7
+        }
+
+        .qp-opt.wrong {
+            background: rgba(244, 67, 54, .2);
+            border-color: #F44336;
+            color: #EF9A9A
+        }
+
+        /* Drag-challenge type */
+        .qp-drag-hint {
+            font-size: 12px;
+            color: #B0BEC5;
+            text-align: center;
+            margin-bottom: 8px;
+            padding: 6px;
+            background: rgba(255, 255, 255, .05);
+            border-radius: 8px
+        }
+
+        .qp-drag-check {
+            width: 100%;
+            padding: 9px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 215, 0, .2);
+            border: 1.5px solid #FFD700;
+            color: #FFD700;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s;
+            margin-bottom: 6px
+        }
+
+        .qp-drag-check:hover {
+            background: rgba(255, 215, 0, .35)
+        }
+
+        .qp-drag-check.success {
+            background: rgba(76, 175, 80, .3);
+            border-color: #4CAF50;
+            color: #A5D6A7
+        }
+
+        .qp-fb {
+            font-size: 12px;
+            color: #4FC3F7;
+            min-height: 20px;
+            text-align: center;
+            margin-bottom: 8px;
+            line-height: 1.5
+        }
+
+        .qp-score {
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 8px
+        }
+
+        .qp-score b {
+            color: #FFD700
+        }
+
+        .qp-footer {
+            display: flex;
+            gap: 6px
+        }
+
+        .qp-btn {
+            flex: 1;
+            padding: 7px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .2);
+            color: #ccc;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all .2s
+        }
+
+        .qp-btn:hover {
+            background: rgba(255, 215, 0, .2);
+            border-color: #FFD700;
+            color: #FFD700
+        }
+
+        .qp-btn.primary {
+            background: rgba(255, 215, 0, .2);
+            border-color: #FFD700;
+            color: #FFD700
+        }
+
+        /* Progress dots */
+        .qp-dots {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 10px
+        }
+
+        .qp-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .2);
+            transition: all .3s
+        }
+
+        .qp-dot.done {
+            background: #4CAF50
+        }
+
+        .qp-dot.cur {
+            background: #FFD700;
+            transform: scale(1.3)
+        }
+
+        .qp-dot.wrong-d {
+            background: #F44336
+        }
+
+        /* ── Compass ── */
+        .compass {
+            position: fixed;
+            bottom: 130px;
+            right: 18px;
+            width: 90px;
+            height: 90px;
+            z-index: 200
+        }
+
+        /* ── View hint ── */
+        .view-hint {
+            position: fixed;
+            bottom: 28px;
+            left: 16px;
+            background: rgba(0, 0, 0, .6);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #aaa;
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            line-height: 1.6
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c"></canvas>
+
+    <!-- Top banner -->
+    <div class="top-bar">
+        <div class="block">
+            <div class="lbl">Thời gian</div>
+            <div class="val" id="tVal">06:00</div>
+        </div>
+        <div class="divider"></div>
+        <div class="block">
+            <div class="lbl">Góc cao MT</div>
+            <div class="val" id="eVal">0°</div>
+            <div class="sub" id="eDesc">Chân trời</div>
+        </div>
+        <div class="divider"></div>
+        <div class="block">
+            <div class="lbl">Pha ngày</div>
+            <div class="val" style="font-size:22px" id="phaseIcon">🌅</div>
+            <div class="sub" id="phaseDesc">Bình minh</div>
+        </div>
+    </div>
+
+    <!-- Season tabs -->
+    <div class="season-bar">
+        <button class="s-btn" data-s="equinox">🌸 Xuân/Thu phân</button>
+        <button class="s-btn active" data-s="summer">☀️ Hạ chí</button>
+        <button class="s-btn" data-s="winter">❄️ Đông chí</button>
+    </div>
+
+    <!-- Right panel -->
+    <div class="info-panel">
+        <h3>📐 Thông Số</h3>
+        <div class="info-row"><span class="lbl2">Chiều dài bóng</span><span class="v" id="shadowLen">–</span></div>
+        <div class="info-row"><span class="lbl2">Hướng bóng</span><span class="v" id="shadowDir">–</span></div>
+        <div class="info-row"><span class="lbl2">Mặt Trời ở</span><span class="v" id="sunDir">–</span></div>
+        <hr style="border-color:rgba(255,255,255,.12);margin:8px 0">
+        <div style="font-size:11px;color:#aaa;line-height:1.6">
+            📏 Cột đo bóng (gnomon): <b>2 m</b><br>
+            💡 Sáng/Chiều → bóng dài<br>
+            ☀️ Trưa → bóng ngắn nhất<br>
+            🌐 Bóng hướng đối diện MT
+        </div>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip hidden" id="tooltip">
+        <div class="t-title" id="t-title"></div>
+        <div class="t-body" id="t-body"></div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-wrap">
+        <div class="timeline-markers">
+            <span>🌅 Bình minh<br>06:00</span>
+            <span>🌄 9:00</span>
+            <span>☀️ Chính Ngọ<br>12:00</span>
+            <span>🌆 15:00</span>
+            <span>🌇 Hoàng hôn<br>18:00</span>
+        </div>
+        <input type="range" id="tl" min="0" max="100" value="0">
+    </div>
+
+    <!-- Controls -->
+    <div class="ctrl-bar">
+        <button class="c-btn" id="btnReset" title="Đặt lại">↩</button>
+        <button class="c-btn" id="btnPlay">⏸</button>
+        <div class="spd-box">
+            <div class="sv" id="spdV">1×</div>
+            <div style="color:#aaa;font-size:10px">tốc độ</div>
+        </div>
+        <button class="c-btn" id="btnSpd">⚡</button>
+        <button class="c-btn" id="btnQuiz" title="Câu hỏi">❓</button>
+        <button class="c-btn" id="btnTopView" title="Nhìn từ trên">🔭</button>
+    </div>
+
+    <!-- Compass -->
+    <div class="compass">
+        <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="48" fill="rgba(0,0,0,.75)" stroke="rgba(255,255,255,.25)" stroke-width="1.5" />
+            <line x1="50" y1="5" x2="50" y2="15" stroke="rgba(255,255,255,.4)" stroke-width="1.5" />
+            <line x1="50" y1="85" x2="50" y2="95" stroke="rgba(255,255,255,.4)" stroke-width="1.5" />
+            <line x1="5" y1="50" x2="15" y2="50" stroke="rgba(255,255,255,.4)" stroke-width="1.5" />
+            <line x1="85" y1="50" x2="95" y2="50" stroke="rgba(255,255,255,.4)" stroke-width="1.5" />
+            <text x="50" y="23" text-anchor="middle" fill="#4FC3F7" font-size="13" font-weight="bold">B</text>
+            <text x="50" y="85" text-anchor="middle" fill="#9E9E9E" font-size="13" font-weight="bold">N</text>
+            <text x="82" y="54" text-anchor="middle" fill="#FF6B35" font-size="13" font-weight="bold">Đ</text>
+            <text x="18" y="54" text-anchor="middle" fill="#FF9800" font-size="13" font-weight="bold">T</text>
+            <!-- Shadow line -->
+            <line id="cmpShadow" x1="50" y1="50" x2="50" y2="50" stroke="#64B5F6" stroke-width="3"
+                stroke-linecap="round" opacity=".8" />
+            <!-- Sun dot -->
+            <circle id="cmpSun" cx="82" cy="50" r="7" fill="#FFD700" />
+            <!-- Shadow arrow dot -->
+            <circle id="cmpShTip" cx="50" cy="50" r="4" fill="#64B5F6" opacity=".8" />
+        </svg>
+    </div>
+
+    <div class="view-hint">🖱 Kéo để xoay<br>🔍 Cuộn để zoom</div>
+
+    <!-- Interactive Quiz Side Panel -->
+    <div class="quiz-panel hidden" id="quizPanel">
+        <div class="qp-header">
+            <h3>🎓 Thực Hành + Trả Lời</h3>
+            <button class="qp-close" id="qpClose">✕</button>
+        </div>
+        <div class="qp-dots" id="qpDots"></div>
+        <div class="qp-badge" id="qpBadge">Câu 1/6</div>
+        <div class="qp-observe hidden" id="qpObserve"></div>
+        <div class="qp-q" id="qpQ"></div>
+        <!-- MCQ -->
+        <div class="qp-opts" id="qpOpts"></div>
+        <!-- Drag challenge -->
+        <div class="qp-drag-hint hidden" id="qpDragHint"></div>
+        <button class="qp-drag-check hidden" id="qpDragCheck">✅ Kiểm tra câu trả lời</button>
+        <!-- Feedback -->
+        <div class="qp-fb" id="qpFb"></div>
+        <div class="qp-score" id="qpScore"></div>
+        <div class="qp-footer">
+            <button class="qp-btn" id="qpNext">Câu tiếp ▶</button>
+            <button class="qp-btn primary" id="qpReplay">↩ Xem lại</button>
+        </div>
+    </div>
+
+    <script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // ══ RENDERER / SCENE ══════════════════════════════════════════════════════════
+        const canvas = document.getElementById('c');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+        renderer.setSize(innerWidth, innerHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 2000);
+        camera.position.set(0, 14, 24);
+
+        const controls = new OrbitControls(camera, canvas);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.target.set(0, 2, 0);
+        controls.maxPolarAngle = Math.PI / 2 + 0.05;
+        controls.minDistance = 6;
+        controls.maxDistance = 80;
+
+        // ══ SEASON CONFIG ═════════════════════════════════════════════════════════════
+        const SEASONS = {
+            equinox: { maxElev: 74, label: 'Xuân/Thu phân', arcH: 13 },
+            summer: { maxElev: 87, label: 'Hạ chí', arcH: 16 },
+            winter: { maxElev: 51, label: 'Đông chí', arcH: 9 }
+        };
+        let season = 'summer';
+
+        // ══ SKY (vertex-colored sphere) ═══════════════════════════════════════════════
+        const skyGeo = new THREE.SphereGeometry(500, 32, 16);
+        skyGeo.scale(-1, 1, 1);
+        const skyColors = new Float32Array(skyGeo.attributes.position.count * 3);
+        skyGeo.setAttribute('color', new THREE.BufferAttribute(skyColors, 3));
+        const sky = new THREE.Mesh(skyGeo, new THREE.MeshBasicMaterial({ vertexColors: true }));
+        scene.add(sky);
+
+        // ══ LIGHTS ════════════════════════════════════════════════════════════════════
+        const sunLight = new THREE.DirectionalLight(0xFFEEB0, 2);
+        sunLight.castShadow = true;
+        sunLight.shadow.mapSize.set(2048, 2048);
+        Object.assign(sunLight.shadow.camera, { near: 0.5, far: 500, left: -50, right: 50, top: 50, bottom: -50 });
+        scene.add(sunLight);
+        const ambLight = new THREE.AmbientLight(0x202040, 0.5);
+        scene.add(ambLight);
+
+        // ══ SUN MESH ══════════════════════════════════════════════════════════════════
+        const sunMesh = new THREE.Mesh(
+            new THREE.SphereGeometry(1.4, 32, 32),
+            new THREE.MeshBasicMaterial({ color: 0xFFD700 })
+        );
+        scene.add(sunMesh);
+
+        // Sun glow sprite
+        const glowC = document.createElement('canvas'); glowC.width = glowC.height = 128;
+        const glowCtx = glowC.getContext('2d');
+        const grd = glowCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+        grd.addColorStop(0, 'rgba(255,230,100,.9)'); grd.addColorStop(.3, 'rgba(255,180,0,.4)'); grd.addColorStop(1, 'rgba(0,0,0,0)');
+        glowCtx.fillStyle = grd; glowCtx.fillRect(0, 0, 128, 128);
+        const glowSpr = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(glowC), transparent: true, blending: THREE.AdditiveBlending }));
+        glowSpr.scale.set(12, 12, 1);
+        sunMesh.add(glowSpr);
+
+        // ══ ARC PATH LINE ═════════════════════════════════════════════════════════════
+        let arcLine;
+        function buildArc() {
+            if (arcLine) scene.remove(arcLine);
+            const { arcH } = SEASONS[season];
+            const pts = [];
+            for (let i = 0; i <= 80; i++) {
+                const t = i / 80, a = t * Math.PI;
+                pts.push(new THREE.Vector3(18 * Math.cos(a), arcH * Math.sin(a), 0));
+            }
+            const geo = new THREE.BufferGeometry().setFromPoints(pts);
+            const mat = new THREE.LineDashedMaterial({ color: 0xFFD700, opacity: .3, transparent: true, dashSize: .5, gapSize: .4 });
+            arcLine = new THREE.Line(geo, mat);
+            arcLine.computeLineDistances();
+            scene.add(arcLine);
+        }
+        buildArc();
+
+        // ══ GROUND ════════════════════════════════════════════════════════════════════
+        const groundMat = new THREE.MeshLambertMaterial({ color: 0x4CAF50 });
+        const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), groundMat);
+        ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true;
+        scene.add(ground);
+        const grid = new THREE.GridHelper(120, 30, 0x388E3C, 0x2E7D32);
+        grid.material.opacity = .35; grid.material.transparent = true;
+        scene.add(grid);
+
+        // ══ GNOMON (measurement pole) ═════════════════════════════════════════════════
+        const GNOMON_H = 2;
+        const gnomonMesh = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.05, 0.06, GNOMON_H, 12),
+            new THREE.MeshLambertMaterial({ color: 0xBCAAA4 })
+        );
+        gnomonMesh.position.set(0, GNOMON_H / 2, 0);
+        gnomonMesh.castShadow = true;
+        scene.add(gnomonMesh);
+
+        // Gnomon label sprite
+        function makeLabel(text, bgColor) {
+            const c = document.createElement('canvas'); c.width = 400; c.height = 100;
+            const cx = c.getContext('2d');
+            cx.fillStyle = bgColor + 'CC';
+            cx.beginPath(); cx.roundRect(0, 0, 400, 100, 12); cx.fill();
+            cx.strokeStyle = 'rgba(255,255,255,.5)'; cx.lineWidth = 3; cx.stroke();
+            cx.fillStyle = 'white'; cx.font = 'bold 40px sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle';
+            cx.fillText(text, 200, 50);
+            const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
+            spr.scale.set(3, 0.75, 1);
+            return spr;
+        }
+        const gnomonLabel = makeLabel('📏 Cột đo bóng (2m)', '#37474F');
+        gnomonLabel.position.set(0, GNOMON_H + 0.7, 0);
+        scene.add(gnomonLabel);
+
+        // Shadow of gnomon
+        const shadowMat = new THREE.MeshBasicMaterial({ color: 0x1a3a6e, transparent: true, opacity: 0.7 });
+        const shadowMesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.12), shadowMat);
+        shadowMesh.rotation.x = -Math.PI / 2;
+        shadowMesh.position.y = 0.01;
+        scene.add(shadowMesh);
+
+        // ══ SHADOW DIRECTION ARROW ════════════════════════════════════════════════════
+        const arrowDir = new THREE.ArrowHelper(
+            new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0.05, 0), 3, 0x64B5F6, 0.6, 0.3
+        );
+        scene.add(arrowDir);
+
+        // ══ ELEVATION ANGLE ARC (visual) ══════════════════════════════════════════════
+        const elevArcGeo = new THREE.BufferGeometry();
+        const elevArcMat = new THREE.LineBasicMaterial({ color: 0x80CBC4, transparent: true, opacity: 0.8 });
+        const elevArcLine = new THREE.Line(elevArcGeo, elevArcMat);
+        scene.add(elevArcLine);
+
+        // Ray from person to sun
+        const rayGeo = new THREE.BufferGeometry();
+        const rayMat = new THREE.LineDashedMaterial({ color: 0xFFF9C4, opacity: 0.5, transparent: true, dashSize: 0.5, gapSize: 0.3 });
+        const rayLine = new THREE.Line(rayGeo, rayMat);
+        scene.add(rayLine);
+
+        // ══ HOUSE ═════════════════════════════════════════════════════════════════════
+        const house = new THREE.Group();
+        const hBody = new THREE.Mesh(new THREE.BoxGeometry(3, 2.5, 3), new THREE.MeshLambertMaterial({ color: 0xFFF8E7 }));
+        hBody.position.y = 1.25; hBody.castShadow = true; house.add(hBody);
+        const hRoof = new THREE.Mesh(new THREE.ConeGeometry(2.5, 1.5, 4), new THREE.MeshLambertMaterial({ color: 0xD32F2F }));
+        hRoof.position.y = 3.25; hRoof.rotation.y = Math.PI / 4; hRoof.castShadow = true; house.add(hRoof);
+        const hDoor = new THREE.Mesh(new THREE.BoxGeometry(.6, 1, .05), new THREE.MeshLambertMaterial({ color: 0x5D4037 }));
+        hDoor.position.set(0, .5, 1.53); house.add(hDoor);
+        house.position.set(-6.5, 0, 0);
+        scene.add(house);
+
+        // ══ TREES ═════════════════════════════════════════════════════════════════════
+        [[10, -3], [9, 5], [11, 2], [-10, -4], [-9, 6]].forEach(([x, z]) => {
+            const g = new THREE.Group();
+            const tk = new THREE.Mesh(new THREE.CylinderGeometry(.12, .18, 1.2, 8), new THREE.MeshLambertMaterial({ color: 0x5D4037 }));
+            tk.position.y = .6; tk.castShadow = true; g.add(tk);
+            const cr = new THREE.Mesh(new THREE.ConeGeometry(.8, 1.8, 8), new THREE.MeshLambertMaterial({ color: 0x2E7D32 }));
+            cr.position.y = 2.1; cr.castShadow = true; g.add(cr);
+            g.position.set(x, 0, z); scene.add(g);
+        });
+
+        // ══ DIRECTION SIGNS ═══════════════════════════════════════════════════════════
+        function makeSign(text, x, z, col, emoji) {
+            const c = document.createElement('canvas'); c.width = 512; c.height = 160;
+            const cx = c.getContext('2d');
+            cx.fillStyle = col + 'CC'; cx.beginPath(); cx.roundRect(0, 0, 512, 160, 16); cx.fill();
+            cx.strokeStyle = 'rgba(255,255,255,.5)'; cx.lineWidth = 4; cx.stroke();
+            cx.fillStyle = 'white'; cx.font = 'bold 72px sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle';
+            cx.fillText(emoji + ' ' + text, 256, 80);
+            const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
+            spr.scale.set(6, 1.875, 1); spr.position.set(x, 2.8, z); scene.add(spr);
+            const post = new THREE.Mesh(new THREE.CylinderGeometry(.06, .06, 2.8, 8), new THREE.MeshLambertMaterial({ color: 0xBCAAA4 }));
+            post.position.set(x, 1.4, z); scene.add(post);
+        }
+        makeSign('ĐÔNG', 19, 0, '#C62828', '🌅');
+        makeSign('TÂY', -19, 0, '#E65100', '🌇');
+        makeSign('BẮC', 0, 0 - 20, '#0D47A1', '↑');
+        makeSign('NAM', 0, 20, '#1B5E20', '↓');
+
+        // ══ SKY COLOR UTILS ═══════════════════════════════════════════════════════════
+        function lerp3(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t] }
+        const skyStops = [
+            { p: 0, top: [.04, .04, .15], hor: [.85, .42, .20], sunCol: 0xFF6035, lit: 2.0, amb: .28 },
+            { p: .12, top: [.15, .30, .70], hor: [.55, .68, .95], sunCol: 0xFFD070, lit: 2.2, amb: .48 },
+            { p: .5, top: [.16, .46, .90], hor: [.55, .80, 1.0], sunCol: 0xFFFFCC, lit: 2.4, amb: .70 },
+            { p: .88, top: [.15, .30, .70], hor: [.55, .68, .95], sunCol: 0xFFD070, lit: 2.2, amb: .48 },
+            { p: 1, top: [.04, .04, .15], hor: [.75, .28, .10], sunCol: 0xFF3510, lit: 1.5, amb: .28 },
+        ];
+        function getSky(p) {
+            let s = skyStops[0], e = skyStops[skyStops.length - 1], t = 0;
+            for (let i = 0; i < skyStops.length - 1; i++) {
+                if (p >= skyStops[i].p && p <= skyStops[i + 1].p) { s = skyStops[i]; e = skyStops[i + 1]; t = (p - s.p) / (e.p - s.p); break; }
+            }
+            return {
+                top: lerp3(s.top, e.top, t), hor: lerp3(s.hor, e.hor, t),
+                sunCol: new THREE.Color().lerpColors(new THREE.Color(s.sunCol), new THREE.Color(e.sunCol), t),
+                lit: s.lit + (e.lit - s.lit) * t, amb: s.amb + (e.amb - s.amb) * t
+            };
+        }
+        function updateSkyVerts(p) {
+            const { top, hor } = getSky(p), pos = skyGeo.attributes.position, col = skyGeo.attributes.color;
+            for (let i = 0; i < pos.count; i++) {
+                const yn = Math.max(0, Math.min(1, (pos.getY(i) + 500) / 1000)), t = Math.pow(yn, .5);
+                col.setXYZ(i, top[0] * t + hor[0] * (1 - t), top[1] * t + hor[1] * (1 - t), top[2] * t + hor[2] * (1 - t));
+            }
+            col.needsUpdate = true;
+        }
+
+        // ══ TIME FORMATTING ═══════════════════════════════════════════════════════════
+        function fmtTime(p) {
+            const m = Math.round(p * 12 * 60) + 360;
+            return `${String(Math.floor(m / 60) % 24).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+        }
+
+        // ══ TOOLTIPS DATA ═════════════════════════════════════════════════════════════
+        const TIPS = [
+            {
+                at: 0.0, title: '🌅 Mặt Trời Mọc (06:00)',
+                body: 'Mặt Trời xuất hiện ở hướng Đông, góc thấp so với chân trời. Bóng của mọi vật rất dài và hướng về phía Tây.'
+            },
+            {
+                at: 0.25, title: '🌄 Buổi Sáng (09:00)',
+                body: 'Mặt Trời lên cao dần về phía Nam (với Việt Nam). Bóng ngắn lại và xoay dần về phía Tây-Bắc.'
+            },
+            {
+                at: 0.5, title: '☀️ Chính Ngọ (12:00)',
+                body: 'Mặt Trời ở điểm cao nhất trong ngày. Bóng ngắn nhất, hướng về phía Bắc (ở Việt Nam nằm trong vùng nhiệt đới).'
+            },
+            {
+                at: 0.75, title: '🌆 Buổi Chiều (15:00)',
+                body: 'Mặt Trời đang đi xuống về phía Tây. Bóng dài ra và hướng về phía Đông-Bắc.'
+            },
+            {
+                at: 1.0, title: '🌇 Mặt Trời Lặn (18:00)',
+                body: 'Mặt Trời lặn ở hướng Tây. Bóng rất dài hướng về phía Đông. Kết thúc một ngày.'
+            },
+        ];
+        let lastTipAt = -1;
+        let tipTimeout = null;
+        function showTip(title, body, duration = 5000) {
+            const el = document.getElementById('tooltip');
+            document.getElementById('t-title').textContent = title;
+            document.getElementById('t-body').textContent = body;
+            el.classList.remove('hidden');
+            if (tipTimeout) clearTimeout(tipTimeout);
+            tipTimeout = setTimeout(() => el.classList.add('hidden'), duration);
+        }
+
+        // ══ MAIN UPDATE ═══════════════════════════════════════════════════════════════
+        function updateScene(p) {
+            const { arcH } = SEASONS[season];
+            const angle = p * Math.PI;
+            const sunX = 18 * Math.cos(angle);
+            const sunY = Math.max(0.3, arcH * Math.sin(angle));
+            sunMesh.position.set(sunX, sunY, 0);
+
+            const { sunCol, lit, amb } = getSky(p);
+            sunMesh.material.color.copy(sunCol);
+            sunLight.color.copy(sunCol);
+            sunLight.intensity = lit;
+            sunLight.position.copy(sunMesh.position);
+            ambLight.intensity = amb;
+            groundMat.color.set(p < .1 || p > .9 ? 0x2E6B2E : 0x4CAF50);
+            glowSpr.scale.setScalar(8 + 6 * Math.sin(angle));
+            sunMesh.visible = sunY > 0.4;
+            glowSpr.visible = sunMesh.visible;
+
+            updateSkyVerts(p);
+
+            // ── Elevation angle ───────────────────────────────────────────────────────
+            const elevRad = Math.atan2(sunY, Math.abs(sunX));
+            const elevDeg = THREE.MathUtils.radToDeg(elevRad);
+
+            // ── Gnomon shadow ─────────────────────────────────────────────────────────
+            const GNOMON_POS = new THREE.Vector3(0, 0, 0);
+            let shadowLen = 0, shadowAngle = 0;
+            if (elevDeg > 1) {
+                shadowLen = Math.min(GNOMON_H / Math.tan(elevRad), 20);
+                // Shadow opposite to sun; sun is at azimuth along X axis, no Z component
+                // sunX>0 (east) → shadow toward west (-X), sunX<0 (west) → shadow toward east (+X)
+                // At noon sun is at South (for us near equator) so shadow goes North (-Z)
+                // We simplify: mix between W/E and N based on time
+                // Sun is roughly at East/West, peaking South. Shadow points opposite (-x, -z).
+                const dx = -Math.cos(angle), dz = -Math.sin(angle);
+                shadowAngle = Math.atan2(dz, dx);
+
+                // update shadow plane
+                shadowMesh.scale.set(shadowLen, 1, 1);
+                shadowMesh.position.set(Math.cos(shadowAngle) * shadowLen / 2, 0.01, Math.sin(shadowAngle) * shadowLen / 2);
+                shadowMesh.rotation.y = -shadowAngle;
+                shadowMesh.visible = true;
+
+                // arrow
+                arrowDir.position.set(0, 0.05, 0);
+                arrowDir.setDirection(new THREE.Vector3(Math.cos(shadowAngle), 0, Math.sin(shadowAngle)));
+                arrowDir.setLength(Math.min(shadowLen, 8), 0.6, 0.3);
+                arrowDir.visible = true;
+
+                // elevation arc
+                const arcPts = [];
+                for (let i = 0; i <= 20; i++) { const a = i / 20 * elevRad; arcPts.push(new THREE.Vector3(2 * Math.cos(a), 2 * Math.sin(a), 0)); }
+                elevArcGeo.setFromPoints(arcPts);
+                elevArcLine.visible = true;
+            } else {
+                shadowMesh.visible = false;
+                arrowDir.visible = false;
+                elevArcLine.visible = false;
+            }
+
+            // Ray line person→sun
+            const personPos = new THREE.Vector3(0, 1.3, 0);
+            rayGeo.setFromPoints([personPos, sunMesh.position.clone()]);
+            rayLine.computeLineDistances();
+            rayLine.visible = sunMesh.visible;
+
+            // Compass
+            const cmpAngle = p * Math.PI;
+            const cx = 50 + 34 * Math.cos(cmpAngle), cy = 50 - 20 * Math.sin(cmpAngle);
+            document.getElementById('cmpSun').setAttribute('cx', cx.toFixed(1));
+            document.getElementById('cmpSun').setAttribute('cy', cy.toFixed(1));
+            document.getElementById('cmpSun').setAttribute('fill', p < .15 || p > .85 ? '#FF6B35' : p < .4 || p > .6 ? '#FFD700' : '#FFFDE7');
+            // Shadow line on compass
+            const sdx = Math.cos(shadowAngle) * 30, sdz = Math.sin(shadowAngle) * 22;
+            const shadTipX = cx + (sdx), shadTipY = cy + (sdz);
+            document.getElementById('cmpShadow').setAttribute('x1', cx.toFixed(1));
+            document.getElementById('cmpShadow').setAttribute('y1', cy.toFixed(1));
+            document.getElementById('cmpShadow').setAttribute('x2', Math.max(5, Math.min(95, shadTipX)).toFixed(1));
+            document.getElementById('cmpShadow').setAttribute('y2', Math.max(5, Math.min(95, shadTipY)).toFixed(1));
+            document.getElementById('cmpShTip').setAttribute('cx', Math.max(5, Math.min(95, shadTipX)).toFixed(1));
+            document.getElementById('cmpShTip').setAttribute('cy', Math.max(5, Math.min(95, shadTipY)).toFixed(1));
+
+            // ── Info panel ────────────────────────────────────────────────────────────
+            if (elevDeg > 1) {
+                document.getElementById('shadowLen').textContent = shadowLen.toFixed(1) + ' m';
+                const sdirLabel = sunX > 1 ? 'Hướng Tây' : sunX < -1 ? 'Hướng Đông' : 'Hướng Bắc';
+                const sdirCls = sunX > 1 ? 'west' : sunX < -1 ? 'east' : 'north';
+                const dirEl = document.getElementById('shadowDir');
+                dirEl.textContent = sdirLabel; dirEl.className = 'v ' + sdirCls;
+            } else {
+                document.getElementById('shadowLen').textContent = '–';
+                document.getElementById('shadowDir').textContent = '–';
+                document.getElementById('shadowDir').className = 'v';
+            }
+            const sunDirEl = document.getElementById('sunDir');
+            if (sunX > 2) { sunDirEl.textContent = 'Hướng Đông'; sunDirEl.className = 'v east'; }
+            else if (sunX < -2) { sunDirEl.textContent = 'Hướng Tây'; sunDirEl.className = 'v west'; }
+            else { sunDirEl.textContent = 'Chính Nam (đỉnh)'; sunDirEl.className = 'v north'; }
+
+            // Time UI
+            document.getElementById('tVal').textContent = fmtTime(p);
+            document.getElementById('eVal').textContent = Math.round(elevDeg) + '°';
+            const eDes = ['Chân trời', 'Thấp', 'Trung bình', 'Cao', 'Rất cao – đỉnh'];
+            document.getElementById('eDesc').textContent = eDes[Math.min(4, Math.floor(elevDeg / 20))];
+
+            let phaseIcon = '🌅', phaseDesc = 'Bình minh';
+            if (p > .08 && p < .4) { phaseIcon = '🌄'; phaseDesc = 'Buổi sáng'; }
+            else if (p >= .4 && p < .6) { phaseIcon = '☀️'; phaseDesc = 'Chính ngọ'; }
+            else if (p >= .6 && p < .92) { phaseIcon = '🌆'; phaseDesc = 'Buổi chiều'; }
+            else if (p >= .92) { phaseIcon = '🌇'; phaseDesc = 'Hoàng hôn'; }
+            document.getElementById('phaseIcon').textContent = phaseIcon;
+            document.getElementById('phaseDesc').textContent = phaseDesc;
+
+            document.getElementById('tl').value = Math.round(p * 100);
+
+            // Tips
+            if (isPlaying) {
+                for (const tip of TIPS) {
+                    if (Math.abs(p - tip.at) < 0.018 && lastTipAt !== tip.at) {
+                        lastTipAt = tip.at;
+                        showTip(tip.title, tip.body);
+                    }
+                }
+            }
+        }
+
+        // ══ ANIMATION LOOP ════════════════════════════════════════════════════════════
+        let sunP = 0, isPlaying = true, speed = 1, lastT = performance.now();
+        const SPEEDS = [.5, 1, 2, 4]; let spI = 1;
+        const DAY = 60;
+
+        function loop() {
+            requestAnimationFrame(loop);
+            const now = performance.now(), dt = (now - lastT) / 1000; lastT = now;
+            if (isPlaying && sunP < 1) sunP = Math.min(1, sunP + dt * speed / DAY);
+            if (sunP >= 1) isPlaying = false;
+            updateScene(sunP);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        loop();
+
+        // ══ UI CONTROLS ═══════════════════════════════════════════════════════════════
+        document.getElementById('btnPlay').addEventListener('click', () => {
+            if (sunP >= 1) { sunP = 0; lastTipAt = -1; }
+            isPlaying = !isPlaying;
+            document.getElementById('btnPlay').textContent = isPlaying ? '⏸' : '▶';
+        });
+        document.getElementById('btnReset').addEventListener('click', () => {
+            sunP = 0; isPlaying = true; lastTipAt = -1;
+            document.getElementById('btnPlay').textContent = '⏸';
+            document.getElementById('tooltip').classList.add('hidden');
+        });
+        document.getElementById('btnSpd').addEventListener('click', () => {
+            spI = (spI + 1) % SPEEDS.length; speed = SPEEDS[spI];
+            document.getElementById('spdV').textContent = speed + '×';
+        });
+        document.getElementById('tl').addEventListener('input', e => {
+            sunP = e.target.value / 100; lastTipAt = -1;
+        });
+
+        // Top view toggle
+        let topView = false;
+        document.getElementById('btnTopView').addEventListener('click', () => {
+            topView = !topView;
+            if (topView) {
+                camera.position.set(0, 40, 0.01);
+                controls.target.set(0, 0, 0);
+                controls.maxPolarAngle = Math.PI;
+                document.getElementById('btnTopView').style.background = 'rgba(255,215,0,.35)';
+            } else {
+                camera.position.set(0, 14, 24);
+                controls.target.set(0, 2, 0);
+                controls.maxPolarAngle = Math.PI / 2 + .05;
+                document.getElementById('btnTopView').style.background = '';
+            }
+        });
+
+        // Season tabs
+        document.querySelectorAll('.s-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                season = btn.dataset.s;
+                buildArc();
+                showTip('🌍 Đổi Mùa: ' + SEASONS[season].label,
+                    `Vào ${SEASONS[season].label}, góc cao tối đa của Mặt Trời là ~${SEASONS[season].maxElev}°. Đường cung thay đổi theo mùa.`);
+            });
+        });
+
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = innerWidth / innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(innerWidth, innerHeight);
+        });
+
+        // ══ INTERACTIVE QUIZ ══════════════════════════════════════════════════════════
+        // type: 'mcq' = multiple choice after observing
+        // type: 'drag' = student must drag timeline to find the answer
+        const QUIZ = [
+            {
+                type: 'mcq', seekTo: 0.167, // 8:00
+                observe: '👁 Hãy quan sát <b>bóng của cột</b> và <b>hướng bóng</b> bên phải màn hình. Mặt Trời đang ở đâu?',
+                q: '❓ Lúc 8 giờ sáng, bóng của cột đo hướng về phía nào?',
+                opts: ['Hướng Tây', 'Hướng Đông', 'Hướng Bắc', 'Hướng Nam'], ans: 0,
+                exp: '✅ Đúng! Mặt Trời ở phía Đông buổi sáng → bóng hướng ngược lại về phía Tây.'
+            },
+            {
+                type: 'drag', seekTo: null,
+                observe: '🖐 <b>Kéo thanh thời gian</b> đến khi bóng cột ngắn nhất (xem số mét ở bảng phải)',
+                q: '📏 Kéo timeline đến thời điểm bóng ngắn nhất trong ngày. Đó là mấy giờ?',
+                dragTarget: 0.5, tolerance: 0.08,
+                correctMsg: '☀️ Chính xác! Lúc 12:00 trưa Mặt Trời ở cao nhất → bóng ngắn nhất.',
+                wrongMsg: '⏰ Chưa đúng – bóng ngắn nhất lúc 12:00 trưa. Hãy kéo về 12:00!'
+            },
+            {
+                type: 'mcq', seekTo: 0.0,
+                observe: '👁 Quan sát bảng Thông Số bên phải: <b>Mặt Trời ở hướng nào</b>? Bóng hướng nào?',
+                q: '❓ Mặt Trời mọc ở hướng nào mỗi ngày?',
+                opts: ['Hướng Tây', 'Hướng Bắc', 'Hướng Đông', 'Hướng Nam'], ans: 2,
+                exp: '✅ Đúng! Mặt Trời luôn mọc ở hướng Đông do Trái Đất tự quay Tây→Đông.'
+            },
+            {
+                type: 'mcq', seekTo: 0.75, // 15:00
+                observe: '👁 Quan sát mũi tên bóng (màu xanh) và compass góc phải. Bóng đang hướng nào?',
+                q: '❓ Lúc 15:00 chiều, bóng của cột hướng về phía nào?',
+                opts: ['Hướng Tây', 'Hướng Nam', 'Hướng Bắc', 'Hướng Đông'], ans: 3,
+                exp: '✅ Đúng! Chiều tà Mặt Trời ở Tây → bóng hướng ngược về phía Đông.'
+            },
+            {
+                type: 'drag', seekTo: null,
+                observe: '🖐 <b>Kéo timeline</b> đến thời điểm Mặt Trời lặn (góc cao ≈ 0°)',
+                q: '🌇 Kéo timeline đến lúc Mặt Trời lặn. Đó là lúc mấy giờ và hướng nào?',
+                dragTarget: 1.0, tolerance: 0.1,
+                correctMsg: '🌇 Đúng! Mặt Trời lặn lúc ~18:00 ở hướng Tây. Bóng rất dài hướng Đông.',
+                wrongMsg: '⏰ Chưa đúng – thử kéo đến cuối timeline (18:00) để thấy Mặt Trời lặn!'
+            },
+            {
+                type: 'mcq', seekTo: 0.5,
+                observe: '👁 Nhìn bầu trời và góc cao Mặt Trời ở phía trên. Đây là thời điểm nào?',
+                q: '❓ Trái Đất tự quay hướng nào khiến ta thấy MT di chuyển Đông→Tây?',
+                opts: ['Đông→Tây', 'Bắc→Nam', 'Tây→Đông', 'Nam→Bắc'], ans: 2,
+                exp: '✅ Đúng! Trái Đất quay Tây→Đông, nên từ TĐ ta thấy MT di chuyển chiều ngược: Đông→Tây.'
+            },
+        ];
+
+        let qIdx = 0, qAnswered = false, qScore = 0, qResults = [];
+        const panel = document.getElementById('quizPanel');
+
+        function buildDots() {
+            const d = document.getElementById('qpDots');
+            d.innerHTML = '';
+            QUIZ.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'qp-dot' + (i === qIdx ? ' cur' : '') + (qResults[i] === true ? ' done' : qResults[i] === false ? ' wrong-d' : '');
+                d.appendChild(dot);
+            });
+        }
+
+        function renderQuizQ() {
+            const q = QUIZ[qIdx];
+            qAnswered = false;
+            document.getElementById('qpBadge').textContent = `C\u00e2u ${qIdx + 1}/${QUIZ.length}`;
+            document.getElementById('qpFb').textContent = '';
+            document.getElementById('qpScore').innerHTML = qScore > 0 ? `\u0110i\u1ec3m: <b>${qScore}/${qIdx}</b>` : '';
+
+            // Observe box
+            const obsEl = document.getElementById('qpObserve');
+            if (q.observe) { obsEl.innerHTML = q.observe; obsEl.classList.remove('hidden'); }
+            else obsEl.classList.add('hidden');
+
+            document.getElementById('qpQ').textContent = q.q;
+
+            // Seek simulation to relevant time
+            if (q.seekTo !== null) {
+                sunP = q.seekTo;
+                isPlaying = false;
+                document.getElementById('btnPlay').textContent = '▶';
+            }
+
+            // MCQ
+            const optsEl = document.getElementById('qpOpts');
+            optsEl.innerHTML = '';
+            const dragHint = document.getElementById('qpDragHint');
+            const dragCheck = document.getElementById('qpDragCheck');
+            dragCheck.classList.add('hidden'); dragCheck.classList.remove('success');
+            dragHint.classList.add('hidden');
+
+            if (q.type === 'mcq') {
+                optsEl.classList.remove('hidden');
+                q.opts.forEach((o, i) => {
+                    const b = document.createElement('button');
+                    b.className = 'qp-opt'; b.textContent = o;
+                    b.addEventListener('click', () => {
+                        if (qAnswered) return;
+                        qAnswered = true;
+                        const correct = i === q.ans;
+                        b.classList.add(correct ? 'correct' : 'wrong');
+                        if (!correct) optsEl.children[q.ans].classList.add('correct');
+                        document.getElementById('qpFb').textContent = q.exp;
+                        qResults[qIdx] = correct;
+                        if (correct) qScore++;
+                        document.getElementById('qpScore').innerHTML = `\u0110i\u1ec3m: <b>${qScore}/${qIdx + 1}</b>`;
+                        buildDots();
+                    });
+                    optsEl.appendChild(b);
+                });
+            } else if (q.type === 'drag') {
+                optsEl.classList.add('hidden');
+                dragHint.textContent = q.observe || 'Kéo timeline để t\u00ecm câu tr\u1ea3 l\u1eddi';
+                dragHint.classList.remove('hidden');
+                dragCheck.classList.remove('hidden');
+                isPlaying = false;
+                document.getElementById('btnPlay').textContent = '▶';
+
+                dragCheck.onclick = () => {
+                    if (qAnswered) return;
+                    const target = q.dragTarget, tol = q.tolerance;
+                    const correct = Math.abs(sunP - target) <= tol;
+                    qAnswered = true;
+                    qResults[qIdx] = correct;
+                    if (correct) { qScore++; dragCheck.classList.add('success'); }
+                    document.getElementById('qpFb').textContent = correct ? q.correctMsg : q.wrongMsg;
+                    document.getElementById('qpScore').innerHTML = `\u0110i\u1ec3m: <b>${qScore}/${qIdx + 1}</b>`;
+                    buildDots();
+                };
+            }
+            buildDots();
+        }
+
+        document.getElementById('btnQuiz').addEventListener('click', () => {
+            panel.classList.remove('hidden');
+            qIdx = 0; qScore = 0; qResults = [];
+            renderQuizQ();
+        });
+        document.getElementById('qpClose').addEventListener('click', () => panel.classList.add('hidden'));
+
+        document.getElementById('qpNext').addEventListener('click', () => {
+            if (qIdx < QUIZ.length - 1) { qIdx++; renderQuizQ(); }
+            else {
+                document.getElementById('qpFb').textContent = '';
+                document.getElementById('qpQ').textContent = `🎉 Hoàn thành! Điểm: ${qScore}/${QUIZ.length}`;
+                document.getElementById('qpOpts').innerHTML = '';
+                document.getElementById('qpObserve').classList.add('hidden');
+                document.getElementById('qpDragHint').classList.add('hidden');
+                document.getElementById('qpDragCheck').classList.add('hidden');
+                document.getElementById('qpScore').innerHTML = `<b style="color:#FFD700;font-size:16px">Tổng: ${qScore}/${QUIZ.length} điểm ⭐</b>`;
+            }
+        });
+        document.getElementById('qpReplay').addEventListener('click', () => {
+            if (QUIZ[qIdx].seekTo !== null) { sunP = QUIZ[qIdx].seekTo; isPlaying = false; document.getElementById('btnPlay').textContent = '▶'; }
+            else { sunP = 0; isPlaying = true; document.getElementById('btnPlay').textContent = '⏸'; }
+            document.getElementById('qpFb').textContent = '';
+            document.getElementById('qpOpts').querySelectorAll('.qp-opt').forEach(b => { b.className = 'qp-opt'; });
+            document.getElementById('qpDragCheck').classList.remove('success');
+            qAnswered = false;
+        });
+
+    </script>
+</body>
+
+</html>

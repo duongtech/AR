@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Mặt Trời – Mô Phỏng 3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        canvas#c {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* ── Header ── */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.6);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            max-width: 600px;
+            width: 90%;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFD700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 12px;
+            color: #B3E5FC;
+            margin-top: 3px;
+        }
+
+        /* ── Controls Bar ── */
+        .controls {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(10, 15, 30, 0.85);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #FFD700;
+            color: #FFD700;
+        }
+
+        .btn.active {
+            background: #FFD700;
+            color: #000;
+            border-color: #FFD700;
+        }
+
+        .divider {
+            width: 1px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ── Labels ── */
+        #labels-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .label {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 3px 7px;
+            border-radius: 5px;
+            font-size: 11px;
+            user-select: none;
+            transform: translate(-50%, -120%);
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+        .label.sun {
+            color: #FFD700;
+            border-color: rgba(255, 215, 0, 0.5);
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* ── View Hint ── */
+        .view-hint {
+            position: fixed;
+            bottom: 70px;
+            right: 18px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 10px;
+            text-align: right;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* ── Sidebar Toggle Button ── */
+        #sidebar-btn {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            background: rgba(10, 15, 30, 0.85);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 20;
+            font-weight: bold;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
+            transition: 0.2s;
+        }
+
+        #sidebar-btn:hover {
+            background: rgba(255, 215, 0, 0.15);
+        }
+
+        /* ── Sidebar Panel ── */
+        #sidebar-panel {
+            position: fixed;
+            top: 0;
+            right: -340px;
+            width: 310px;
+            height: 100vh;
+            background: rgba(5, 10, 22, 0.97);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            z-index: 15;
+            transition: right 0.3s ease;
+            padding: 65px 16px 16px;
+            overflow-y: auto;
+        }
+
+        #sidebar-panel.open {
+            right: 0;
+        }
+
+        #sidebar-panel h2 {
+            color: #FFD700;
+            font-size: 15px;
+            margin-bottom: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+        }
+
+        table.compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        table.compare-table th {
+            color: #FFD700;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 7px 5px;
+            text-align: left;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        table.compare-table td {
+            padding: 7px 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ── Settings Toggle Button ── */
+        #settings-btn {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            background: rgba(10, 15, 30, 0.85);
+            border: 1px solid rgba(79, 195, 247, 0.4);
+            color: #4FC3F7;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 20;
+            font-weight: bold;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
+            transition: 0.2s;
+        }
+
+        #settings-btn:hover {
+            background: rgba(79, 195, 247, 0.15);
+            color: #fff;
+        }
+
+        /* ── Settings Panel ── */
+        #settings-panel {
+            position: fixed;
+            top: 63px;
+            left: 18px;
+            width: 250px;
+            background: rgba(10, 15, 30, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 14px;
+            backdrop-filter: blur(12px);
+            z-index: 15;
+            font-size: 13px;
+            color: #ccc;
+            display: none;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        #settings-panel .sp-title {
+            color: #FFD700;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            margin-top: 10px;
+        }
+
+        #settings-panel .sp-title:first-child {
+            margin-top: 0;
+        }
+
+        #settings-panel label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        #settings-panel input[type=checkbox],
+        #settings-panel input[type=radio] {
+            cursor: pointer;
+            accent-color: #4FC3F7;
+        }
+
+        #settings-panel .sp-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 10px 0;
+        }
+
+        /* Utility buttons inside settings */
+        .settings-util-btn {
+            display: block;
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 7px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        #btnThemeToggle {
+            background: rgba(255, 200, 0, 0.15);
+            color: #FFD700;
+            border-color: rgba(255, 200, 0, 0.3);
+        }
+
+        #btnThemeToggle:hover {
+            background: rgba(255, 200, 0, 0.3);
+        }
+
+        #btnOpenQuiz {
+            background: rgba(76, 175, 80, 0.2);
+            color: #81C784;
+            border-color: rgba(76, 175, 80, 0.4);
+        }
+
+        #btnOpenQuiz:hover {
+            background: rgba(76, 175, 80, 0.35);
+            color: #fff;
+        }
+
+        /* ── Info Popup ── */
+        #info-popup {
+            position: fixed;
+            top: 70px;
+            left: 18px;
+            width: 290px;
+            background: rgba(10, 15, 30, 0.95);
+            border: 1px solid rgba(79, 195, 247, 0.5);
+            border-radius: 12px;
+            padding: 16px;
+            color: #fff;
+            backdrop-filter: blur(10px);
+            z-index: 16;
+            display: none;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7);
+        }
+
+        #info-popup .ip-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        #info-popup h3 {
+            font-size: 17px;
+            color: #4FC3F7;
+        }
+
+        #btnCloseInfo {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        #btnCloseInfo:hover {
+            color: #fff;
+        }
+
+        #info-popup .ip-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            font-size: 13px;
+        }
+
+        #info-popup .ip-row:last-of-type {
+            border-bottom: none;
+        }
+
+        #info-popup .ip-label {
+            color: #888;
+        }
+
+        #info-popup .ip-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        #info-popup .ip-fact {
+            font-size: 12px;
+            color: #B3E5FC;
+            font-style: italic;
+            margin-top: 10px;
+            line-height: 1.4;
+            padding: 8px;
+            background: rgba(79, 195, 247, 0.08);
+            border-radius: 6px;
+        }
+
+        #btnFollow {
+            margin-top: 12px;
+            width: 100%;
+            background: linear-gradient(135deg, #4FC3F7, #0288D1);
+            color: #fff;
+            border: none;
+            padding: 9px;
+            border-radius: 7px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        #btnFollow:hover {
+            filter: brightness(1.2);
+        }
+
+        /* ── Quiz Panel (Floating side panel – live 3D behind) ── */
+        #quiz-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 380px;
+            height: 100vh;
+            z-index: 25;
+            display: none;
+            flex-direction: column;
+            align-items: stretch;
+            pointer-events: none;
+            /* underlying 3D still clickable */
+        }
+
+        #quiz-overlay.visible {
+            display: flex;
+        }
+
+        #quiz-panel {
+            pointer-events: all;
+            margin: 10px 10px 0 0;
+            max-height: calc(100vh - 20px);
+            overflow-y: auto;
+            background: rgba(8, 14, 30, 0.88);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(16px);
+        }
+
+        /* Planet focus hint badge */
+        #quiz-focus-hint {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: rgba(79, 195, 247, 0.12);
+            border: 1px solid rgba(79, 195, 247, 0.35);
+            border-radius: 8px;
+            padding: 7px 10px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #4FC3F7;
+        }
+
+        #quiz-focus-hint.show {
+            display: flex;
+        }
+
+        #quiz-panel .qp-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        #quiz-panel .qp-header h2 {
+            color: #FFD700;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        #quiz-panel .qp-header p {
+            color: #888;
+            font-size: 12px;
+        }
+
+        #quiz-panel .qp-progress {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        #quiz-panel .qp-dot {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        #quiz-panel .qp-dot.done {
+            background: #4CAF50;
+        }
+
+        #quiz-panel .qp-dot.current {
+            background: #FFD700;
+        }
+
+        #q-text {
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            min-height: 50px;
+        }
+
+        .q-opt {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 13px 16px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ccc;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .q-opt .q-letter {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .q-opt:hover {
+            background: rgba(79, 195, 247, 0.15);
+            border-color: #4FC3F7;
+            color: #fff;
+        }
+
+        .q-opt:hover .q-letter {
+            background: #4FC3F7;
+            color: #000;
+            border-color: #4FC3F7;
+        }
+
+        .q-opt.correct {
+            background: rgba(76, 175, 80, 0.2) !important;
+            border-color: #4CAF50 !important;
+            color: #81C784 !important;
+        }
+
+        .q-opt.correct .q-letter {
+            background: #4CAF50 !important;
+            color: #fff !important;
+            border-color: #4CAF50 !important;
+        }
+
+        .q-opt.wrong {
+            background: rgba(244, 67, 54, 0.2) !important;
+            border-color: #F44336 !important;
+            color: #EF9A9A !important;
+        }
+
+        .q-opt.wrong .q-letter {
+            background: #F44336 !important;
+            color: #fff !important;
+            border-color: #F44336 !important;
+        }
+
+        #quiz-result {
+            text-align: center;
+            font-weight: 700;
+            margin: 16px 0 6px;
+            font-size: 15px;
+            min-height: 24px;
+        }
+
+        #quiz-result.success {
+            color: #4CAF50;
+        }
+
+        #quiz-result.fail {
+            color: #F44336;
+        }
+
+        .q-btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 14px;
+        }
+
+        .q-action-btn {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        #btnNextQ {
+            background: #FFD700;
+            color: #000;
+            display: none;
+        }
+
+        #btnNextQ:hover {
+            background: #fff;
+        }
+
+        #btnCloseQuiz {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+
+        #btnCloseQuiz:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        #quizComplete {
+            color: #4CAF50;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+            padding: 20px 0;
+        }
+
+        /* Day Mode */
+        body.day-mode {
+            background: #1a2a4a;
+        }
+
+        body.day-mode .label {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🌌 Hệ Mặt Trời</h1>
+        <p id="headerDesc">Các hành tinh quay quanh Mặt Trời theo chiều <b>Tây→Đông</b> (ngược kim đồng hồ)</p>
+    </div>
+
+    <!-- Settings Toggle Button -->
+    <button id="settings-btn">⚙ Cài đặt</button>
+
+    <!-- Settings Panel (Hidden by default, toggle on click) -->
+    <div id="settings-panel">
+        <p class="sp-title">📺 Hiển thị</p>
+        <label><input type="checkbox" id="cbOrbits" checked> Hiển thị quỹ đạo</label>
+        <label><input type="checkbox" id="cbLabels" checked> Hiển thị tên hành tinh</label>
+
+        <div class="sp-divider"></div>
+        <p class="sp-title">🔭 Kích thước hành tinh</p>
+        <label><input type="radio" name="scaleMode" value="zoom" checked> Phóng đại (dễ nhìn)</label>
+        <label><input type="radio" name="scaleMode" value="real"> Tương đối thật</label>
+
+        <div class="sp-divider"></div>
+        <p class="sp-title">🛠 Tiện ích</p>
+        <button id="btnThemeToggle" class="settings-util-btn">🌞 Chuyển chế độ Ban ngày</button>
+        <button id="btnOpenQuiz" class="settings-util-btn">❓ Bắt đầu Trắc nghiệm</button>
+    </div>
+
+    <!-- Controls Bar -->
+    <div class="controls">
+        <button class="btn" id="btnTour">🚀 Chuyến bay vũ trụ</button>
+        <button class="btn" id="btnStopTour" style="display: none; background: #e74c3c; color: white;">✖ Hủy chuyến
+            bay</button>
+        <div class="divider"></div>
+        <button class="btn" id="btnPause">⏸ Dừng</button>
+        <button class="btn active" id="btn1x">Thực tế (1×)</button>
+        <button class="btn" id="btn5x">Học tập (10×)</button>
+        <button class="btn" id="btn10x">Nhanh (50×)</button>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebar-btn">📋 Bảng So Sánh</button>
+
+    <!-- Sidebar -->
+    <div id="sidebar-panel">
+        <h2>So Sánh Hành Tinh</h2>
+        <table class="compare-table" id="compareTable">
+            <thead>
+                <tr>
+                    <th>Hành tinh</th>
+                    <th>Kích thước</th>
+                    <th>Chu kỳ</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Info Popup (shown on click) -->
+    <div id="info-popup">
+        <div class="ip-header">
+            <h3 id="ip-name">Trái Đất</h3>
+            <button id="btnCloseInfo">✕</button>
+        </div>
+        <div class="ip-row">
+            <span class="ip-label">📏 Khoảng cách đến MT</span>
+            <span class="ip-value" id="ip-dist">150 triệu km</span>
+        </div>
+        <div class="ip-row">
+            <span class="ip-label">⏱ Chu kỳ quỹ đạo</span>
+            <span class="ip-value" id="ip-time">365 ngày</span>
+        </div>
+        <div class="ip-fact" id="ip-fact">Hành tinh duy nhất có sự sống.</div>
+        <button id="btnFollow">📷 Theo dõi hành tinh này</button>
+    </div>
+
+    <!-- Quiz Panel (floating side) -->
+    <div id="quiz-overlay">
+        <div id="quiz-panel">
+            <div class="qp-header">
+                <h2>🌠 Trắc nghiệm Hệ Mặt Trời</h2>
+                <p>Xem mô phỏng 3D để tìm câu trả lời!</p>
+            </div>
+            <div id="qp-progress" class="qp-progress"></div>
+            <!-- Focus hint badge -->
+            <div id="quiz-focus-hint">📷 Camera đang hướng về: <b id="quiz-focus-name"></b></div>
+            <div id="q-text">Câu hỏi sẽ hiện ở đây</div>
+            <div id="q-opts"></div>
+            <div id="quizComplete">🎉 Xuất sắc! Hoàn thành!</div>
+            <div id="quiz-result"></div>
+            <div class="q-btn-row">
+                <button id="btnNextQ" class="q-action-btn">Câu tiếp theo ⟾</button>
+                <button id="btnCloseQuiz" class="q-action-btn">Đóng ✕</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="view-hint">🖱 Kéo để xoay • 🔍 Cuộn để zoom</div>
+    <div id="labels-container"></div>
+    <canvas id="c"></canvas>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // ══ SCENE SETUP ═══════════════════════════════════════════════
+        const canvas = document.getElementById('c');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(innerWidth, innerHeight);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 1000);
+        camera.position.set(0, 38, 55);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxDistance = 180;
+        controls.minDistance = 5;
+
+        // ══ STARFIELD ═════════════════════════════════════════════════
+        const starGeo = new THREE.BufferGeometry();
+        const starV = new Float32Array(3000 * 3);
+        for (let i = 0; i < 9000; i += 3) {
+            starV[i] = (Math.random() - 0.5) * 900;
+            starV[i + 1] = (Math.random() - 0.5) * 900;
+            starV[i + 2] = (Math.random() - 0.5) * 900;
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starV, 3));
+        const starfield = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.7, transparent: true, opacity: 0.85 }));
+        scene.add(starfield);
+
+        // ══ LIGHTING ══════════════════════════════════════════════════
+        scene.add(new THREE.AmbientLight(0x334466, 4));
+        const fillLight = new THREE.DirectionalLight(0xaabbff, 1.2);
+        fillLight.position.set(-20, 30, -20);
+        scene.add(fillLight);
+        const sunLight = new THREE.PointLight(0xffffee, 7, 350);
+        scene.add(sunLight);
+
+        // ══ PLANET DATA ═══════════════════════════════════════════════
+        const PLANETS = [
+            { id: 'mercury', name: 'Thủy tinh', r: 0.8, realR: 0.38, d: 7, col: 0xBBBBBB, speed: 0.04, info: { dist: '58 triệu km', time: '88 ngày', fact: 'Hành tinh nhỏ nhất, không có bầu khí quyển.', size: 'Rất nhỏ' } },
+            { id: 'venus', name: 'Kim tinh', r: 1.2, realR: 0.95, d: 11, col: 0xE3BB76, speed: 0.015, info: { dist: '108 triệu km', time: '225 ngày', fact: 'Hành tinh nóng nhất do hiệu ứng nhà kính dày đặc.', size: 'Trung bình' } },
+            { id: 'earth', name: 'Trái Đất', r: 1.4, realR: 1.0, d: 16, col: 0x4FC3F7, speed: 0.01, info: { dist: '150 triệu km', time: '365 ngày', fact: 'Hành tinh duy nhất có sự sống được biết đến.', size: 'Trung bình' }, hasMoon: true },
+            { id: 'mars', name: 'Hỏa tinh', r: 1.0, realR: 0.53, d: 21, col: 0xFF5722, speed: 0.008, info: { dist: '228 triệu km', time: '687 ngày', fact: 'Màu đỏ do bề mặt chứa nhiều oxit sắt.', size: 'Nhỏ' } },
+            { id: 'jupiter', name: 'Mộc tinh', r: 3.0, realR: 11.2, d: 30, col: 0xD7CCC8, speed: 0.002, info: { dist: '778 triệu km', time: '12 năm', fact: 'Lớn nhất Hệ Mặt Trời, là hành tinh khí khổng lồ.', size: 'Rất lớn' } },
+            { id: 'saturn', name: 'Thổ tinh', r: 2.5, realR: 9.4, d: 40, col: 0xFFE082, speed: 0.0009, info: { dist: '1.43 tỷ km', time: '29.5 năm', fact: 'Nổi tiếng với vành đai băng đá tuyệt đẹp.', size: 'Lớn' }, hasRing: true },
+            { id: 'uranus', name: 'Thiên Vương tinh', r: 1.8, realR: 4.0, d: 50, col: 0x80DEEA, speed: 0.0004, info: { dist: '2.87 tỷ km', time: '84 năm', fact: 'Trục quay nghiêng gần nằm ngang (97.8°).', size: 'Lớn' } },
+            { id: 'neptune', name: 'Hải Vương tinh', r: 1.7, realR: 3.8, d: 59, col: 0x29B6F6, speed: 0.0001, info: { dist: '4.5 tỷ km', time: '165 năm', fact: 'Hành tinh có gió mạnh nhất, tốc độ 2100 km/h.', size: 'Lớn' } }
+        ];
+
+        // Populate sidebar table
+        const tbody = document.querySelector('#compareTable tbody');
+        PLANETS.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td style="color:#${p.col.toString(16).padStart(6, '0')}">${p.name}</td><td>${p.info.size}</td><td>${p.info.time}</td>`;
+            tbody.appendChild(tr);
+        });
+
+        // ══ SUN ═══════════════════════════════════════════════════════
+        const sunMesh = new THREE.Mesh(
+            new THREE.SphereGeometry(3.5, 32, 32),
+            new THREE.MeshBasicMaterial({ color: 0xFFD700 })
+        );
+        scene.add(sunMesh);
+
+        // Sun Glow Sprite
+        const glowCv = document.createElement('canvas'); glowCv.width = glowCv.height = 128;
+        const gCtx = glowCv.getContext('2d');
+        const grd = gCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+        grd.addColorStop(0, 'rgba(255,230,100,1)'); grd.addColorStop(0.4, 'rgba(255,180,0,0.5)'); grd.addColorStop(1, 'rgba(0,0,0,0)');
+        gCtx.fillStyle = grd; gCtx.fillRect(0, 0, 128, 128);
+        const glowSpr = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(glowCv), transparent: true, blending: THREE.AdditiveBlending }));
+        glowSpr.scale.set(18, 18, 1);
+        scene.add(glowSpr);
+
+        // Sun Label
+        const labelsContainer = document.getElementById('labels-container');
+        const sunLabel = document.createElement('div');
+        sunLabel.className = 'label sun'; sunLabel.textContent = '☀ Mặt Trời';
+        labelsContainer.appendChild(sunLabel);
+
+        // ══ ASTEROID BELT ═════════════════════════════════════════════
+        const beltGeo = new THREE.BufferGeometry();
+        const beltPos = new Float32Array(2500 * 3);
+        for (let i = 0; i < 2500; i++) {
+            const a = Math.random() * Math.PI * 2;
+            const r = 25 + (Math.random() - 0.5) * 4.5;
+            beltPos[i * 3] = r * Math.cos(a);
+            beltPos[i * 3 + 1] = (Math.random() - 0.5) * 1.8;
+            beltPos[i * 3 + 2] = r * Math.sin(a);
+        }
+        beltGeo.setAttribute('position', new THREE.BufferAttribute(beltPos, 3));
+        const beltMesh = new THREE.Points(beltGeo, new THREE.PointsMaterial({ color: 0x888888, size: 0.12, sizeAttenuation: true }));
+        scene.add(beltMesh);
+
+        // ══ CREATE PLANETS ════════════════════════════════════════════
+        const planets = [];
+        const orbitLines = [];
+        const arrowHelpers = [];
+
+        PLANETS.forEach((pData, idx) => {
+            pData.angle = Math.random() * Math.PI * 2;
+
+            // Orbit path
+            const pts = [];
+            for (let i = 0; i <= 90; i++) {
+                const a = (i / 90) * Math.PI * 2;
+                pts.push(new THREE.Vector3(pData.d * Math.cos(a), 0, -pData.d * Math.sin(a)));
+            }
+            const orbitGeo = new THREE.BufferGeometry().setFromPoints(pts);
+            const orbitLine = new THREE.Line(orbitGeo, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3 }));
+            scene.add(orbitLine);
+            orbitLines.push(orbitLine);
+
+            // Direction arrow
+            const arrAngle = Math.PI / 4 + idx * 0.6;
+            const arrPos = new THREE.Vector3(pData.d * Math.cos(arrAngle), 0, -pData.d * Math.sin(arrAngle));
+            const arrDir = new THREE.Vector3(-Math.sin(arrAngle), 0, -Math.cos(arrAngle)).normalize();
+            const arrow = new THREE.ArrowHelper(arrDir, arrPos, 1.8, pData.col, 0.7, 0.45);
+            if (arrow.line) { arrow.line.material.transparent = true; arrow.line.material.opacity = 0.6; }
+            if (arrow.cone) { arrow.cone.material.transparent = true; arrow.cone.material.opacity = 0.9; }
+            scene.add(arrow);
+            arrowHelpers.push(arrow);
+
+            // Planet mesh
+            const mesh = new THREE.Mesh(
+                new THREE.SphereGeometry(pData.r, 32, 32),
+                new THREE.MeshStandardMaterial({ color: pData.col, emissive: pData.col, emissiveIntensity: 0.25, roughness: 0.65, metalness: 0.1 })
+            );
+            mesh.position.set(pData.d * Math.cos(pData.angle), 0, -pData.d * Math.sin(pData.angle));
+            scene.add(mesh);
+
+            // Saturn's ring
+            if (pData.hasRing) {
+                const ring = new THREE.Mesh(
+                    new THREE.RingGeometry(pData.r * 1.5, pData.r * 2.4, 48),
+                    new THREE.MeshStandardMaterial({ color: 0xDBC3A3, side: THREE.DoubleSide, transparent: true, opacity: 0.75 })
+                );
+                ring.rotation.x = Math.PI / 2 + 0.28;
+                mesh.add(ring);
+            }
+
+            // Earth's Moon
+            let moonGroup = null;
+            if (pData.hasMoon) {
+                moonGroup = new THREE.Group();
+                const moonMesh = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.32, 16, 16),
+                    new THREE.MeshStandardMaterial({ color: 0xeeeeee, emissive: 0x444444, roughness: 0.9 })
+                );
+                moonMesh.position.set(2.4, 0, 0);
+                moonGroup.add(moonMesh);
+                // Moon orbit line
+                const mPts = [];
+                for (let i = 0; i <= 40; i++) {
+                    const a = (i / 40) * Math.PI * 2;
+                    mPts.push(new THREE.Vector3(2.4 * Math.cos(a), 0, -2.4 * Math.sin(a)));
+                }
+                moonGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(mPts), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.2 })));
+                mesh.add(moonGroup);
+                pData.moonGroup = moonGroup;
+            }
+
+            // Label
+            const el = document.createElement('div');
+            el.className = `label${pData.id === 'earth' ? ' earth' : ''}`;
+            el.textContent = pData.name;
+            labelsContainer.appendChild(el);
+
+            planets.push({ data: pData, mesh, el, orbitLine, arrow });
+        });
+
+        // ══ UI: SIDEBAR ═══════════════════════════════════════════════
+        document.getElementById('sidebar-btn').addEventListener('click', () => {
+            document.getElementById('sidebar-panel').classList.toggle('open');
+        });
+
+        // ══ UI: SETTINGS PANEL ════════════════════════════════════════
+        let settingsOpen = false;
+        document.getElementById('settings-btn').addEventListener('click', () => {
+            settingsOpen = !settingsOpen;
+            document.getElementById('settings-panel').style.display = settingsOpen ? 'block' : 'none';
+        });
+
+        // Toggle Orbit Lines
+        let showLabels = true;
+        document.getElementById('cbOrbits').addEventListener('change', (e) => {
+            planets.forEach(p => { p.orbitLine.visible = e.target.checked; p.arrow.visible = e.target.checked; });
+        });
+        document.getElementById('cbLabels').addEventListener('change', (e) => {
+            showLabels = e.target.checked;
+            if (!showLabels) document.querySelectorAll('.label').forEach(l => l.style.opacity = 0);
+        });
+
+        // Scale Mode
+        document.querySelectorAll('input[name="scaleMode"]').forEach(r => {
+            r.addEventListener('change', (e) => {
+                const real = e.target.value === 'real';
+                planets.forEach(p => {
+                    const s = real ? (p.data.realR / p.data.r) * 0.5 : 1;
+                    p.mesh.scale.setScalar(s);
+                });
+            });
+        });
+
+        // ══ UI: THEME TOGGLE ══════════════════════════════════════════
+        let isDayMode = false;
+        document.getElementById('btnThemeToggle').addEventListener('click', (e) => {
+            isDayMode = !isDayMode;
+            document.getElementById('btnThemeToggle').textContent = isDayMode ? '🌙 Chuyển chế độ Ban đêm' : '🌞 Chuyển chế độ Ban ngày';
+            if (isDayMode) {
+                document.body.classList.add('day-mode');
+                starfield.visible = false;
+                scene.background = new THREE.Color(0x0a1628);
+            } else {
+                document.body.classList.remove('day-mode');
+                starfield.visible = true;
+                scene.background = null;
+            }
+        });
+
+        // ══ UI: RAYCASTER (Click to info) ════════════════════════════
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let selectedPlanet = null;
+        let followingPlanet = null;
+
+        window.addEventListener('click', (ev) => {
+            if (ev.target.id !== 'c') return;
+            mouse.x = (ev.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(ev.clientY / window.innerHeight) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            const hits = raycaster.intersectObjects(planets.map(p => p.mesh).concat([sunMesh]));
+            if (hits.length > 0) {
+                const clicked = hits[0].object;
+                if (clicked === sunMesh) {
+                    showInfo({ name: '☀ Mặt Trời', col: 0xFFD700, info: { dist: 'Trung tâm', time: '–', fact: 'Ngôi sao trung tâm, cung cấp năng lượng cho toàn bộ Hệ Mặt Trời.' } });
+                    selectedPlanet = null;
+                } else {
+                    const hit = planets.find(p => p.mesh === clicked);
+                    if (hit) { showInfo(hit.data); selectedPlanet = hit; }
+                }
+            }
+        });
+
+        function showInfo(data) {
+            document.getElementById('ip-name').textContent = data.name;
+            document.getElementById('ip-name').style.color = '#' + data.col.toString(16).padStart(6, '0');
+            document.getElementById('ip-dist').textContent = data.info.dist;
+            document.getElementById('ip-time').textContent = data.info.time;
+            document.getElementById('ip-fact').textContent = data.info.fact;
+            document.getElementById('info-popup').style.display = 'block';
+        }
+
+        document.getElementById('btnCloseInfo').addEventListener('click', () => {
+            document.getElementById('info-popup').style.display = 'none';
+            followingPlanet = null;
+        });
+
+        document.getElementById('btnFollow').addEventListener('click', () => {
+            if (selectedPlanet) {
+                followingPlanet = selectedPlanet;
+                const wp = new THREE.Vector3();
+                followingPlanet.mesh.getWorldPosition(wp);
+                camera.position.set(wp.x + 6, wp.y + 4, wp.z + 6);
+            }
+        });
+
+        controls.addEventListener('start', () => { followingPlanet = null; });
+
+        // ══ QUIZ ══════════════════════════════════════════════════════
+        const QS = [
+            // focusPlanet: id of planet to follow when question is active
+            { q: 'Hành tinh nào nóng nhất trong Hệ Mặt Trời?', opts: ['Thủy tinh', 'Kim tinh', 'Hỏa tinh'], correct: 1, focusPlanet: 'venus', hint: 'Kim tinh' },
+            { q: 'Hành tinh nào lớn nhất trong Hệ Mặt Trời?', opts: ['Thổ tinh', 'Trái Đất', 'Mộc tinh'], correct: 2, focusPlanet: 'jupiter', hint: 'Mộc tinh' },
+            { q: 'Hành tinh nào có vành đai nổi tiếng nhất?', opts: ['Hải Vương tinh', 'Thổ tinh', 'Mộc tinh'], correct: 1, focusPlanet: 'saturn', hint: 'Thổ tinh' },
+            { q: 'Hành tinh nào có quỹ đạo xa Mặt Trời nhất?', opts: ['Thiên Vương tinh', 'Hải Vương tinh', 'Thổ tinh'], correct: 1, focusPlanet: 'neptune', hint: 'Hải Vương tinh' },
+            { q: 'Hành tinh nào có Mặt Trăng nổi tiếng quay quanh?', opts: ['Mạo tinh', 'Trái Đất', 'Hỏa tinh'], correct: 1, focusPlanet: 'earth', hint: 'Trái Đất và Mặt Trăng' }
+        ];
+        let currentQ = 0;
+        const overlay = document.getElementById('quiz-overlay');
+
+        // Helper: focus camera on a planet by id
+        function focusOnPlanet(planetId) {
+            const target = planets.find(p => p.data.id === planetId);
+            if (target) {
+                followingPlanet = target;
+                const wp = new THREE.Vector3();
+                target.mesh.getWorldPosition(wp);
+                camera.position.set(wp.x + 8, wp.y + 5, wp.z + 8);
+            }
+        }
+
+        document.getElementById('btnOpenQuiz').addEventListener('click', () => {
+            currentQ = 0;
+            document.getElementById('quizComplete').style.display = 'none';
+            overlay.classList.add('visible');
+            renderQuiz();
+        });
+
+        function renderProgressDots() {
+            const prog = document.getElementById('qp-progress');
+            prog.innerHTML = '';
+            QS.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.className = 'qp-dot' + (i < currentQ ? ' done' : '') + (i === currentQ ? ' current' : '');
+                prog.appendChild(d);
+            });
+        }
+
+        function renderQuiz() {
+            renderProgressDots();
+            document.getElementById('quiz-result').textContent = '';
+            document.getElementById('quiz-result').className = 'quiz-result';
+            document.getElementById('btnNextQ').style.display = 'none';
+            document.getElementById('btnCloseQuiz').style.display = 'none';
+            document.getElementById('quizComplete').style.display = 'none';
+
+            if (currentQ >= QS.length) {
+                document.getElementById('q-text').style.display = 'none';
+                document.getElementById('q-opts').innerHTML = '';
+                document.getElementById('quizComplete').style.display = 'block';
+                document.getElementById('btnCloseQuiz').style.display = 'inline-block';
+                return;
+            }
+
+            document.getElementById('q-text').style.display = 'block';
+            const q = QS[currentQ];
+            document.getElementById('q-text').textContent = `Câu ${currentQ + 1}/${QS.length}: ${q.q}`;
+
+            // Show focus hint and point camera to relevant planet
+            const hint = document.getElementById('quiz-focus-hint');
+            if (q.focusPlanet) {
+                document.getElementById('quiz-focus-name').textContent = q.hint || q.focusPlanet;
+                hint.classList.add('show');
+                focusOnPlanet(q.focusPlanet);
+            } else {
+                hint.classList.remove('show');
+            }
+            const optsDiv = document.getElementById('q-opts');
+            optsDiv.innerHTML = '';
+            q.opts.forEach((txt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'q-opt';
+                btn.innerHTML = `<span class="q-letter">${String.fromCharCode(65 + i)}</span> ${txt}`;
+                btn.onclick = () => {
+                    optsDiv.querySelectorAll('.q-opt').forEach(b => b.style.pointerEvents = 'none');
+                    const result = document.getElementById('quiz-result');
+                    if (i === q.correct) {
+                        btn.classList.add('correct');
+                        result.textContent = '✅ Chính xác! Tuyệt vời!';
+                        result.className = 'quiz-result success';
+                        if (q.focusPlanet) focusOnPlanet(q.focusPlanet);
+                        setTimeout(() => { currentQ++; renderQuiz(); }, 1600);
+                    } else {
+                        btn.classList.add('wrong');
+                        optsDiv.querySelectorAll('.q-opt')[q.correct].classList.add('correct');
+                        result.textContent = '❌ Sai rồi! Quan sát hành tinh đối với nhé!';
+                        result.className = 'quiz-result fail';
+                        if (q.focusPlanet) focusOnPlanet(q.focusPlanet); // Still show correct planet
+                        document.getElementById('btnNextQ').style.display = 'inline-block';
+                    }
+                };
+                optsDiv.appendChild(btn);
+            });
+        }
+
+        document.getElementById('btnNextQ').addEventListener('click', () => { currentQ++; renderQuiz(); });
+        document.getElementById('btnCloseQuiz').addEventListener('click', () => {
+            overlay.classList.remove('visible');
+            followingPlanet = null; // Release camera when quiz closes
+        });
+
+        // ══ SPACE TOUR ════════════════════════════════════════════════
+        let isTouring = false, tourIdx = -1, tourTimer = 0;
+
+        document.getElementById('btnTour').addEventListener('click', () => {
+            if (isTouring) return; // Đang bay rồi thì không bấm đè
+            isTouring = true; tourIdx = -1; tourTimer = 500;
+            document.getElementById('info-popup').style.display = 'none';
+            followingPlanet = null;
+
+            // Đổi giao diện nút
+            document.getElementById('btnTour').textContent = '🚀 Đang bay...';
+            document.getElementById('btnStopTour').style.display = 'inline-block';
+        });
+
+        document.getElementById('btnStopTour').addEventListener('click', () => {
+            isTouring = false;
+            followingPlanet = null;
+            document.getElementById('headerDesc').innerHTML = 'Đã hủy chuyến bay – khám phá tự do!';
+
+            // Khôi phục giao diện nút
+            document.getElementById('btnTour').textContent = '🚀 Chuyến bay vũ trụ';
+            document.getElementById('btnStopTour').style.display = 'none';
+        });
+
+        // ══ LABELS 3D→2D ══════════════════════════════════════════════
+        function updateLabels() {
+            if (!showLabels) return;
+            const tv = new THREE.Vector3();
+
+            // Sun label
+            tv.set(0, 4, 0);
+            tv.project(camera);
+            sunLabel.style.left = ((tv.x + 1) / 2 * window.innerWidth) + 'px';
+            sunLabel.style.top = ((1 - tv.y) / 2 * window.innerHeight) + 'px';
+            sunLabel.style.opacity = tv.z < 1 ? '1' : '0';
+
+            // Planet labels
+            planets.forEach(p => {
+                p.mesh.getWorldPosition(tv);
+                tv.y += p.data.r + 0.3;
+                tv.project(camera);
+                const sx = (tv.x + 1) / 2 * window.innerWidth;
+                const sy = (1 - tv.y) / 2 * window.innerHeight;
+                p.el.style.left = sx + 'px';
+                p.el.style.top = sy + 'px';
+                p.el.style.opacity = (tv.z < 1 && sx > 0 && sx < window.innerWidth && sy > 0 && sy < window.innerHeight) ? '1' : '0';
+            });
+        }
+
+        // ══ SPEED CONTROLS ════════════════════════════════════════════
+        let timeSpeed = 1;
+        let playTime = 0;
+
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.currentTarget.id;
+                if (['btnPause', 'btn1x', 'btn5x', 'btn10x'].includes(id)) {
+                    ['btnPause', 'btn1x', 'btn5x', 'btn10x'].forEach(b => document.getElementById(b).classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    if (id === 'btnPause') timeSpeed = 0;
+                    else if (id === 'btn1x') timeSpeed = 1;
+                    else if (id === 'btn5x') timeSpeed = 10;
+                    else if (id === 'btn10x') timeSpeed = 50;
+                }
+            });
+        });
+
+        // ══ ANIMATE ═══════════════════════════════════════════════════
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+
+            // Orbit planets
+            planets.forEach(p => {
+                p.data.angle -= p.data.speed * timeSpeed * 0.01;
+                p.mesh.position.set(
+                    p.data.d * Math.cos(p.data.angle),
+                    0,
+                    -p.data.d * Math.sin(p.data.angle)
+                );
+                p.mesh.rotation.y += 0.01 * timeSpeed;
+                if (p.data.moonGroup) p.data.moonGroup.rotation.y += 0.05 * timeSpeed;
+            });
+
+            // Asteroid belt
+            beltMesh.rotation.y -= 0.001 * (timeSpeed || 0.5);
+
+            // Sun glow pulse
+            playTime += 0.02;
+            glowSpr.scale.setScalar(18 + Math.sin(playTime) * 0.6);
+            sunMesh.rotation.y += 0.003;
+
+            // Space Tour
+            if (isTouring) {
+                tourTimer++;
+                if (tourTimer > 400) {
+                    tourTimer = 0; tourIdx++;
+                    if (tourIdx >= planets.length) {
+                        isTouring = false; followingPlanet = null;
+                        document.getElementById('headerDesc').innerHTML = 'Chuyến bay kết thúc – khám phá tự do!';
+                        document.getElementById('btnTour').textContent = '🚀 Chuyến bay vũ trụ';
+                        document.getElementById('btnStopTour').style.display = 'none';
+                    } else {
+                        followingPlanet = planets[tourIdx];
+                        document.getElementById('headerDesc').innerHTML = `🚀 Đang bay tới: <b>${followingPlanet.data.name}</b>`;
+                    }
+                }
+            }
+
+            // Camera follow
+            if (followingPlanet) {
+                const wp = new THREE.Vector3();
+                followingPlanet.mesh.getWorldPosition(wp);
+                controls.target.lerp(wp, 0.1);
+                camera.position.copy(wp).add(new THREE.Vector3(6, 4, 6));
+            }
+
+            updateLabels();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = innerWidth / innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(innerWidth, innerHeight);
+        });
+    </script>
+</body>
+
+</html>

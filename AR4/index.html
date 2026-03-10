@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ đồ các đới khí hậu trên Trái Đất (AR4)</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background: #81D4FA;
+            /* Bầu trời xanh nhạt */
+            touch-action: none;
+        }
+
+        /* ── HEADER TITLE ── */
+        #title-box {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 16px 32px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            min-width: 400px;
+        }
+
+        #title-box h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1a237e;
+            margin-bottom: 6px;
+        }
+
+        #title-box p {
+            font-size: 15px;
+            color: #455a64;
+            font-weight: 600;
+        }
+
+        /* ── INFO PANEL (Popup Sidebar) ── */
+        #info-panel {
+            position: absolute;
+            top: 50%;
+            right: 40px;
+            transform: translateY(-50%) translateX(120%);
+            width: 360px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+        }
+
+        #info-panel.show {
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .ip-header {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        .ip-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-close:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .ip-body {
+            padding: 24px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-section h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-section h3 i {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #f0f4f8;
+            border-radius: 6px;
+            text-align: center;
+            line-height: 24px;
+            font-size: 14px;
+            font-style: normal;
+        }
+
+        #info-position {
+            font-size: 15px;
+            color: #34495e;
+            line-height: 1.5;
+            padding-left: 32px;
+            font-weight: 600;
+        }
+
+        #info-features {
+            list-style: none;
+            padding-left: 32px;
+        }
+
+        #info-features li {
+            font-size: 15px;
+            color: #34495e;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            position: relative;
+            font-weight: 600;
+        }
+
+        #info-features li.sub-item {
+            padding-left: 20px;
+            font-weight: 400;
+        }
+
+        #info-features li.sub-item::before {
+            content: '•';
+            position: absolute;
+            left: 4px;
+            color: #bdc3c7;
+        }
+
+        /* ── INSTRUCTION / HINT ── */
+        .instruction {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 15;
+            transition: opacity 0.3s;
+        }
+
+        /* ── GAME SYSTEM ── */
+        #btn-play-game {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+            transition: all 0.2s;
+            z-index: 50;
+        }
+
+        #btn-play-game:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
+        }
+
+        #game-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #game-menu-overlay.show {
+            display: flex;
+        }
+
+        .game-menu-box {
+            background: #fff;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .game-menu-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .game-menu-header h2 {
+            color: #1a237e;
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .game-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .game-btn {
+            background: #f0f4f8;
+            border: 2px solid transparent;
+            padding: 16px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .game-btn:hover {
+            background: #fff;
+            border-color: #64B5F6;
+            box-shadow: 0 4px 12px rgba(100, 181, 246, 0.2);
+        }
+
+        .game-btn .icon {
+            font-size: 24px;
+        }
+
+        .game-btn .texts h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #34495e;
+            margin: 0 0 4px;
+        }
+
+        .game-btn .texts p {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin: 0;
+        }
+
+        .close-menu-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #f0f4f8;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* ── ACTIVE GAME HUD ── */
+        #game-hud {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 16px 32px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            z-index: 15;
+            border: 2px solid #64B5F6;
+            display: none;
+            min-width: 400px;
+        }
+
+        #game-hud h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+
+        #game-hud .question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #d35400;
+            margin-bottom: 12px;
+        }
+
+        .game-feedback {
+            font-size: 16px;
+            font-weight: 800;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: none;
+            margin-bottom: 12px;
+        }
+
+        .game-feedback.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            display: block;
+        }
+
+        .game-feedback.error {
+            background: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+
+        #btn-quit-game {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        #timer-box {
+            font-size: 24px;
+            font-weight: 900;
+            color: #e74c3c;
+            display: none;
+            margin-bottom: 8px;
+        }
+
+        #score-box {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            background: #fff;
+            padding: 12px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-weight: 800;
+            color: #2c3e50;
+            font-size: 18px;
+            display: none;
+            z-index: 15;
+        }
+
+        /* Sortable Game 7 UI */
+        #sort-game-ui {
+            display: none;
+            margin-top: 16px;
+        }
+
+        .sort-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: grab;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .sort-item:active {
+            cursor: grabbing;
+        }
+
+        .sort-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        /* Name Input Overlay (Game 5) */
+        #name-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 110;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .name-box {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .name-box input {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+
+        .name-box button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Leaderboard */
+        #leaderboard-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 120;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lb-box {
+            background: #fff;
+            width: 400px;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .lb-box h2 {
+            text-align: center;
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+
+        .lb-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .lb-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f0f4f8;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .lb-list li span:last-child {
+            color: #e74c3c;
+        }
+
+        .btn-close-lb {
+            background: #bdc3c7;
+            color: #333;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Drag UI (Game 3) */
+        #drag-game-ui {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            gap: 16px;
+            z-index: 15;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 16px 24px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .drag-piece {
+            background: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
+            border: 2px solid white;
+        }
+
+        .drag-piece.placed {
+            display: none;
+        }
+
+        .drag-piece:active {
+            cursor: grabbing;
+            transform: scale(1.1);
+        }
+
+        .drag-piece.dragging {
+            opacity: 0.5;
+        }
+
+        /* 2D Drop Zones projected over 3D */
+        .drop-zone-2d {
+            position: absolute;
+            border: 2px dashed rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .drop-zone-2d.drag-over {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: #fff;
+            transform: scale(1.05);
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Tiêu đề -->
+    <div id="title-box">
+        <h1>🌍 Các Đới Khí Hậu Trái Đất</h1>
+        <p>Bấm vào các dải màu trên Trái Đất để khám phá</p>
+    </div>
+
+    <!-- Bảng thông tin đới khí hậu -->
+    <div id="info-panel">
+        <div class="ip-header" id="ip-header">
+            <h2><span id="ip-emoji">❄️</span> <span id="ip-title">Đới lạnh</span></h2>
+            <button class="btn-close" id="btnClose">✕</button>
+        </div>
+        <div class="ip-body">
+            <div class="info-section">
+                <h3><i>📍</i> Vị trí:</h3>
+                <div id="info-position">Gần cực Bắc và cực Nam</div>
+            </div>
+            <div class="info-section">
+                <h3><i>📝</i> Đặc điểm:</h3>
+                <ul id="info-features">
+                    <li>Rất lạnh quanh năm</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hướng dẫn điều khiển -->
+    <div class="instruction" id="instruction-hint">
+        👆 Bấm vào đới màu • 🖱 Kéo để xoay
+    </div>
+
+    <button id="btn-play-game">🎮 Cùng Luyện Tập!</button>
+
+    <div id="score-box">🏆 Điểm: <span id="game-score">0</span></div>
+
+    <!-- Khung UI Game (thay thế khi chơi) -->
+    <div id="game-hud">
+        <h2 id="gh-title">Trò chơi</h2>
+        <div id="timer-box">⏱ <span id="time-left">5</span>s</div>
+        <div class="question" id="gh-question">Câu hỏi sẽ hiện ở đây</div>
+        <div id="gh-feedback" class="game-feedback"></div>
+
+        <!-- Game 7 Sort UI -->
+        <div id="sort-game-ui">
+            <div class="sort-list" id="sort-list">
+                <!-- items injected by JS -->
+            </div>
+            <button class="sort-btn" id="btn-check-sort">Kiểm tra kết quả</button>
+        </div>
+
+        <button id="btn-quit-game">Thoát Game</button>
+    </div>
+
+    <!-- Drag Game 3 UI -->
+    <div id="drag-game-ui">
+        <div class="drag-piece" draggable="true" data-id="lanh">Đới lạnh</div>
+        <div class="drag-piece" draggable="true" data-id="on-hoa">Đới ôn hòa</div>
+        <div class="drag-piece" draggable="true" data-id="nong">Đới nóng</div>
+    </div>
+
+    <!-- 2D Overlay Drop Zones -->
+    <div id="dz-lanh-bac" class="drop-zone-2d" data-target="lanh"></div>
+    <div id="dz-on-hoa-bac" class="drop-zone-2d" data-target="on-hoa"></div>
+    <div id="dz-nong" class="drop-zone-2d" data-target="nong"></div>
+    <div id="dz-on-hoa-nam" class="drop-zone-2d" data-target="on-hoa"></div>
+    <div id="dz-lanh-nam" class="drop-zone-2d" data-target="lanh"></div>
+
+    <!-- Nhập Tên -->
+    <div id="name-overlay">
+        <div class="name-box">
+            <h3>Nhập tên của em</h3>
+            <p style="margin-bottom:15px; color:#555">Để ghi danh vào bảng vàng nhé!</p>
+            <input type="text" id="player-name" placeholder="Tên của em (Ví dụ: Lan)">
+            <button id="btn-start-tournament">Bắt đầu thi đấu</button>
+        </div>
+    </div>
+
+    <!-- Bảng điểm -->
+    <div id="leaderboard-overlay">
+        <div class="lb-box">
+            <h2>🏆 Bảng Vàng Thành Tích</h2>
+            <ul class="lb-list" id="lb-list">
+                <!-- Li content -->
+            </ul>
+            <button class="btn-close-lb" id="btn-close-lb">Đóng</button>
+        </div>
+    </div>
+
+    <!-- Menu Chọn Game -->
+    <div id="game-menu-overlay">
+        <div class="game-menu-box">
+            <button class="close-menu-btn" id="btn-close-menu">✕</button>
+            <div class="game-menu-header">
+                <h2>Khu Vui Chơi Khí Hậu 🎢</h2>
+            </div>
+            <div class="game-list">
+                <button class="game-btn" data-game="1">
+                    <span class="icon">🤔</span>
+                    <div class="texts">
+                        <h3>1. Đoán Quốc Gia ở Đới Nào</h3>
+                        <p>Tìm đới khí hậu tương ứng</p>
+                    </div>
+                </button>
+                <button class="game-btn" data-game="2">
+                    <span class="icon">🎯</span>
+                    <div class="texts">
+                        <h3>2. Tìm Đúng Vị Trí</h3>
+                        <p>Chỉ đúng đới được nhắc tên</p>
+                    </div>
+                </button>
+                <button class="game-btn" data-game="3">
+                    <span class="icon">🏷️</span>
+                    <div class="texts">
+                        <h3>3. Gắn Nhãn Khí Hậu</h3>
+                        <p>Kéo tên dán vào Trái Đất</p>
+                    </div>
+                </button>
+                <button class="game-btn" data-game="4">
+                    <span class="icon">⚡</span>
+                    <div class="texts">
+                        <h3>4. Nhanh Tay Nhanh Mắt</h3>
+                        <p>Phản xạ 5 giây tìm đới</p>
+                    </div>
+                </button>
+                <button class="game-btn" data-game="5">
+                    <span class="icon">👑</span>
+                    <div class="texts">
+                        <h3>5. Đấu Trường Lớp Học</h3>
+                        <p>Thi 5 câu, ghi tên lên bảng xếp hạng</p>
+                    </div>
+                </button>
+                <button class="game-btn" data-game="6">
+                    <span class="icon">🌏</span>
+                    <div class="texts">
+                        <h3>6. Đoán Đới Của Nước</h3>
+                        <p>Giống game 1 nhưng sâu hơn</p>
+                    </div>
+                </button>
+                <button class="game-btn" data-game="7">
+                    <span class="icon">🔃</span>
+                    <div class="texts">
+                        <h3>7. Xếp Đúng Thứ Tự</h3>
+                        <p>Cực -> Xích Đạo</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container 3D -->
+    <canvas id="c"></canvas>
+
+    <!-- Thư viện Three.js -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // ══ DỮ LIỆU ĐỚI KHÍ HẬU ═════════════════════════════════════════
+        const CLIMATE_ZONES = {
+            'lanh': {
+                id: 'lanh',
+                name: 'Đới lạnh',
+                emoji: '❄️',
+                bgColor: '#64B5F6', // Xanh dương (Blue)
+                colorHex: 0x64B5F6,
+                position: 'Gần Cực Bắc và Cực Nam',
+                features: [
+                    { type: 'main', text: 'Rất lạnh quanh năm ❄️' },
+                    { type: 'main', text: 'Nhiều băng và tuyết' },
+                    { type: 'main', text: 'Ít cây cối, ít động vật' }
+                ]
+            },
+            'on-hoa': {
+                id: 'on-hoa',
+                name: 'Đới ôn hòa',
+                emoji: '🌸',
+                bgColor: '#81C784', // Xanh lá cây (Green)
+                colorHex: 0x81C784,
+                position: 'Nằm giữa đới nóng và đới lạnh',
+                features: [
+                    { type: 'main', text: 'Khí hậu không quá nóng, không quá lạnh' },
+                    { type: 'main', text: 'Có 4 mùa rõ rệt:' },
+                    { type: 'sub', text: 'Xuân 🌸' },
+                    { type: 'sub', text: 'Hạ ☀️' },
+                    { type: 'sub', text: 'Thu 🍂' },
+                    { type: 'sub', text: 'Đông ❄️' }
+                ]
+            },
+            'nong': {
+                id: 'nong',
+                name: 'Đới nóng',
+                emoji: '☀️',
+                bgColor: '#FFB74D', // Cam (Orange)
+                colorHex: 0xFFB74D,
+                position: 'Nằm quanh đường Xích đạo',
+                features: [
+                    { type: 'main', text: 'Nóng quanh năm ☀️' },
+                    { type: 'main', text: 'Nhiệt độ cao' },
+                    { type: 'main', text: 'Thường có nhiều mưa' }
+                ]
+            }
+        };
+
+        // ══ CẤU HÌNH GÓC (Vĩ Độ) ════════════════════════════════════════
+        // Vĩ đạo trên Three.js SphereGeometry (theta):
+        // 0 là Cực Bắc (90 độ Bắc), Math.PI là Cực Nam (90 độ Nam)
+        function latToTheta(lat) {
+            // lat từ 90 đến -90 -> theta từ 0 đến PI
+            return (90 - lat) * (Math.PI / 180);
+        }
+
+        const BANDS = [
+            { type: 'lanh', latStart: 90, latEnd: 66.5 },   // Cực Bắc
+            { type: 'on-hoa', latStart: 66.5, latEnd: 23.5 },// Ôn hòa Bắc
+            { type: 'nong', latStart: 23.5, latEnd: -23.5 }, // Đới nóng
+            { type: 'on-hoa', latStart: -23.5, latEnd: -66.5 },// Ôn hòa Nam
+            { type: 'lanh', latStart: -66.5, latEnd: -90 }   // Cực Nam
+        ];
+
+        // ══ KHỞI TẠO THREE.JS ══════════════════════════════════════════
+        const canvas = document.getElementById('c');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const scene = new THREE.Scene();
+
+        // Camera
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(20, 15, 30); // Góc camera ban đầu
+
+        // Controls
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.enablePan = false;
+        controls.minDistance = 15;
+        controls.maxDistance = 50;
+        controls.minPolarAngle = Math.PI * 0.1; // Góc nâng tối đa
+        controls.maxPolarAngle = Math.PI * 0.9; // Không quay dưới đáy quá nhiều
+
+        // Ánh sáng
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        dirLight.position.set(10, 15, 20);
+        scene.add(dirLight);
+
+        const rimLight = new THREE.DirectionalLight(0xffffff, 0.3);
+        rimLight.position.set(-10, -5, -20);
+        scene.add(rimLight);
+
+        // Group Quả Địa Cầu
+        const earthGroup = new THREE.Group();
+        // Nghiêng trục trái đất 23.5 độ cho thật
+        earthGroup.rotation.z = -23.5 * Math.PI / 180;
+        scene.add(earthGroup);
+
+        // 1. Quả cầu gốc (Trái Đất bên trong)
+        const earthRadius = 10;
+        const earthGeo = new THREE.SphereGeometry(earthRadius, 64, 64);
+
+        // Cố gắng tải texture bề mặt trái đất
+        const textureLoader = new THREE.TextureLoader();
+        const earthMat = new THREE.MeshStandardMaterial({
+            color: 0x228833, // Màu dự phòng: lá cây xanh
+            roughness: 0.8,
+            metalness: 0.1
+        });
+
+        // Texture HD Trái đất (fallback color is green to simulate land)
+        textureLoader.load(
+            'https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg',
+            (tex) => {
+                earthMat.map = tex;
+                earthMat.color.setHex(0xffffff); // Chuyển sang trắng để texture hiện rõ màu thật
+                earthMat.needsUpdate = true;
+            }
+        );
+
+        const baseEarth = new THREE.Mesh(earthGeo, earthMat);
+        earthGroup.add(baseEarth);
+
+        // 2. Tạo các Vành Đới Khí Hậu (Lớp mờ bao bọc)
+        const zoneMeshes = [];
+
+        BANDS.forEach(band => {
+            const zData = CLIMATE_ZONES[band.type];
+            const thetaStart = latToTheta(band.latStart);
+            const thetaEnd = latToTheta(band.latEnd);
+            const thetaLength = thetaEnd - thetaStart;
+
+            // Geometry lớn hơn Trái đất một chút (10.1) để phủ lên trên
+            const bandGeo = new THREE.SphereGeometry(
+                earthRadius + 0.15,
+                64, 32,
+                0, Math.PI * 2,
+                thetaStart, thetaLength
+            );
+
+            const bandMat = new THREE.MeshStandardMaterial({
+                color: zData.colorHex,
+                transparent: true,
+                opacity: 0.45,
+                roughness: 0.4,
+                metalness: 0.1,
+                side: THREE.FrontSide,
+                depthWrite: false // Để không che khuất nhau gây lỗi rendering
+            });
+
+            const bandMesh = new THREE.Mesh(bandGeo, bandMat);
+            // Gắn dữ liệu để tương tác
+            bandMesh.userData = { id: band.type, baseColor: zData.colorHex, data: zData };
+
+            earthGroup.add(bandMesh);
+            zoneMeshes.push(bandMesh);
+        });
+
+        // 3. Kẻ Vĩ Tuyến (Đường phân giới đới)
+        const drawLatitudeLine = (lat, isEquator = false) => {
+            const theta = latToTheta(lat);
+            const R = earthRadius + 0.2; // Rộng hơn Band một chút
+            const y = Math.cos(theta) * R;
+            const radiusAtLat = Math.sin(theta) * R;
+
+            const points = [];
+            for (let i = 0; i <= 100; i++) {
+                const angle = (i / 100) * Math.PI * 2;
+                points.push(new THREE.Vector3(
+                    Math.cos(angle) * radiusAtLat,
+                    y,
+                    Math.sin(angle) * radiusAtLat
+                ));
+            }
+
+            const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+
+            // Xích đạo dùng đường màu đỏ nét liền, các vĩ tuyến khác đường trắng nét đứt
+            let lineMat;
+            if (isEquator) {
+                lineMat = new THREE.LineBasicMaterial({ color: 0xFF1744, linewidth: 2 });
+            } else {
+                lineMat = new THREE.LineDashedMaterial({
+                    color: 0xffffff,
+                    dashSize: 0.3,
+                    gapSize: 0.2,
+                    transparent: true,
+                    opacity: 0.8
+                });
+            }
+
+            const line = new THREE.Line(lineGeo, lineMat);
+            if (!isEquator) {
+                line.computeLineDistances();
+            }
+            earthGroup.add(line);
+        };
+
+        // Vẽ vĩ tuyến đường Xích Đạo, Chí Tuyến, Cực
+        drawLatitudeLine(66.5);   // Vòng cực Bắc
+        drawLatitudeLine(23.5);   // Chí tuyến Bắc
+        drawLatitudeLine(0, true);// Xích đạo
+        drawLatitudeLine(-23.5);  // Chí tuyến Nam
+        drawLatitudeLine(-66.5);  // Vòng cực Nam
+
+
+        // 4. Trục xoay giả lập
+        const axisPoints = [];
+        axisPoints.push(new THREE.Vector3(0, earthRadius + 3, 0));
+        axisPoints.push(new THREE.Vector3(0, -(earthRadius + 3), 0));
+        const axisLine = new THREE.Line(
+            new THREE.BufferGeometry().setFromPoints(axisPoints),
+            new THREE.LineBasicMaterial({ color: 0xaaaaaa, linewidth: 2 })
+        );
+        earthGroup.add(axisLine);
+
+
+        // ══ TƯƠNG TÁC (CHẤM CLICK THÔNG TIN) VÀ GAME LOGIC ═════════════
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let hoveredMesh = null;
+        let activeZone = null;
+
+        // ── BIẾN TRẠNG THÁI GAME ──
+        let currentGame = 0; // 0 = Không chơi game
+        let gameScore = 0;
+        let gameQIndex = 0;
+        let gameTimer = null;
+        let timeLeft = 0;
+        let currentTargetZone = null; // ID đới khí hậu đích cần bấm
+        let isWaitingNext = false;
+
+        // -- Dữ liệu Game 1 & 6 (Đoán zone của đối tượng)
+        const GAME_QUESTIONS_1 = [
+            { q: 'Việt Nam thuộc đới khí hậu nào?', target: 'nong' },
+            { q: 'Nam Cực nằm ở đới nào?', target: 'lanh' },
+            { q: 'Châu Phi chủ yếu nằm ở đới nào?', target: 'nong' },
+            { q: 'Nước Nga rộng lớn chủ yếu nằm ở đới nào?', target: 'on-hoa' }
+        ];
+        const GAME_QUESTIONS_6 = [
+            { q: 'Nhật Bản thuộc đới khí hậu nào?', target: 'on-hoa' },
+            { q: 'Brazil (Nam Mỹ) mọc nhiều rừng rậm Amazon, ở đới nào?', target: 'nong' },
+            { q: 'Đảo Greenland băng tuyết quanh năm thuộc đới nào?', target: 'lanh' },
+            { q: 'Hàn Quốc có đới khí hậu nào?', target: 'on-hoa' }
+        ];
+
+        // Xử lý di chuột (Hover effect)
+        window.addEventListener('pointermove', (e) => {
+            if (e.isPrimary === false) return; // Chỉ nhận thao tác chính
+
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(zoneMeshes);
+
+            if (intersects.length > 0) {
+                const obj = intersects[0].object;
+                if (hoveredMesh !== obj) {
+                    if (hoveredMesh && hoveredMesh !== activeZone) {
+                        hoveredMesh.material.opacity = 0.45; // Reset cũ
+                    }
+                    hoveredMesh = obj;
+                    document.body.style.cursor = 'pointer';
+                    if (hoveredMesh !== activeZone) {
+                        hoveredMesh.material.opacity = 0.65; // Đậm hơn khi lướt qua
+                    }
+                }
+            } else {
+                if (hoveredMesh) {
+                    if (hoveredMesh !== activeZone) {
+                        hoveredMesh.material.opacity = 0.45; // Reset
+                    }
+                    hoveredMesh = null;
+                    document.body.style.cursor = 'default';
+                }
+            }
+        });
+
+        // Xử lý Click (Gọi bảng info hoặc trả lời game)
+        window.addEventListener('click', () => {
+            if (hoveredMesh) {
+                if (currentGame > 0) {
+                    handleGameClick(hoveredMesh.userData.id);
+                } else {
+                    selectZone(hoveredMesh);
+                }
+            }
+        });
+
+        function selectZone(mesh) {
+            // Reset tất cả các zones khác về mức phủ cơ bản
+            zoneMeshes.forEach(m => {
+                m.material.opacity = 0.2; // Các đới khác mờ đi để làm nổi bật đới được chọn
+            });
+
+            activeZone = mesh;
+            activeZone.material.opacity = 0.8; // Đới được chọn rất rõ nét
+
+            const data = activeZone.userData.data;
+            showInfoPanel(data);
+        }
+
+        // ══ LOGIC TRÒ CHƠI ════════════════════════════════════════════
+
+        function startGame(mode) {
+            currentGame = mode;
+            gameScore = 0;
+            gameQIndex = 0;
+            isWaitingNext = false;
+
+            document.getElementById('game-score').textContent = '0';
+            document.getElementById('score-box').style.display = 'block';
+            document.getElementById('game-hud').style.display = 'block';
+            document.getElementById('info-panel').classList.remove('show');
+            document.getElementById('game-menu-overlay').classList.remove('show');
+            document.getElementById('instruction-hint').style.display = 'none';
+            document.getElementById('btn-play-game').style.display = 'none';
+
+            // Reset highlight
+            zoneMeshes.forEach(m => m.material.opacity = 0.45);
+            activeZone = null;
+
+            if (mode === 1 || mode === 6) {
+                nextQuestionMode1_6(mode);
+            } else if (mode === 2) {
+                nextQuestionMode2();
+            } else if (mode === 4) {
+                document.getElementById('timer-box').style.display = 'block';
+                nextQuestionMode4();
+            } else if (mode === 3) {
+                initGame3();
+            } else if (mode === 7) {
+                initGame7();
+            } else if (mode === 5) {
+                initGame5();
+            }
+        }
+
+        function quitGame() {
+            currentGame = 0;
+            if (gameTimer) clearInterval(gameTimer);
+
+            document.getElementById('score-box').style.display = 'none';
+            document.getElementById('game-hud').style.display = 'none';
+            document.getElementById('timer-box').style.display = 'none';
+            document.getElementById('gh-feedback').style.display = 'none';
+            document.getElementById('instruction-hint').style.display = 'flex';
+            document.getElementById('btn-play-game').style.display = 'block';
+            document.getElementById('drag-game-ui').style.display = 'none';
+            document.getElementById('sort-game-ui').style.display = 'none';
+
+            document.querySelectorAll('.drop-zone-2d').forEach(dz => dz.style.display = 'none');
+
+            zoneMeshes.forEach(m => m.material.opacity = 0.45);
+        }
+
+        function handleGameClick(clickedZoneId) {
+            if (isWaitingNext) return;
+
+            // Core logic cho Game 1, 2, 4, 6
+            if ([1, 2, 4, 6].includes(currentGame)) {
+                if (clickedZoneId === currentTargetZone) {
+                    showGameFeedback(true, `Chính xác! Cố lên nhé!`);
+                    gameScore += (currentGame === 4 ? 10 : 10);
+                    document.getElementById('game-score').textContent = gameScore;
+
+                    isWaitingNext = true;
+                    if (currentGame === 4 && gameTimer) clearInterval(gameTimer);
+
+                    setTimeout(() => {
+                        isWaitingNext = false;
+                        document.getElementById('gh-feedback').style.display = 'none';
+                        if (currentGame === 1 || currentGame === 6) nextQuestionMode1_6(currentGame);
+                        else if (currentGame === 2) nextQuestionMode2();
+                        else if (currentGame === 4) nextQuestionMode4();
+                    }, 1500);
+                } else {
+                    showGameFeedback(false, `❌ Chưa đúng, em hãy thử lại nhé!`);
+                    if (currentGame === 4) {
+                        // Game 4 sai thì cho câu mới luôn hoặc đợi hết giờ
+                    }
+                }
+            }
+        }
+
+        function showGameFeedback(isSuccess, text) {
+            const fb = document.getElementById('gh-feedback');
+            fb.textContent = text;
+            fb.className = 'game-feedback ' + (isSuccess ? 'success' : 'error');
+            fb.style.display = 'block';
+        }
+
+        function nextQuestionMode1_6(mode) {
+            const list = mode === 1 ? GAME_QUESTIONS_1 : GAME_QUESTIONS_6;
+            if (gameQIndex >= list.length) {
+                // Hoàn thành bộ câu hỏi
+                document.getElementById('gh-question').textContent = `Hoàn thành! Bạn được ${gameScore} điểm.`;
+                currentTargetZone = null;
+                return;
+            }
+            const q = list[gameQIndex++];
+            document.getElementById('gh-question').textContent = `❓ ${q.q}`;
+            currentTargetZone = q.target;
+        }
+
+        function nextQuestionMode2() {
+            const zones = ['lanh', 'on-hoa', 'nong'];
+            const target = zones[Math.floor(Math.random() * zones.length)];
+            const zoneName = CLIMATE_ZONES[target].name;
+
+            document.getElementById('gh-question').textContent = `👉 Nhiệm vụ: Hãy tìm ${zoneName}`;
+            currentTargetZone = target;
+        }
+
+        function nextQuestionMode4() {
+            const zones = ['lanh', 'on-hoa', 'nong'];
+            const target = zones[Math.floor(Math.random() * zones.length)];
+            const zoneName = CLIMATE_ZONES[target].name;
+
+            document.getElementById('gh-question').textContent = `⚡ Nhanh tay bấm vào: ${zoneName}`;
+            currentTargetZone = target;
+
+            timeLeft = 5;
+            document.getElementById('time-left').textContent = timeLeft;
+            if (gameTimer) clearInterval(gameTimer);
+
+            gameTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('time-left').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(gameTimer);
+                    showGameFeedback(false, `Hết giờ rồi! Chậm chân mất tiêu!`);
+                    isWaitingNext = true;
+                    setTimeout(() => {
+                        isWaitingNext = false;
+                        document.getElementById('gh-feedback').style.display = 'none';
+                        nextQuestionMode4();
+                    }, 1500);
+                }
+            }, 1000);
+        }
+
+        // ── GAME 3: KÉO THẢ VÀO 3D TO 2D PROJECTION ──
+        let dragId = null;
+        let game3Placed = 0;
+
+        function initGame3() {
+            document.getElementById('gh-question').textContent = `Kéo nhãn thả vào vùng khí hậu tương ứng`;
+            document.getElementById('drag-game-ui').style.display = 'flex';
+            document.querySelectorAll('.drop-zone-2d').forEach(dz => {
+                dz.style.display = 'flex';
+                dz.classList.remove('drag-over');
+                dz.style.pointerEvents = 'auto';
+            });
+            document.querySelectorAll('.drag-piece').forEach(p => p.classList.remove('placed'));
+            game3Placed = 0;
+            gameScore = 0;
+        }
+
+        document.querySelectorAll('.drag-piece').forEach(piece => {
+            piece.addEventListener('dragstart', (e) => {
+                dragId = e.target.dataset.id;
+                e.target.classList.add('dragging');
+            });
+            piece.addEventListener('dragend', (e) => {
+                e.target.classList.remove('dragging');
+                dragId = null;
+            });
+            // Hỗ trợ Touch cho điện thoại
+            piece.addEventListener('touchstart', (e) => {
+                dragId = e.target.dataset.id;
+                e.target.classList.add('dragging');
+            });
+            piece.addEventListener('touchend', (e) => {
+                e.target.classList.remove('dragging');
+                const t = e.changedTouches[0];
+                const el = document.elementFromPoint(t.clientX, t.clientY);
+                if (el && el.classList.contains('drop-zone-2d')) {
+                    handleDrop(el);
+                }
+                dragId = null;
+            });
+        });
+
+        document.querySelectorAll('.drop-zone-2d').forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+            zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                handleDrop(zone);
+            });
+        });
+
+        function handleDrop(zone) {
+            if (!dragId) return;
+            if (zone.dataset.target === dragId) {
+                showGameFeedback(true, 'Chính xác!');
+                zone.style.pointerEvents = 'none'; // Lock
+                zone.style.display = 'none'; // Hide zone box
+                document.querySelector(`.drag-piece[data-id="${dragId}"]`).classList.add('placed');
+                game3Placed++;
+                gameScore += 10;
+                document.getElementById('game-score').textContent = gameScore;
+
+                // Tô đậm zone trên 3D để ăn mừng
+                const m = zoneMeshes.find(mesh => mesh.userData.id === dragId);
+                if (m) {
+                    m.material.opacity = 0.8;
+                    setTimeout(() => { m.material.opacity = 0.45; }, 1500);
+                }
+
+                if (game3Placed >= 3) {
+                    document.getElementById('gh-question').textContent = `Hoàn thành xuất sắc!`;
+                }
+            } else {
+                showGameFeedback(false, 'Sai rồi em, thử chỗ khác nhé!');
+            }
+        }
+
+        // --- Hàm cập nhật vị trí các ô Drop Zone 2D đè lên 3D ---
+        // Vĩ độ trung bình của từng đới
+        const DZ_COORDS = [
+            { id: 'dz-lanh-bac', lat: 78, lon: 0 },
+            { id: 'dz-on-hoa-bac', lat: 45, lon: 0 },
+            { id: 'dz-nong', lat: 0, lon: 0 },
+            { id: 'dz-on-hoa-nam', lat: -45, lon: 0 },
+            { id: 'dz-lanh-nam', lat: -78, lon: 0 }
+        ];
+
+        function update2DDropZones() {
+            if (currentGame !== 3) return;
+            const r = earthRadius + 0.3; // Phóng ra xíu để khỏi kẹt
+
+            DZ_COORDS.forEach(item => {
+                const el = document.getElementById(item.id);
+                if (!el || el.style.display === 'none') return;
+
+                // Tính tọa độ điểm trên model
+                const phi = (90 - item.lat) * (Math.PI / 180);
+                const theta = (item.lon + 180) * (Math.PI / 180);
+
+                const point = new THREE.Vector3();
+                point.setFromSphericalCoords(r, phi, theta);
+
+                // Áp dụng ma trận xoay của quả đất hiện năng
+                point.applyMatrix4(earthGroup.matrixWorld);
+
+                // Project về 2D camera
+                point.project(camera);
+
+                // Kiểm tra xem nó có nằm mặt sau Trái Đất không (Bị che khuất)
+                // Nếu camera z lớn thì mặt trước là khoảng point.z < 1
+                const x = (point.x * .5 + .5) * window.innerWidth;
+                const y = (point.y * -.5 + .5) * window.innerHeight;
+
+                // Ẩn nếu nằm ở nửa bán cầu bị khuất
+                if (point.z > 1 || point.x < -1 || point.x > 1 || point.y < -1 || point.y > 1) {
+                    el.style.opacity = 0;
+                    el.style.pointerEvents = 'none';
+                } else {
+                    el.style.opacity = 1;
+                    if (!el.classList.contains('locked')) {
+                        el.style.pointerEvents = 'auto';
+                    }
+                    el.style.left = `${x - 40}px`; // Căn giữa hộp rộng 80px
+                    el.style.top = `${y - 20}px`;  // Căn giữa hộp cao 40px
+                    el.style.width = '80px';
+                    el.style.height = '40px';
+                }
+            });
+        }
+
+        // ── GAME 7: SẮP XẾP THỨ TỰ ──
+        let sortList = [];
+        function initGame7() {
+            document.getElementById('gh-question').textContent = `Hãy kéo thả sắp xếp khí hậu Mát dần từ Xích Đạo đến Hai Cực:`;
+            document.getElementById('sort-game-ui').style.display = 'block';
+
+            // Xáo trộn
+            sortList = [
+                { id: 'lanh', text: 'Đới lạnh' },
+                { id: 'on-hoa', text: 'Đới ôn hòa' },
+                { id: 'nong', text: 'Đới nóng' }
+            ].sort(() => Math.random() - 0.5);
+
+            renderSortUI();
+        }
+
+        function renderSortUI() {
+            const listEl = document.getElementById('sort-list');
+            listEl.innerHTML = '';
+            sortList.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'sort-item';
+                div.draggable = true;
+                div.textContent = item.text;
+                div.dataset.id = item.id;
+                div.dataset.index = index;
+
+                div.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', index);
+                });
+                div.addEventListener('dragover', e => e.preventDefault());
+                div.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+                    const toIndex = index;
+
+                    // Swap logic
+                    const temp = sortList[fromIndex];
+                    sortList.splice(fromIndex, 1);
+                    sortList.splice(toIndex, 0, temp);
+
+                    renderSortUI();
+                });
+
+                listEl.appendChild(div);
+            });
+        }
+
+        document.getElementById('btn-check-sort').addEventListener('click', () => {
+            // Đúng: Nóng (tại xích đạo) -> Ôn hòa -> Lạnh (tại cực)
+            const correctOrder = ['nong', 'on-hoa', 'lanh'];
+            let isCorrect = true;
+            sortList.forEach((item, i) => {
+                if (item.id !== correctOrder[i]) isCorrect = false;
+            });
+
+            if (isCorrect) {
+                showGameFeedback(true, 'Hoàn toàn chính xác! 10 điểm!');
+                document.getElementById('btn-check-sort').style.display = 'none';
+            } else {
+                showGameFeedback(false, 'Chưa đúng thứ tự rồi, hãy xếp Nóng trước, Lạnh cuối cùng nhé.');
+            }
+        });
+
+        // ── GAME 5: ĐẤU TRƯỜNG LỚP HỌC (TOURNAMENT) ──
+        let playerName = '';
+        let game5Questions = [];
+        let leaderBoard = [
+            { name: 'Lan', score: 40 },
+            { name: 'Huy', score: 50 },
+            { name: 'Minh', score: 30 }
+        ];
+
+        function initGame5() {
+            // Hiển thị khung nhập tên
+            document.getElementById('name-overlay').style.display = 'flex';
+            document.getElementById('player-name').value = '';
+            document.getElementById('player-name').focus();
+        }
+
+        document.getElementById('btn-start-tournament').addEventListener('click', () => {
+            const n = document.getElementById('player-name').value.trim();
+            if (!n) return alert('Em chưa nhập tên kìa!');
+            playerName = n;
+            document.getElementById('name-overlay').style.display = 'none';
+
+            // Trộn 5 câu từ Game 1, 2, 6
+            let pool = [
+                ...GAME_QUESTIONS_1.map(q => ({ type: 'click', ...q })),
+                ...GAME_QUESTIONS_6.map(q => ({ type: 'click', ...q }))
+            ];
+            // Thêm vài câu type 2 (Tìm đới)
+            ['lanh', 'on-hoa', 'nong'].forEach(z => {
+                pool.push({ type: 'find', q: `Hãy tìm ${CLIMATE_ZONES[z].name}`, target: z });
+            });
+
+            // Lấy 5 câu ngẫu nhiên
+            pool.sort(() => Math.random() - 0.5);
+            game5Questions = pool.slice(0, 5);
+
+            gameScore = 0;
+            gameQIndex = 0;
+            document.getElementById('gh-title').textContent = `Đấu trường của: ${playerName} (Câu 1/5)`;
+            nextQuestionMode5();
+        });
+
+        function nextQuestionMode5() {
+            if (gameQIndex >= 5) {
+                // Kết thúc game 5
+                document.getElementById('gh-question').textContent = `Chúc mừng ${playerName}! Em đạt ${gameScore} điểm.`;
+                leaderBoard.push({ name: playerName, score: gameScore });
+                showLeaderboard();
+                currentTargetZone = null;
+                return;
+            }
+
+            const q = game5Questions[gameQIndex++];
+            document.getElementById('gh-title').textContent = `Đấu trường của: ${playerName} (Câu ${gameQIndex}/5)`;
+            document.getElementById('gh-question').textContent = `❓ ${q.q}`;
+            currentTargetZone = q.target;
+        }
+
+        // Ghi đè logic handleGameClick một chút để hỗ trợ Game 5
+        const originHandleGameClick = handleGameClick;
+        handleGameClick = function (clickedZoneId) {
+            if (currentGame === 5) {
+                if (isWaitingNext) return;
+                let isCorrect = (clickedZoneId === currentTargetZone);
+
+                if (isCorrect) {
+                    showGameFeedback(true, `Tuyệt vời! +10 điểm`);
+                    gameScore += 10;
+                } else {
+                    showGameFeedback(false, `❌ Tiếc quá, sai mất rồi!`);
+                }
+
+                document.getElementById('game-score').textContent = gameScore;
+                isWaitingNext = true;
+                setTimeout(() => {
+                    isWaitingNext = false;
+                    document.getElementById('gh-feedback').style.display = 'none';
+                    nextQuestionMode5();
+                }, 1500);
+
+            } else {
+                originHandleGameClick(clickedZoneId);
+            }
+        };
+
+        function showLeaderboard() {
+            const overlay = document.getElementById('leaderboard-overlay');
+            const listEl = document.getElementById('lb-list');
+
+            // Xếp hạng giảm dần
+            leaderBoard.sort((a, b) => b.score - a.score);
+
+            listEl.innerHTML = '';
+            leaderBoard.forEach((p, idx) => {
+                const li = document.createElement('li');
+                let medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '👤';
+                li.innerHTML = `<span>${medal} ${p.name} ${p.name === playerName ? '(Em)' : ''}</span> <span>${p.score} điểm</span>`;
+                if (p.name === playerName) li.style.background = '#ffeaa7'; // Highlight
+                listEl.appendChild(li);
+            });
+
+            overlay.style.display = 'flex';
+        }
+
+        document.getElementById('btn-close-lb').addEventListener('click', () => {
+            document.getElementById('leaderboard-overlay').style.display = 'none';
+            quitGame();
+        });
+
+
+        // ── UI BUTTON BINDINGS ──
+        document.getElementById('btn-play-game').addEventListener('click', () => {
+            document.getElementById('game-menu-overlay').classList.add('show');
+            document.getElementById('info-panel').classList.remove('show');
+        });
+
+        document.getElementById('btn-close-menu').addEventListener('click', () => {
+            document.getElementById('game-menu-overlay').classList.remove('show');
+        });
+
+        document.getElementById('btn-quit-game').addEventListener('click', quitGame);
+
+        document.querySelectorAll('.game-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const gameId = parseInt(e.currentTarget.dataset.game);
+                startGame(gameId);
+            });
+        });
+
+        // ══ GIAO DIỆN BẢNG THÔNG TIN ═══════════════════════════════════
+        const infoPanel = document.getElementById('info-panel');
+        const ipHeader = document.getElementById('ip-header');
+        const ipEmoji = document.getElementById('ip-emoji');
+        const ipTitle = document.getElementById('ip-title');
+        const ipPosition = document.getElementById('info-position');
+        const ipFeatures = document.getElementById('info-features');
+        const btnClose = document.getElementById('btnClose');
+
+        function showInfoPanel(data) {
+            ipHeader.style.background = data.bgColor;
+            ipEmoji.textContent = data.emoji;
+            ipTitle.textContent = data.name;
+            ipPosition.textContent = data.position;
+
+            ipFeatures.innerHTML = '';
+            data.features.forEach(f => {
+                const li = document.createElement('li');
+                if (f.type === 'sub') li.className = 'sub-item';
+                li.textContent = f.text;
+                ipFeatures.appendChild(li);
+            });
+
+            infoPanel.classList.add('show');
+        }
+
+        btnClose.addEventListener('click', () => {
+            infoPanel.classList.remove('show');
+            activeZone = null;
+            // Trả lại opacity mặc định cho tất cả
+            zoneMeshes.forEach(m => m.material.opacity = 0.45);
+        });
+
+        // ══ AUTO ROTATE MANG TÍNH BIỂU DIỄN ════════════════════════════
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+
+            // Tự động xoay quanh trục Y của Quả Đất nếu ko bị thao tác
+            if (!activeZone) {
+                earthGroup.rotation.y += 0.002;
+            }
+
+            // Game 3: Cập nhật vị trí thả trên 2D
+            update2DDropZones();
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // ══ RESIZE WINDOW ══════════════════════════════════════════════
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

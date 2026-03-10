@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bản đồ Châu Lục & Đại Dương – Kéo Thả</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0d1b2a, #1b3050);
+            min-height: 100vh;
+            color: #fff;
+            user-select: none;
+        }
+
+        .header {
+            text-align: center;
+            padding: 14px 12px 8px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #FFD700;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #B3E5FC;
+            margin-top: 4px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            padding: 0 12px;
+        }
+
+        .score-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .score-pill span {
+            color: #FFD700;
+        }
+
+        #btnReset {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #F44336;
+            color: #EF9A9A;
+            padding: 5px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        #btnReset:hover {
+            background: rgba(244, 67, 54, 0.45);
+            color: #fff;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 0 10px 24px;
+        }
+
+        /* ── REAL MAP ── */
+        .map-wrapper {
+            position: relative;
+            flex: 1 1 0;
+            min-width: 0;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.18);
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* The SVG map displayed via inline SVG recolored */
+        #worldMap {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        #worldMap path {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: 0.5;
+        }
+
+        /* Color continents by group */
+        .grp-na path {
+            fill: #F28B82;
+        }
+
+        .grp-sa path {
+            fill: #F49E8A;
+        }
+
+        .grp-eu path {
+            fill: #B39DDB;
+        }
+
+        .grp-af path {
+            fill: #E8A055;
+        }
+
+        .grp-as path {
+            fill: #F5D060;
+        }
+
+        .grp-oc path {
+            fill: #72C99A;
+        }
+
+        .grp-an path {
+            fill: #90CAF9;
+        }
+
+        .grp-gl path {
+            fill: #F48FB1;
+        }
+
+        /* Ocean background override */
+        .map-wrapper {
+            background: #87CEEB;
+        }
+
+        /* ── DROP ZONES ── */
+        .drop-zone {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            font-size: 9px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.45);
+            text-align: center;
+            line-height: 1.2;
+            transition: all 0.22s;
+            pointer-events: all;
+        }
+
+        .drop-zone:hover {
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .drop-zone.over {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.18);
+            color: #FFD700;
+        }
+
+        /* Continent: zone box invisible — SVG paths glow instead */
+        .drop-zone.correct {
+            border: none;
+            background: transparent;
+            pointer-events: none;
+        }
+
+        /* Ocean: keep a subtle blue glow on the zone rectangle */
+        .drop-zone.ocean-correct {
+            border: 2px solid rgba(79, 195, 247, 0.7);
+            background: rgba(79, 195, 247, 0.07);
+            animation: oceanPulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        /* Per-continent glow classes — color matches the continent fill */
+        .glow-path {
+            stroke-width: 3.5 !important;
+            animation: strokeGlow var(--glow-color, #fff) 1.8s ease-in-out infinite !important;
+        }
+
+        /* North America – pink-red */
+        .glow-na {
+            stroke: #F28B82 !important;
+            stroke-width: 3.5 !important;
+            animation: glowNA 1.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes glowNA {
+            0% {
+                stroke-width: 1.5;
+            }
+
+            100% {
+                stroke-width: 4.5;
+            }
+        }
+
+        /* South America – salmon */
+        .glow-sa {
+            stroke: #F4A07A !important;
+            stroke-width: 3.5 !important;
+            animation: glowSA 1.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes glowSA {
+            0% {
+                stroke-width: 1.5;
+            }
+
+            100% {
+                stroke-width: 4.5;
+            }
+        }
+
+        /* Europe – purple */
+        .glow-eu {
+            stroke: #B39DDB !important;
+            stroke-width: 3.5 !important;
+            animation: glowEU 1.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes glowEU {
+            0% {
+                stroke-width: 1.5;
+            }
+
+            100% {
+                stroke-width: 4.5;
+            }
+        }
+
+        /* Africa – orange */
+        .glow-af {
+            stroke: #E8A055 !important;
+            stroke-width: 3.5 !important;
+            animation: glowAF 1.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes glowAF {
+            0% {
+                stroke-width: 1.5;
+            }
+
+            100% {
+                stroke-width: 4.5;
+            }
+        }
+
+        /* Asia – yellow */
+        .glow-as {
+            stroke: #F5D060 !important;
+            stroke-width: 3.5 !important;
+            animation: glowAS 1.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes glowAS {
+            0% {
+                stroke-width: 1.5;
+            }
+
+            100% {
+                stroke-width: 4.5;
+            }
+        }
+
+        /* Oceania – green */
+        .glow-oc {
+            stroke: #72C99A !important;
+            stroke-width: 3.5 !important;
+            animation: glowOC 1.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes glowOC {
+            0% {
+                stroke-width: 1.5;
+            }
+
+            100% {
+                stroke-width: 4.5;
+            }
+        }
+
+        /* Antarctica – light blue */
+        .glow-an {
+            stroke: #90CAF9 !important;
+            stroke-width: 3.5 !important;
+            animation: glowAN 1.5s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes glowAN {
+            0% {
+                stroke-width: 1.5;
+            }
+
+            100% {
+                stroke-width: 4.5;
+            }
+        }
+
+        @keyframes oceanPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 8px 3px rgba(79, 195, 247, 0.3);
+                border-color: rgba(79, 195, 247, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 0 22px 8px rgba(79, 195, 247, 0.6);
+                border-color: rgba(150, 230, 255, 1);
+            }
+        }
+
+        .drop-zone.wrong {
+            animation: shake 0.4s ease;
+            border-color: #F44336;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.95);
+            }
+
+            60% {
+                transform: scale(1.03);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-7px);
+            }
+
+            75% {
+                transform: translateX(7px);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-7px);
+            }
+
+            75% {
+                transform: translateX(7px);
+            }
+        }
+
+        .dz-label {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px 10px;
+            line-height: 1.3;
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 8px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+
+        .dz-label .name {
+            font-size: 11px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .dz-label .type {
+            font-size: 8px;
+            color: #B3E5FC;
+        }
+
+        /* ── PIECES PANEL (right side) ── */
+        .pieces-box {
+            width: 200px;
+            flex-shrink: 0;
+            align-self: stretch;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            border-radius: 12px;
+            padding: 14px 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pieces-box h3 {
+            font-size: 11px;
+            color: #B3E5FC;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pieces-row {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .piece {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: grab;
+            transition: all 0.2s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            width: 100%;
+        }
+
+        .piece:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        .piece.dragging {
+            opacity: 0.35;
+            transform: scale(0.9);
+        }
+
+        .piece.placed {
+            opacity: 0.25;
+            pointer-events: none;
+            text-decoration: line-through;
+        }
+
+        .piece[data-type="continent"] {
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(255, 255, 255, 0.28);
+            color: #fff;
+        }
+
+        .piece[data-type="ocean"] {
+            background: rgba(30, 100, 200, 0.25);
+            border: 2px solid rgba(79, 195, 247, 0.5);
+            color: #B3E5FC;
+        }
+
+        /* ── Complete Banner ── */
+        #completeBanner {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #completeBanner.show {
+            display: flex;
+        }
+
+        .banner-box {
+            background: linear-gradient(135deg, rgba(10, 25, 55, 0.98), rgba(20, 40, 80, 0.98));
+            border: 2px solid #FFD700;
+            border-radius: 20px;
+            padding: 32px 44px;
+            text-align: center;
+        }
+
+        .banner-box h2 {
+            font-size: 30px;
+            color: #FFD700;
+            margin-bottom: 8px;
+        }
+
+        .banner-box p {
+            font-size: 14px;
+            color: #B3E5FC;
+            margin-bottom: 22px;
+        }
+
+        .banner-box button {
+            background: #FFD700;
+            color: #000;
+            border: none;
+            padding: 11px 26px;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .banner-box button:hover {
+            background: #fff;
+        }
+
+        /* ── Toast ── */
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 25, 55, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 9px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 100;
+            display: none;
+            white-space: nowrap;
+        }
+
+        #toast.success {
+            border-color: #4CAF50;
+            color: #81C784;
+        }
+
+        #toast.error {
+            border-color: #F44336;
+            color: #EF9A9A;
+        }
+
+        .fact-box {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🌍 Châu Lục & Đại Dương</h1>
+        <p>Kéo tên châu lục / đại dương vào đúng vị trí trên bản đồ</p>
+    </div>
+
+    <div class="score-bar">
+        <div class="score-pill">✅ Đúng: <span id="scoreCorrect">0</span></div>
+        <div class="score-pill">❌ Sai: <span id="scoreWrong">0</span></div>
+        <div class="score-pill">📦 Còn: <span id="scoreLeft">11</span></div>
+        <button id="btnReset">🔄 Chơi lại</button>
+    </div>
+
+    <div class="game-area">
+
+        <!-- WORLD MAP WRAPPER -->
+        <div class="map-wrapper" id="mapWrapper">
+
+            <!-- Inline SVG loaded via JS below -->
+            <div id="svgContainer"></div>
+
+            <!-- ── DROP ZONES  ──
+             Positions in % (left, top, width, height) of the map container
+             Tuned for the amcharts Mercator projection:
+             leftLongitude="-169" topLatitude="83.6" rightLongitude="190" bottomLatitude="-58.5"
+             Total lon-span = 359.6°, lat-span = 142.1°
+        -->
+
+            <!-- Bắc Mỹ: lon -165 to -50, lat 15 to 75 -->
+            <div class="drop-zone" data-id="bac-my" style="left:1%;top:10%;width:23%;height:41%">
+                <div class="dz-label"><span class="name">🦅 Bắc Mỹ</span><span class="type">Châu lục</span></div>
+            </div>
+
+            <!-- Nam Mỹ: lon -82 to -34, lat -55 to 12 -->
+            <div class="drop-zone" data-id="nam-my" style="left:24%;top:52%;width:12%;height:36%">
+                <div class="dz-label"><span class="name">🌿 Nam Mỹ</span><span class="type">Châu lục</span></div>
+            </div>
+
+            <!-- Châu Âu: lon -10 to 40, lat 35 to 72 -->
+            <div class="drop-zone" data-id="chau-au" style="left:48%;top:22%;width:9%;height:25%">
+                <div class="dz-label"><span class="name">🏰 Châu Âu</span><span class="type">Châu lục</span></div>
+            </div>
+
+            <!-- Châu Phi: lon -18 to 52, lat -35 to 37 -->
+            <div class="drop-zone" data-id="chau-phi" style="left:44%;top:34%;width:11%;height:36%">
+                <div class="dz-label"><span class="name">🦁 Châu Phi</span><span class="type">Châu lục</span></div>
+            </div>
+
+            <!-- Châu Á: lon 24 to 155, lat 10 to 78 -->
+            <div class="drop-zone" data-id="chau-a" style="left:54%;top:8%;width:24%;height:48%">
+                <div class="dz-label"><span class="name">🌏 Châu Á</span><span class="type">Châu lục</span></div>
+            </div>
+
+            <!-- Châu Đại Dương: lon 110 to 180, lat -50 to 5 -->
+            <div class="drop-zone" data-id="chau-dai-duong" style="left:76%;top:55%;width:14%;height:26%">
+                <div class="dz-label"><span class="name">🦘 Châu Đại Dương</span><span class="type">Châu lục</span>
+                </div>
+            </div>
+
+            <!-- Châu Nam Cực: lon -180 to 180, lat -90 to -60 -->
+            <div class="drop-zone" data-id="chau-nam-cuc" style="left:8%;top:86%;width:80%;height:12%">
+                <div class="dz-label"><span class="name">🧊 Châu Nam Cực</span><span class="type">Châu lục</span></div>
+            </div>
+
+            <!-- Thái Bình Dương (tây): lon -180 to -90, lat -10 to 60 -->
+            <div class="drop-zone" data-id="thai-binh-duong" style="left:0%;top:12%;width:10%;height:42%">
+                <div class="dz-label"><span class="name">🌊 Thái Bình<br>Dương</span><span class="type">Đại dương</span>
+                </div>
+            </div>
+
+            <!-- Đại Tây Dương: lon -50 to -8, lat -50 to 65 -->
+            <div class="drop-zone" data-id="dai-tay-duong" style="left:34%;top:20%;width:9%;height:50%">
+                <div class="dz-label"><span class="name">🌊 Đại Tây<br>Dương</span><span class="type">Đại dương</span>
+                </div>
+            </div>
+
+            <!-- Ấn Độ Dương: lon 40 to 110, lat -60 to 25 -->
+            <div class="drop-zone" data-id="an-do-duong" style="left:58%;top:55%;width:14%;height:26%">
+                <div class="dz-label"><span class="name">🌊 Ấn Độ Dương</span><span class="type">Đại dương</span></div>
+            </div>
+
+            <!-- Bắc Băng Dương: lon -180 to 180, lat 66 to 90 -->
+            <div class="drop-zone" data-id="bac-bang-duong" style="left:28%;top:0%;width:38%;height:9%">
+                <div class="dz-label"><span class="name">❄ Bắc Băng Dương</span><span class="type">Đại dương</span>
+                </div>
+            </div>
+
+        </div><!-- END MAP WRAPPER -->
+
+        <!-- DRAGGABLE PIECES -->
+        <div class="pieces-box">
+            <h3>🏷 Kéo tên vào đúng vị trí trên bản đồ:</h3>
+            <div class="pieces-row" id="piecesRow">
+                <div class="piece" data-type="continent" data-id="chau-a" draggable="true">🌏 Châu Á</div>
+                <div class="piece" data-type="continent" data-id="chau-au" draggable="true">🏰 Châu Âu</div>
+                <div class="piece" data-type="continent" data-id="chau-phi" draggable="true">🦁 Châu Phi</div>
+                <div class="piece" data-type="continent" data-id="bac-my" draggable="true">🦅 Bắc Mỹ</div>
+                <div class="piece" data-type="continent" data-id="nam-my" draggable="true">🌿 Nam Mỹ</div>
+                <div class="piece" data-type="continent" data-id="chau-dai-duong" draggable="true">🦘 Châu Đại Dương
+                </div>
+                <div class="piece" data-type="continent" data-id="chau-nam-cuc" draggable="true">🧊 Châu Nam Cực</div>
+                <div class="piece" data-type="ocean" data-id="thai-binh-duong" draggable="true">🌊 Thái Bình Dương</div>
+                <div class="piece" data-type="ocean" data-id="dai-tay-duong" draggable="true">🌊 Đại Tây Dương</div>
+                <div class="piece" data-type="ocean" data-id="an-do-duong" draggable="true">🌊 Ấn Độ Dương</div>
+                <div class="piece" data-type="ocean" data-id="bac-bang-duong" draggable="true">❄ Bắc Băng Dương</div>
+            </div>
+        </div>
+
+        <div class="fact-box">
+            💡 Trái Đất có <b>6 châu lục</b> và <b>4 đại dương.</b>
+            Châu Á là lớn nhất • Thái Bình Dương là đại dương lớn nhất •
+            <b>Việt Nam</b> thuộc Châu Á, giáp Biển Đông (Thái Bình Dương).
+        </div>
+    </div>
+
+    <div id="completeBanner">
+        <div class="banner-box">
+            <h2>🎉 Xuất sắc!</h2>
+            <p id="bannerMsg">Hoàn thành bản đồ!</p>
+            <button onclick="resetGame()">🔄 Chơi lại</button>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        // ── Load the real SVG map and color continents ─────────────
+        const CONTINENT_COLORS = {
+            // North America (pink-red)
+            na: { ids: ['US', 'CA', 'MX', 'GL', 'BZ', 'GT', 'HN', 'SV', 'NI', 'CR', 'PA', 'CU', 'JM', 'HT', 'DO', 'PR', 'TT', 'BS', 'BB', 'LC', 'VC', 'GD', 'AG', 'DM', 'KN', 'AI', 'MS', 'VG', 'VI', 'AW', 'CW', 'BQ', 'KY', 'TC', 'BM', 'PM', 'MF', 'BL', 'GP', 'MQ', 'GU', 'MP'], fill: '#F28B82' },
+            // South America (salmon)
+            sa: { ids: ['BR', 'CO', 'VE', 'GY', 'SR', 'EC', 'PE', 'BO', 'PY', 'UY', 'AR', 'CL', 'FK', 'GF'], fill: '#F4A07A' },
+            // Europe (purple)
+            eu: { ids: ['NO', 'SE', 'FI', 'IS', 'GB', 'IE', 'FR', 'BE', 'NL', 'LU', 'DE', 'CH', 'AT', 'PT', 'ES', 'IT', 'GR', 'DK', 'PL', 'CZ', 'SK', 'HU', 'RO', 'BG', 'HR', 'BA', 'RS', 'ME', 'AL', 'MK', 'SI', 'LT', 'LV', 'EE', 'BY', 'UA', 'MD', 'AD', 'LI', 'SM', 'VA', 'MC', 'MT', 'CY', 'XK'], fill: '#B39DDB' },
+            // Africa (orange)
+            af: { ids: ['DZ', 'EG', 'LY', 'MA', 'TN', 'EH', 'MR', 'ML', 'NE', 'TD', 'SD', 'ER', 'ET', 'DJ', 'SO', 'MG', 'KE', 'UG', 'RW', 'BI', 'TZ', 'MW', 'MZ', 'ZM', 'ZW', 'BW', 'NA', 'ZA', 'LS', 'SZ', 'AO', 'CD', 'CG', 'CF', 'GN', 'GW', 'SL', 'LR', 'CI', 'GH', 'BF', 'BJ', 'TG', 'NG', 'CM', 'GA', 'GQ', 'ST', 'CV', 'KM', 'SC', 'MU', 'RE', 'YT', 'SS', 'SH'], fill: '#E8A055' },
+            // Asia (yellow)
+            as: { ids: ['RU', 'CN', 'JP', 'KR', 'KP', 'MN', 'IN', 'PK', 'AF', 'IR', 'IQ', 'SA', 'YE', 'OM', 'AE', 'QA', 'KW', 'BH', 'JO', 'SY', 'LB', 'IL', 'PS', 'KZ', 'UZ', 'TM', 'TJ', 'KG', 'BD', 'LK', 'MM', 'TH', 'LA', 'VN', 'KH', 'MY', 'SG', 'ID', 'PH', 'TW', 'HK', 'MO', 'NP', 'BT', 'BN', 'TL', 'TR', 'GE', 'AM', 'AZ'], fill: '#F5D060' },
+            // Oceania (green)
+            oc: { ids: ['AU', 'NZ', 'PG', 'FJ', 'SB', 'VU', 'WS', 'TO', 'FM', 'PW', 'MH', 'KI', 'NR', 'TV', 'CK', 'NU', 'PF', 'NC'], fill: '#72C99A' },
+            // Antarctica
+            an: { ids: ['AQ', 'TF', 'GS', 'BV', 'HM'], fill: '#90CAF9' }
+        };
+
+        // Build lookup: country code → fill color
+        const countryFill = {};
+        Object.values(CONTINENT_COLORS).forEach(group => {
+            group.ids.forEach(id => { countryFill[id] = group.fill; });
+        });
+
+        // Fetch and inline the SVG
+        fetch('worldHigh.svg')
+            .then(r => r.text())
+            .then(svgText => {
+                const container = document.getElementById('svgContainer');
+                container.innerHTML = svgText;
+                const svg = container.querySelector('svg');
+                if (!svg) return;
+                svg.id = 'worldMap';
+                // Set viewBox so the SVG scales properly (amcharts coordinate space)
+                svg.setAttribute('viewBox', '0 0 1010 780');
+                svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+                svg.style.display = 'block';
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+
+                // Color each country path
+                svg.querySelectorAll('path[id]').forEach(path => {
+                    const id = path.getAttribute('id');
+                    const fill = countryFill[id];
+                    if (fill) {
+                        path.style.fill = fill;
+                    } else {
+                        path.style.fill = '#B0C4DE'; // unassigned countries (light blue-gray)
+                    }
+                    path.style.stroke = '#fff';
+                    path.style.strokeWidth = '0.5';
+                });
+            })
+            .catch(() => {
+                // Fallback: show simple colored map if SVG can't be loaded
+                document.getElementById('svgContainer').innerHTML =
+                    '<div style="background:#87CEEB;height:500px;display:flex;align-items:center;justify-content:center;color:#333;font-size:16px">Không tải được bản đồ. Hãy đảm bảo file worldHigh.svg nằm cùng thư mục.</div>';
+            });
+
+        // ── GAME LOGIC ──────────────────────────────────────────────
+        const TOTAL = 11;
+        let scoreCorrect = 0, scoreWrong = 0, dragId = null;
+
+        // Desktop drag
+        document.querySelectorAll('.piece').forEach(piece => {
+            piece.addEventListener('dragstart', e => {
+                dragId = piece.dataset.id;
+                piece.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+            piece.addEventListener('dragend', () => piece.classList.remove('dragging'));
+        });
+
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+            zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+            zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('over'); handleDrop(zone); });
+        });
+
+        // Touch support
+        let activePiece = null, touchClone = null;
+
+        document.querySelectorAll('.piece').forEach(piece => {
+            piece.addEventListener('touchstart', e => {
+                if (piece.classList.contains('placed')) return;
+                activePiece = piece;
+                dragId = piece.dataset.id;
+                const r = piece.getBoundingClientRect();
+                touchClone = piece.cloneNode(true);
+                Object.assign(touchClone.style, {
+                    position: 'fixed', zIndex: 999, opacity: 0.9,
+                    pointerEvents: 'none', left: r.left + 'px', top: r.top + 'px', transform: 'scale(1.06)'
+                });
+                document.body.appendChild(touchClone);
+            }, { passive: true });
+
+            piece.addEventListener('touchmove', e => {
+                if (!touchClone) return;
+                e.preventDefault();
+                const t = e.touches[0];
+                touchClone.style.left = (t.clientX - 45) + 'px';
+                touchClone.style.top = (t.clientY - 18) + 'px';
+                document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('over'));
+                const el = document.elementFromPoint(t.clientX, t.clientY);
+                if (el && el.classList.contains('drop-zone')) el.classList.add('over');
+            }, { passive: false });
+
+            piece.addEventListener('touchend', e => {
+                if (touchClone) { touchClone.remove(); touchClone = null; }
+                document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('over'));
+                const t = e.changedTouches[0];
+                const el = document.elementFromPoint(t.clientX, t.clientY);
+                if (el && el.classList.contains('drop-zone')) handleDrop(el);
+                activePiece = null;
+            });
+        });
+
+        // Map drop-zone ID → continent group key in CONTINENT_COLORS
+        const ZONE_TO_GROUP = {
+            'chau-a': 'as',
+            'chau-au': 'eu',
+            'chau-phi': 'af',
+            'bac-my': 'na',
+            'nam-my': 'sa',
+            'chau-dai-duong': 'oc',
+            'chau-nam-cuc': 'an'
+            // oceans have no SVG paths — handled by zone class
+        };
+
+        // Add glowing stroke to all country paths of a continent (color-matched)
+        function highlightContinent(zoneId) {
+            const group = ZONE_TO_GROUP[zoneId];
+            if (!group) return; // ocean — no paths to highlight
+            const ids = CONTINENT_COLORS[group].ids;
+            const svg = document.getElementById('worldMap');
+            if (!svg) return;
+            ids.forEach(id => {
+                const path = svg.querySelector(`[id="${id}"]`);
+                if (path) path.classList.add('glow-' + group); // e.g. glow-as, glow-eu
+            });
+        }
+
+        // Remove all glow paths (for reset)
+        function clearContinentGlow() {
+            ['na', 'sa', 'eu', 'af', 'as', 'oc', 'an'].forEach(g => {
+                document.querySelectorAll('.glow-' + g).forEach(p => p.classList.remove('glow-' + g));
+            });
+        }
+
+        function handleDrop(zone) {
+            if (!dragId || zone.classList.contains('correct')) return;
+            const zoneId = zone.dataset.id;
+
+            if (dragId === zoneId) {
+                zone.classList.add('correct');
+                // Oceans: keep glowing zone border; Continents: highlight SVG paths
+                if (ZONE_TO_GROUP[zoneId]) {
+                    highlightContinent(zoneId);
+                } else {
+                    zone.classList.add('ocean-correct');
+                }
+                zone.querySelector('.dz-label').style.display = 'flex';
+                document.querySelector(`.piece[data-id="${dragId}"]`)?.classList.add('placed');
+                scoreCorrect++;
+                updateScore();
+                showToast('✅ Chính xác!', 'success');
+                if (scoreCorrect === TOTAL) {
+                    setTimeout(() => {
+                        document.getElementById('bannerMsg').textContent =
+                            `Đúng ${scoreCorrect}/${TOTAL} – Sai ${scoreWrong} lần!`;
+                        document.getElementById('completeBanner').classList.add('show');
+                    }, 500);
+                }
+            } else {
+                zone.classList.add('wrong');
+                setTimeout(() => zone.classList.remove('wrong'), 500);
+                scoreWrong++;
+                updateScore();
+                showToast('❌ Sai vị trí! Thử lại nhé.', 'error');
+            }
+            dragId = null;
+        }
+
+        function updateScore() {
+            document.getElementById('scoreCorrect').textContent = scoreCorrect;
+            document.getElementById('scoreWrong').textContent = scoreWrong;
+            document.getElementById('scoreLeft').textContent = TOTAL - scoreCorrect;
+        }
+
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.className = type; t.style.display = 'block';
+            clearTimeout(t._t);
+            t._t = setTimeout(() => t.style.display = 'none', 2000);
+        }
+
+        function resetGame() {
+            scoreCorrect = 0; scoreWrong = 0; dragId = null;
+            updateScore();
+            clearContinentGlow();
+            document.getElementById('completeBanner').classList.remove('show');
+            document.querySelectorAll('.drop-zone').forEach(z => {
+                z.className = 'drop-zone';
+                z.querySelector('.dz-label').style.display = 'none';
+            });
+            document.querySelectorAll('.piece').forEach(p => p.classList.remove('placed'));
+        }
+
+        document.getElementById('btnReset').addEventListener('click', resetGame);
+    </script>
+</body>
+
+</html>
