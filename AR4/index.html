@@ -62,7 +62,7 @@
             top: 50%;
             right: 40px;
             transform: translateY(-50%) translateX(120%);
-            width: 360px;
+            width: 520px;
             background: #ffffff;
             border-radius: 16px;
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
@@ -600,6 +600,29 @@
             transform: scale(1.05);
         }
 
+        .g8-btn {
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform .15s, box-shadow .15s;
+            flex: 1;
+        }
+
+        .g8-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .2);
+        }
+
+        .g8-btn:disabled {
+            opacity: .55;
+            cursor: default;
+            transform: none;
+        }
+
         canvas {
             display: block;
         }
@@ -620,6 +643,11 @@
             <button class="btn-close" id="btnClose">✕</button>
         </div>
         <div class="ip-body">
+            <img id="ip-zone-img" src="" alt="" style="
+                width:100%; max-height:240px; object-fit:cover;
+                border-radius:10px; margin-bottom:14px;
+                display:none; box-shadow:0 4px 12px rgba(0,0,0,.15);
+            ">
             <div class="info-section">
                 <h3><i>📍</i> Vị trí:</h3>
                 <div id="info-position">Gần cực Bắc và cực Nam</div>
@@ -752,7 +780,69 @@
                         <p>Cực -> Xích Đạo</p>
                     </div>
                 </button>
+                <button class="game-btn" data-game="8">
+                    <span class="icon">🖼️</span>
+                    <div class="texts">
+                        <h3>8. Nhận Biết Ảnh Đới</h3>
+                        <p>Xem ảnh – chọn đới khí hậu cho đúng</p>
+                    </div>
+                </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Game 8: Trắc Nghiệm Ảnh -->
+    <div id="g8-overlay" style="
+        display:none; position:fixed; inset:0;
+        background:rgba(0,0,0,.82); z-index:200;
+        justify-content:center; align-items:center;
+        flex-direction:column; gap:0;
+    ">
+        <div id="g8-box" style="
+            background:#fff; border-radius:24px;
+            padding:32px 36px; max-width:560px; width:90%;
+            text-align:center; position:relative;
+            box-shadow:0 24px 60px rgba(0,0,0,.4);
+        ">
+            <!-- Progress -->
+            <div style="font-size:13px;color:#888;margin-bottom:10px" id="g8-progress">Câu 1 / 6</div>
+            <!-- Question -->
+            <p style="font-weight:700;color:#1a237e;font-size:16px;margin-bottom:14px" id="g8-question">
+                Ảnh này thuộc đới khí hậu nào?
+            </p>
+            <!-- Image -->
+            <img id="g8-img" src="" alt="" style="
+                width:100%; max-height:260px; object-fit:cover;
+                border-radius:14px; margin-bottom:20px;
+                box-shadow:0 6px 20px rgba(0,0,0,.2);
+            ">
+            <!-- Feedback -->
+            <div id="g8-feedback" style="
+                font-size:15px; font-weight:700; padding:8px 16px;
+                border-radius:10px; margin-bottom:14px;
+                display:none;
+            "></div>
+            <!-- Answer buttons -->
+            <div style="display:flex;gap:12px;justify-content:center" id="g8-answers">
+                <button class="g8-btn" data-id="lanh" style="background:#64B5F6">❄️ Đới lạnh</button>
+                <button class="g8-btn" data-id="on-hoa" style="background:#81C784">🌸 Đới ôn hòa</button>
+                <button class="g8-btn" data-id="nong" style="background:#FFB74D">☀️ Đới nóng</button>
+            </div>
+            <!-- Next button -->
+            <button id="g8-next" style="
+                display:none; margin-top:16px;
+                background:#1a237e; color:#fff;
+                border:none; padding:10px 28px;
+                border-radius:12px; font-weight:700;
+                cursor:pointer; font-size:15px;
+            ">Câu tiếp theo ➡️</button>
+            <!-- Close -->
+            <button onclick="closeGame8()" style="
+                position:absolute; top:14px; right:16px;
+                background:#eee; border:none; border-radius:50%;
+                width:32px; height:32px; font-size:16px;
+                cursor:pointer;
+            ">✕</button>
         </div>
     </div>
 
@@ -779,8 +869,9 @@
                 id: 'lanh',
                 name: 'Đới lạnh',
                 emoji: '❄️',
-                bgColor: '#64B5F6', // Xanh dương (Blue)
+                bgColor: '#64B5F6',
                 colorHex: 0x64B5F6,
+                image: 'image/lanh.png',
                 position: 'Gần Cực Bắc và Cực Nam',
                 features: [
                     { type: 'main', text: 'Rất lạnh quanh năm ❄️' },
@@ -792,8 +883,9 @@
                 id: 'on-hoa',
                 name: 'Đới ôn hòa',
                 emoji: '🌸',
-                bgColor: '#81C784', // Xanh lá cây (Green)
+                bgColor: '#81C784',
                 colorHex: 0x81C784,
+                image: 'image/onhoa.png',
                 position: 'Nằm giữa đới nóng và đới lạnh',
                 features: [
                     { type: 'main', text: 'Khí hậu không quá nóng, không quá lạnh' },
@@ -808,8 +900,9 @@
                 id: 'nong',
                 name: 'Đới nóng',
                 emoji: '☀️',
-                bgColor: '#FFB74D', // Cam (Orange)
+                bgColor: '#FFB74D',
                 colorHex: 0xFFB74D,
+                image: 'image/nong.png',
                 position: 'Nằm quanh đường Xích đạo',
                 features: [
                     { type: 'main', text: 'Nóng quanh năm ☀️' },
@@ -1562,6 +1655,16 @@
             ipTitle.textContent = data.name;
             ipPosition.textContent = data.position;
 
+            // Hiển thị ảnh minh hoạ đới khí hậu
+            const ipImg = document.getElementById('ip-zone-img');
+            if (data.image) {
+                ipImg.src = data.image;
+                ipImg.alt = data.name;
+                ipImg.style.display = 'block';
+            } else {
+                ipImg.style.display = 'none';
+            }
+
             ipFeatures.innerHTML = '';
             data.features.forEach(f => {
                 const li = document.createElement('li');
@@ -1605,6 +1708,90 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
+    </script>
+
+    <!-- ══ GAME 8: TRẮC NGHIỆM ẢNH ══ -->
+    <script>
+        var G8_CARDS = [
+            { img: 'image/tracnghiem/image.png', answer: 'nong' },
+            { img: 'image/tracnghiem/image copy.png', answer: 'lanh' },
+            { img: 'image/tracnghiem/image copy 2.png', answer: 'lanh' },
+            { img: 'image/tracnghiem/image copy 3.png', answer: 'on-hoa' },
+            { img: 'image/tracnghiem/image copy 4.png', answer: 'nong' },
+            { img: 'image/tracnghiem/image copy 5.png', answer: 'on-hoa' }
+        ];
+        var g8Index = 0, g8Score = 0, g8Cards = [];
+
+        function openGame8() {
+            g8Cards = G8_CARDS.slice().sort(function () { return Math.random() - .5; });
+            g8Index = 0; g8Score = 0;
+            document.getElementById('g8-img').style.display = 'block';
+            document.getElementById('g8-answers').style.display = 'flex';
+            document.getElementById('g8-overlay').style.display = 'flex';
+            document.getElementById('game-menu-overlay').classList.remove('show');
+            g8ShowCard();
+        }
+
+        function g8ShowCard() {
+            var card = g8Cards[g8Index];
+            document.getElementById('g8-progress').textContent = 'Câu ' + (g8Index + 1) + ' / ' + g8Cards.length;
+            document.getElementById('g8-question').textContent = 'Ảnh này thuộc đới khí hậu nào?';
+            document.getElementById('g8-img').src = card.img;
+            document.getElementById('g8-feedback').style.display = 'none';
+            document.getElementById('g8-next').style.display = 'none';
+            document.querySelectorAll('.g8-btn').forEach(function (b) { b.disabled = false; b.style.outline = ''; });
+        }
+
+        document.querySelectorAll('.g8-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var chosen = this.dataset.id;
+                var correct = g8Cards[g8Index].answer;
+                var fb = document.getElementById('g8-feedback');
+                document.querySelectorAll('.g8-btn').forEach(function (b) { b.disabled = true; });
+                if (chosen === correct) {
+                    g8Score++;
+                    fb.textContent = '✅ Chính xác! +1 điểm';
+                    fb.style.background = '#e8f5e9'; fb.style.color = '#2e7d32';
+                    this.style.outline = '3px solid #2e7d32';
+                } else {
+                    var names = { 'lanh': 'Đới lạnh ❄️', 'on-hoa': 'Đới ôn hòa 🌸', 'nong': 'Đới nóng ☀️' };
+                    fb.textContent = '❌ Chưa đúng! Đáp án: ' + names[correct];
+                    fb.style.background = '#ffebee'; fb.style.color = '#c62828';
+                    document.querySelector('.g8-btn[data-id="' + correct + '"]').style.outline = '3px solid #2e7d32';
+                }
+                fb.style.display = 'block';
+                var nxt = document.getElementById('g8-next');
+                nxt.textContent = g8Index < g8Cards.length - 1 ? 'Câu tiếp theo ➡️' : '🏁 Xem kết quả';
+                nxt.style.display = 'inline-block';
+            });
+        });
+
+        document.getElementById('g8-next').addEventListener('click', function () {
+            g8Index++;
+            if (g8Index < g8Cards.length) {
+                g8ShowCard();
+            } else {
+                var pct = Math.round(g8Score / g8Cards.length * 100);
+                var emoji = pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '📚';
+                document.getElementById('g8-question').textContent = emoji + ' Kết quả: ' + g8Score + '/' + g8Cards.length + ' câu đúng (' + pct + '%)';
+                document.getElementById('g8-img').style.display = 'none';
+                document.getElementById('g8-feedback').style.display = 'none';
+                document.getElementById('g8-answers').style.display = 'none';
+                document.getElementById('g8-next').style.display = 'none';
+                document.getElementById('g8-progress').textContent = 'Hoàn thành! 🎉';
+            }
+        });
+
+        function closeGame8() {
+            document.getElementById('g8-overlay').style.display = 'none';
+            document.getElementById('g8-img').style.display = 'block';
+            document.getElementById('g8-answers').style.display = 'flex';
+        }
+
+        // Wire Game 8 menu button
+        document.querySelectorAll('.game-btn[data-game="8"]').forEach(function (btn) {
+            btn.addEventListener('click', openGame8);
+        });
     </script>
 </body>
 
