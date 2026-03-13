@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <!--
 	Massively by HTML5 UP
 	html5up.net | @ajlkn
@@ -285,9 +285,7 @@
 		<!-- Nav -->
 		<nav id="nav">
 			<ul class="links">
-				<li class="active"><a href="index.html">Trang chủ</a></li>
-				<li><a href="#hls">Học Liệu Số</a></li>
-				<li><a href="#modules">Các Mô-đun</a></li>
+				<li class="active"><a href="index.html">HỌC LIỆU SỐ AR &ndash; TỰ NHIÊN VÀ XÃ HỘI LỚP 3</a></li>
 			</ul>
 			<ul class="icons">
 				<li><span style="font-size:1.1em;opacity:0.6;">ĐHSP · Đà Nẵng</span></li>
@@ -297,49 +295,66 @@
 		<!-- Main -->
 		<div id="main">
 
-			<!-- Featured Post: Giới thiệu HLS -->
-			<article class="post featured" id="hls">
-				<header class="major">
-					<span class="date">Học Liệu Số · 2025–2026</span>
-					<h2><a href="#">Hệ Thống Học Liệu Số<br />
-							Khoa Học Tự Nhiên</a></h2>
-					<p>Theo <strong>Thông tư 21/2017/TT-BGDĐT</strong>, học liệu số (HLS) là tập hợp các
-						phương tiện điện tử phục vụ dạy và học — bao gồm bài giảng điện tử,
-						<strong>thí nghiệm mô phỏng</strong>, phần mềm dạy học và các học liệu được số hóa
-						khác.<br /><br />
-						Bộ HLS này thuộc nhóm <em>Thí nghiệm mô phỏng &amp; ứng dụng tương tác 3D</em>,
-						sử dụng công nghệ <strong>Three.js / WebGL</strong> chạy trực tiếp trên trình duyệt,
-						không cần cài đặt phần mềm.
-					</p>
-				</header>
-				<div style="text-align:center;padding:2.5em 0 2em;">
-					<img src="images/logo.png" alt="Logo ĐHSP Đà Nẵng" style="width:220px;height:220px;border-radius:50%;object-fit:cover;
-						        border:4px solid rgba(180,130,20,0.5);
-						        box-shadow:0 0 50px rgba(180,130,20,0.35),0 0 100px rgba(180,130,20,0.12);
-						        display:inline-block;" onerror="this.outerHTML='<div style=font-size:8em>🎓</div>'">
+			<!-- 3 Ô Lớn - đặt trên cùng -->
+			<article class="post featured" id="tong-quan" style="padding:2.5em 2em 2em;">
+				<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.8em;max-width:960px;margin:0 auto;">
+
+					<!-- Ô 1: Bài học tương tác -->
+					<div onclick="showSection('bai-hoc')"
+						style="background:#f5f5f5;border:2px solid #ccc;border-radius:14px;padding:2em 1.4em;text-align:center;cursor:pointer;transition:box-shadow .2s;"
+						onmouseover="this.style.boxShadow='0 6px 24px rgba(0,0,0,.13)'"
+						onmouseout="this.style.boxShadow='none'">
+						<div style="font-size:2.4em;margin-bottom:.4em;">📖</div>
+						<h3 style="margin-bottom:.7em;font-size:1.05em;">Bài học tương tác</h3>
+						<p style="font-size:0.84em;line-height:1.8;text-align:left;">Cung cấp nội dung bài học dưới dạng
+							các hoạt động tương tác giúp học sinh quan sát, khám phá và tìm hiểu kiến thức một cách trực
+							quan, đồng thời tham gia trả lời câu hỏi liên quan đến nội dung bài học.</p>
+					</div>
+
+					<!-- Ô 2: Luyện tập -->
+					<div onclick="showSection('luyen-tap')"
+						style="background:#f5f5f5;border:2px solid #ccc;border-radius:14px;padding:2em 1.4em;text-align:center;cursor:pointer;transition:box-shadow .2s;"
+						onmouseover="this.style.boxShadow='0 6px 24px rgba(0,0,0,.13)'"
+						onmouseout="this.style.boxShadow='none'">
+						<div style="font-size:2.4em;margin-bottom:.4em;">📝</div>
+						<h3 style="margin-bottom:.7em;font-size:1.05em;">Luyện tập</h3>
+						<p style="font-size:0.84em;line-height:1.8;text-align:left;">Cung cấp bài tập giúp học sinh củng
+							cố kiến thức đã học và tự đánh giá mức độ hiểu bài. Thông qua các câu hỏi, học sinh được rèn
+							luyện và phát triển năng lực nhận thức khoa học.</p>
+					</div>
+
+					<!-- Ô 3: Ôn tập chủ đề -->
+					<div onclick="showSection('on-tap')"
+						style="background:#f5f5f5;border:2px solid #ccc;border-radius:14px;padding:2em 1.4em;text-align:center;cursor:pointer;transition:box-shadow .2s;"
+						onmouseover="this.style.boxShadow='0 6px 24px rgba(0,0,0,.13)'"
+						onmouseout="this.style.boxShadow='none'">
+						<div style="font-size:2.4em;margin-bottom:.4em;">🌟</div>
+						<h3 style="margin-bottom:.7em;font-size:1.05em;">Ôn tập chủ đề</h3>
+						<p style="font-size:0.84em;line-height:1.8;text-align:left;">Giúp học sinh hệ thống lại những
+							kiến thức chính của chủ đề và củng cố hiểu biết thường qua chủ đề về Trái Đất và bầu trời.
+						</p>
+					</div>
+
 				</div>
-				<ul class="actions special">
-					<li><a href="../AR1/index.html" class="button large">☀️ Bắt đầu học ngay</a></li>
-				</ul>
 			</article>
 
-			<!-- Posts: 4 module + info -->
-			<section class="posts" id="modules">
+			<!-- Posts: 4 module Bài Học Tương Tác (ẩn mặc định) -->
+			<section class="posts" id="bai-hoc" style="display:none;">
 
 				<!-- AR1 -->
 				<article>
 					<header>
 						<span class="date">Mô-đun 01 · AR1</span>
-						<h2><a href="../AR1/index.html">Chuyển Động<br />Mặt Trời</a></h2>
+						<h2><a href="../../AR1/index.html">Chuyển Động<br />Mặt Trời</a></h2>
 					</header>
-					<a href="../AR1/index.html" class="image fit">
+					<a href="../../AR1/index.html" class="image fit">
 						<img src="images/ar1.jpg" alt="AR1 – Chuyển Động Mặt Trời" />
 					</a>
 					<div class="badge">Thiên văn học</div>
 					<p>Mô phỏng quỹ đạo Mặt Trời theo mùa trong năm. Quan sát góc cao, bóng nắng,
 						pha ngày đêm theo thời gian thực bằng đồ hoạ 3D tương tác.</p>
 					<ul class="actions special">
-						<li><a href="../AR1/index.html" class="button">Vào học →</a></li>
+						<li><a href="../../AR1/index.html" class="button">Vào học →</a></li>
 					</ul>
 				</article>
 
@@ -347,16 +362,16 @@
 				<article>
 					<header>
 						<span class="date">Mô-đun 02 · AR2</span>
-						<h2><a href="../AR2/index.html">Hệ Mặt Trời<br />3D Tương Tác</a></h2>
+						<h2><a href="../../AR2/index.html">Hệ Mặt Trời<br />3D Tương Tác</a></h2>
 					</header>
-					<a href="../AR2/index.html" class="image fit">
+					<a href="../../AR2/index.html" class="image fit">
 						<img src="images/ar2.jpg" alt="AR2 – Hệ Mặt Trời 3D" />
 					</a>
 					<div class="badge">Thiên văn học</div>
 					<p>Mô phỏng 8 hành tinh quỹ đạo quanh Mặt Trời với tốc độ, khoảng cách và tỉ lệ
 						thực tế trong không gian 3D — xoay, zoom tự do.</p>
 					<ul class="actions special">
-						<li><a href="../AR2/index.html" class="button">Vào học →</a></li>
+						<li><a href="../../AR2/index.html" class="button">Vào học →</a></li>
 					</ul>
 				</article>
 
@@ -364,16 +379,16 @@
 				<article>
 					<header>
 						<span class="date">Mô-đun 03 · AR3</span>
-						<h2><a href="../AR3/index.html">Bản Đồ Châu Lục<br />&amp; Đại Dương</a></h2>
+						<h2><a href="../../AR3/index.html">Bản Đồ Châu Lục<br />&amp; Đại Dương</a></h2>
 					</header>
-					<a href="../AR3/index.html" class="image fit">
+					<a href="../../AR3/index.html" class="image fit">
 						<img src="images/ar3.jpg" alt="AR3 – Bản Đồ Châu Lục" />
 					</a>
 					<div class="badge">Địa lý học</div>
 					<p>Trò chơi kéo thả nhận dạng châu lục, đại dương trên bản đồ thế giới tương tác.
 						Học bằng cách chơi — phản hồi tức thì sau mỗi câu trả lời.</p>
 					<ul class="actions special">
-						<li><a href="../AR3/index.html" class="button">Vào học →</a></li>
+						<li><a href="../../AR3/index.html" class="button">Vào học →</a></li>
 					</ul>
 				</article>
 
@@ -381,16 +396,16 @@
 				<article>
 					<header>
 						<span class="date">Mô-đun 04 · AR4</span>
-						<h2><a href="../AR4/index.html">Đới Khí Hậu<br />Trái Đất</a></h2>
+						<h2><a href="../../AR4/index.html">Đới Khí Hậu<br />Trái Đất</a></h2>
 					</header>
-					<a href="../AR4/index.html" class="image fit">
+					<a href="../../AR4/index.html" class="image fit">
 						<img src="images/ar4.jpg" alt="AR4 – Đới Khí Hậu Trái Đất" />
 					</a>
 					<div class="badge">Địa lý học</div>
 					<p>Phân bố 5 đới khí hậu trên Địa Cầu 3D tương tác. Tích hợp hệ thống câu hỏi
 						kiểm tra kiến thức và mini-game học tập.</p>
 					<ul class="actions special">
-						<li><a href="../AR4/index.html" class="button">Vào học →</a></li>
+						<li><a href="../../AR4/index.html" class="button">Vào học →</a></li>
 					</ul>
 				</article>
 
@@ -482,6 +497,56 @@
 
 			</section>
 
+			<!-- ======= ÔN TẬP CHỦ ĐỀ SECTION ======= -->
+			<section id="on-tap" style="display:none;padding:0 0 2em;">
+				<article class="post featured" style="padding:2em 2em 1em;">
+					<h2 style="text-align:center;margin-bottom:.3em;">🌟 Ôn tập chủ đề</h2>
+					<p style="text-align:center;opacity:.7;margin-bottom:1.5em;">Chọn bộ đề để bắt đầu ôn tập</p>
+
+					<!-- Tabs chọn đề -->
+					<div id="quiz-tabs" style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
+
+						<!-- Nhóm: Trái Đất và Bầu trời -->
+						<div style="display:flex;flex-direction:column;align-items:center;gap:.5em;">
+							<button onclick="toggleSubMenu('sub-trai-dat')" class="button" style="font-size:.82em;">🌏 Trái Đất và Bầu trời ▾</button>
+							<div id="sub-trai-dat" style="display:none;flex-wrap:wrap;gap:.5em;justify-content:center;padding:.4em .6em;background:#f5f5f5;border:1px solid #ddd;border-radius:8px;">
+								<button onclick="startQuiz(0)" class="button" style="font-size:.78em;background:#fff;">📋 Đề 1</button>
+								<button onclick="startQuiz(1)" class="button" style="font-size:.78em;background:#fff;">📋 Đề 2</button>
+							</div>
+						</div>
+
+						<button onclick="startQuiz(2)" class="button" style="font-size:.82em;">🧭 Xác định phương hướng</button>
+						<button onclick="startQuiz(3)" class="button" style="font-size:.82em;">🌡️ Đới khí hậu</button>
+						<button onclick="startQuiz(4)" class="button" style="font-size:.82em;">🌍 Bề mặt Trái Đất</button>
+						<button onclick="startQuiz(5)" class="button" style="font-size:.82em;">☀️ Mặt Trời – Trái Đất – Mặt Trăng</button>
+					</div>
+
+					<!-- Khu vực làm bài -->
+					<div id="quiz-area" style="display:none;max-width:760px;margin:0 auto;">
+						<div id="quiz-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
+							<span id="quiz-title" style="font-weight:700;font-size:1.05em;"></span>
+							<span id="quiz-progress" style="opacity:.6;font-size:.88em;"></span>
+						</div>
+						<div id="quiz-question" style="font-size:1em;font-weight:600;margin-bottom:1em;line-height:1.6;"></div>
+						<div id="quiz-choices" style="display:grid;gap:.6em;"></div>
+						<div id="quiz-feedback" style="margin-top:.9em;padding:.7em 1em;border-radius:8px;display:none;font-size:.93em;"></div>
+						<div style="margin-top:1.2em;display:flex;gap:.8em;flex-wrap:wrap;">
+							<button id="quiz-next" onclick="quizNext()" class="button" style="display:none;">Câu tiếp theo ➡️</button>
+							<button onclick="backToTopics()" class="button" style="background:transparent;color:inherit;border-color:rgba(0,0,0,.3);font-size:.82em;">↩ Chọn đề khác</button>
+						</div>
+						<div id="quiz-result" style="display:none;text-align:center;padding:1.5em;"></div>
+					</div>
+				</article>
+			</section>
+
+			<!-- ======= LUYỆN TẬP SECTION ======= -->
+			<section id="luyen-tap" style="display:none;padding:0 0 2em;">
+				<article class="post featured" style="padding:2em;text-align:center;">
+					<h2>📝 Luyện tập</h2>
+					<p style="opacity:.7;">Nội dung đang được cập nhật...</p>
+				</article>
+			</section>
+
 		</div>
 
 		<!-- Footer -->
@@ -519,13 +584,13 @@
 				<section>
 					<h3>Mô-đun</h3>
 					<ul class="icons alt">
-						<li><a href="../AR1/index.html" class="icon solid alt fa-sun"><span class="label">AR1</span></a>
+						<li><a href="../../AR1/index.html" class="icon solid alt fa-sun"><span class="label">AR1</span></a>
 						</li>
-						<li><a href="../AR2/index.html" class="icon solid alt fa-globe"><span
+						<li><a href="../../AR2/index.html" class="icon solid alt fa-globe"><span
 									class="label">AR2</span></a></li>
-						<li><a href="../AR3/index.html" class="icon solid alt fa-map"><span class="label">AR3</span></a>
+						<li><a href="../../AR3/index.html" class="icon solid alt fa-map"><span class="label">AR3</span></a>
 						</li>
-						<li><a href="../AR4/index.html" class="icon solid alt fa-cloud"><span
+						<li><a href="../../AR4/index.html" class="icon solid alt fa-cloud"><span
 									class="label">AR4</span></a></li>
 					</ul>
 				</section>
@@ -653,6 +718,194 @@
 			}
 
 		})();
+	</script>
+
+	<!-- showSection: hiện/ẩn các section khi bấm vào ô -->
+	<script>
+		// Các section có thể hiện/ẩn
+		var SECTIONS = ['bai-hoc', 'luyen-tap', 'on-tap'];
+
+		function showSection(id) {
+			// Ẩn tất cả
+			SECTIONS.forEach(function(sid) {
+				var el = document.getElementById(sid);
+				if (el) el.style.display = 'none';
+			});
+			// Hiện section được chọn
+			var target = document.getElementById(id);
+			if (target) {
+				target.style.display = '';
+				// Scroll xuống
+				setTimeout(function() {
+					target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				}, 50);
+			}
+		}
+	</script>
+
+	<!-- ======= QUIZ ENGINE ======= -->
+	<script>
+	var QUIZ_DATA = [
+		// 0: Đề 1
+		{ title:'📋 Đề 1 – Ôn tập tổng hợp', questions:[
+			{q:'Câu 1: Đới khí hậu phân bố trong phạm vi từ chí tuyến đến hai vòng cực là',o:['Ôn đới','Nhiệt đới','Hàn đới','Cận nhiệt đới'],a:0},
+			{q:'Câu 2: Đới khí hậu nào nhận được lượng nhiệt và góc chiếu sáng từ mặt trời ít nhất',o:['Ôn đới','Nhiệt đới','Hàn đới','Cận nhiệt đới'],a:2},
+			{q:'Câu 3: Có bao nhiêu đới khí hậu trên bề mặt của Trái Đất',o:['3','4','5','6'],a:0},
+			{q:'Câu 4: Có mấy loại la bàn thường được dùng hiện nay?',o:['2','3','4','5'],a:1},
+			{q:'Câu 5: Hằng ngày, chúng ta vẫn nhìn thấy',o:['Mặt Trời mọc ở đằng Đông lặn ở đằng Tây.','Trái Đất quay quanh trục của nó.','Trái Đất quay quanh Mặt Trời.','Mặt Trăng quay quanh Trái Đất.'],a:0},
+			{q:'Câu 6: Bề mặt Trái Đất luôn có một nửa được Mặt Trời chiếu sáng là ngày, nguyên nhân là do?',o:['Trái Đất tự quay quanh trục.','Trục Trái Đất nghiêng.','Trái Đất chuyển động quanh Mặt Trời.','Trái Đất có dạng hình khối cầu.'],a:0},
+			{q:'Câu 7: Hệ Mặt trời là',o:['khoảng không gian vô tận chứa các thiên hà.','dải Ngân Hà chứa các hành tinh, các ngôi sao.','một tập hợp các thiên thể trong Dải Ngân Hà.','một tập hợp của rất nhiều ngôi sao và vệ tinh.'],a:2},
+			{q:'Câu 8: Hệ Mặt Trời gồm có Mặt Trời ở trung tâm cùng với các',o:['hành tinh, vệ tinh, sao chổi, thiên thạch, bụi và các thiên hà.','hành tinh, vệ tinh, sao chổi, thiên thạch và các đám bụi khí.','hành tinh, vệ tinh, sao chổi, thiên thạch, khí và Dải Ngân Hà.','hành tinh, vệ tinh, vũ trụ, các thiên thạch và các đám bụi khí.'],a:1},
+			{q:'Câu 9: Hệ quả của vận động theo phương thẳng đứng là',o:['làm cho các lớp đất đá bị uốn thành nếp nhưng không phá vỡ tính liên tục.','làm cho các lớp đất đá bị gãy đứt ra rồi dịch chuyển ngược hướng nhau.','làm cho bộ phận này của lục địa được nâng lên khi bộ phận khác bị hạ xuống.','làm cho đất đá di chuyển từ chỗ cao xuống chỗ thấp.'],a:2},
+			{q:'Câu 10: Hiện tượng đứt gãy xảy ra ở nơi nào sau đây?',o:['Đất đá có độ dẻo cao.','Đất đá có độ cứng cao.','Nơi có hoạt động động đất.','Nơi tiếp xúc giữa các mảng kiến tạo.'],a:1}
+		]},
+		// 1: Đề 2
+		{ title:'📋 Đề 2 – Ôn tập tổng hợp', questions:[
+			{q:'Câu 1: Phát biểu nào sau đây là đúng?',o:['Trái Đất tự quay quanh trục của nó theo hướng từ tây sang đông.','Mặt Trời mọc ở đằng tây, lặn ở đằng đông.','Chuyển động nhìn thấy là chuyển động Mặt Trăng quay quanh Trái Đất.','Cả 3 phát biểu trên'],a:0},
+			{q:'Câu 2: Hành tinh nào sau đây không nằm trong hệ Mặt Trời?',o:['Thiên Vương tinh.','Hải Vương tinh.','Diêm Vương tinh.','Thổ tinh.'],a:2},
+			{q:'Câu 3: Hành tinh gần Mặt Trời nhất là',o:['Thủy tinh.','Kim tinh.','Mộc tinh.','Hỏa tinh.'],a:0},
+			{q:'Câu 4: Hệ Mặt trời là',o:['Khoảng không gian vô tận chứa các thiên hà.','Dải Ngân Hà chứa các hành tinh, các ngôi sao.','Một tập hợp các thiên thể trong Dải Ngân Hà.','Một tập hợp của rất nhiều ngôi sao và vệ tinh.'],a:2},
+			{q:'Câu 5: Hệ Mặt Trời gồm có Mặt Trời ở trung tâm cùng với các',o:['Hành tinh, vệ tinh, sao chổi, thiên thạch, bụi và các thiên hà.','Hành tinh, vệ tinh, sao chổi, thiên thạch và các đám bụi khí.','Hành tinh, vệ tinh, sao chổi, thiên thạch, khí và Dải Ngân Hà.','Hành tinh, vệ tinh, vũ trụ, các thiên thạch và các đám bụi khí.'],a:1},
+			{q:'Câu 6: Ban ngày sẽ xuất hiện khi nào?',o:['Trái Đất được Mặt Trăng chiếu sáng.','Mặt Trăng không che lấp Trái Đất.','Phần Trái Đất được Mặt Trời chiếu sáng.','Phần Trái Đất không được Mặt Trời chiếu sáng.'],a:2},
+			{q:'Câu 7: Chúng ta thấy Mặt Trời mọc ở hướng Đông và lặn ở hướng Tây là do',o:['Trái Đất tự quay quanh trục của nó theo hướng từ Tây sang Đông.','Mặt Trời mọc ở đằng tây, lặn ở đằng đông.','Trái Đất quay quanh Mặt Trời.','Mặt Trời quay quanh Trái Đất.'],a:0},
+			{q:'Câu 8: Khi quan sát bầu trời đêm vào những đêm trời quang và không trăng, ta có thể nhìn thấy',o:['Mặt Trời.','Mặt Trăng.','Hỏa tinh.','Ngân Hà.'],a:3},
+			{q:'Câu 9: Trong hệ Mặt Trời, các __ quay quanh Mặt Trời còn các __ quay quanh các hành tinh.',o:['Hành tinh - vệ tinh.','Vệ tinh - vệ tinh.','Thiên thể - thiên thể.','Vệ tinh - thiên thể.'],a:0},
+			{q:'Câu 10: Vì sao chúng ta quan sát được nhiều pha của Mặt Trăng từ Trái Đất?',o:['Mặt Trăng có thể thay đổi hình dạng.','Trái Đất quay quanh Mặt Trăng.','Mặt Trăng quay quanh Trái Đất và sự thay đổi vị trí giữa Mặt Trăng, Trái Đất.','Mặt Trăng quay quanh Trái Đất và sự thay đổi vị trí giữa Mặt Trăng, Mặt Trời, Trái Đất.'],a:3}
+		]},
+		// 2: Phương hướng
+		{ title:'🧭 Xác định các phương trong không gian', questions:[
+			{q:'Câu 1: Công cụ chính xác và phổ biến nhất để xác định phương hướng trong không gian là gì?',o:['Dựa vào bóng nắng','Quan sát sao Bắc cực','La bàn','Xem hướng rêu mọc trên cây'],a:2},
+			{q:'Câu 2: Trên la bàn, kim có màu đỏ (hoặc mũi tên đánh dấu) thường chỉ về hướng nào?',o:['Đông','Tây','Nam','Bắc'],a:3},
+			{q:'Câu 3: Để xác định hướng Đông, Tây, Nam, Bắc trên bản đồ, người ta quy ước phía trên của bản đồ là hướng nào?',o:['Bắc','Nam','Đông','Tây'],a:0},
+			{q:'Câu 4: Khi sử dụng phương pháp bóng cọc (bóng nắng) để xác định phương hướng, bóng của cọc đổ về hướng nào vào buổi trưa (ở bán cầu Bắc)?',o:['Hướng Đông','Hướng Tây','Hướng Bắc','Hướng Nam'],a:2},
+			{q:'Câu 5: Khi đứng nhìn về hướng Bắc, tay phải của bạn chỉ về hướng nào?',o:['Đông','Tây','Nam','Đông Bắc'],a:0}
+		]},
+		// 3: Đới khí hậu
+		{ title:'🌡️ Trái Đất và các đới khí hậu', questions:[
+			{q:'Câu 1: Trên mỗi bán cầu, các đới khí hậu theo thứ tự từ Xích đạo về phía cực là:',o:['Nhiệt đới, Ôn đới, Hàn đới.','Hàn đới, Ôn đới, Nhiệt đới.','Ôn đới, Nhiệt đới, Hàn đới.','Nhiệt đới, Hàn đới, Ôn đới.'],a:0},
+			{q:'Câu 2: Đới khí hậu nằm giữa chí tuyến Bắc và chí tuyến Nam được gọi là:',o:['Đới nóng (Nhiệt đới).','Đới ôn hòa (Ôn đới).','Đới lạnh (Hàn đới).','Đới cận nhiệt.'],a:0},
+			{q:'Câu 3: Việt Nam nằm trong đới khí hậu nào?',o:['Ôn đới.','Hàn đới.','Nhiệt đới.','Cận cực.'],a:2},
+			{q:'Câu 4: Đặc điểm nổi bật của đới lạnh (Hàn đới) là:',o:['Nhiệt độ cao, mưa nhiều quanh năm.','Nhiệt độ trung bình, có 4 mùa rõ rệt.','Nhiệt độ rất thấp, quanh năm băng tuyết bao phủ.','Nhiệt độ cao, ít mưa.'],a:2},
+			{q:'Câu 5: Cảnh quan đặc trưng của đới nóng là:',o:['Rừng lá kim.','Rừng rậm nhiệt đới.','Hoang mạc băng.','Thảo nguyên khô hạn.'],a:1},
+			{q:'Câu 6: Đới khí hậu nào có nhiệt độ chênh lệch lớn nhất giữa mùa hạ và mùa đông?',o:['Đới nóng.','Đới ôn hòa.','Đới lạnh.','Đới cận xích đạo.'],a:1}
+		]},
+		// 4: Bề mặt Trái Đất
+		{ title:'🌍 Bề mặt Trái Đất', questions:[
+			{q:'Câu 1: Bề mặt Trái Đất chủ yếu bao gồm những thành phần nào?',o:['Chỉ có đất liền','Chỉ có nước (đại dương)','Cả đất liền và nước','Chỉ có núi và rừng'],a:2},
+			{q:'Câu 2: Phần lớn diện tích trên bề mặt Trái Đất là gì?',o:['Đất liền','Nước (biển và đại dương)','Rừng rậm','Sa mạc'],a:1},
+			{q:'Câu 3: Đâu là các dạng địa hình nổi bật trên đất liền?',o:['Đại dương, biển, vịnh','Núi, đồi, đồng bằng','Sông, hồ, kênh rạch','Rạn san hô'],a:1},
+			{q:'Câu 4: Đặc điểm của đồng bằng là gì?',o:['Đất cao, nhấp nhô','Đất phẳng, rộng lớn','Nơi cao nhất của Trái Đất','Được bao bọc bởi bốn bề là biển'],a:1},
+			{q:'Câu 5: Nơi có địa hình cao, đỉnh nhọn, sườn dốc được gọi là gì?',o:['Đồi','Đồng bằng','Núi','Thung lũng'],a:2},
+			{q:'Câu 6: Nước ở sông, hồ, suối thường là loại nước gì?',o:['Nước mặn','Nước ngọt','Nước khoáng','Nước có ga'],a:1},
+			{q:'Câu 7: Tại sao chúng ta cần bảo vệ môi trường trên bề mặt Trái Đất?',o:['Vì Trái Đất là ngôi nhà chung của con người và sinh vật.','Vì tài nguyên là vô hạn.','Vì con người có thể sống trên bất kỳ hành tinh nào khác.','Vì bảo vệ môi trường không quan trọng.'],a:0}
+		]},
+		// 5: Mặt Trời – Trái Đất – Mặt Trăng
+		{ title:'☀️ Mặt Trời – Trái Đất – Mặt Trăng', questions:[
+			{q:'Câu 1: Ngôi sao nào chiếu sáng và sưởi ấm cho Trái Đất?',o:['Mặt Trăng','Sao Hỏa','Mặt Trời','Sao Kim'],a:2},
+			{q:'Câu 2: Ban ngày xảy ra khi',o:['Mặt Trăng chiếu sáng Trái Đất','Phần Trái Đất được Mặt Trời chiếu sáng','Trái Đất ngừng quay','Có nhiều ngôi sao trên trời'],a:1},
+			{q:'Câu 3: Thiên thể nào quay quanh Trái Đất?',o:['Mặt Trời','Sao Kim','Mặt Trăng','Sao Hỏa'],a:2},
+			{q:'Câu 4: Mặt Trăng có ánh sáng vì',o:['Tự phát sáng','Phản chiếu ánh sáng của Mặt Trời','Nhờ ánh sáng của các ngôi sao','Nhờ ánh sáng của Trái Đất'],a:1},
+			{q:'Câu 5: Chúng ta đang sống trên hành tinh nào?',o:['Sao Hỏa','Sao Kim','Trái Đất','Sao Thổ'],a:2}
+		]}
+	];
+
+	var qCurrent = 0, qScore = 0, qSet = null, qAnswered = false;
+	var OPTS = ['A','B','C','D'];
+
+	function startQuiz(idx) {
+		qSet     = QUIZ_DATA[idx];
+		qCurrent = 0;
+		qScore   = 0;
+		document.getElementById('quiz-tabs').style.display  = 'none';
+		document.getElementById('quiz-area').style.display  = '';
+		document.getElementById('quiz-result').style.display= 'none';
+		document.getElementById('quiz-title').textContent   = qSet.title;
+		showQ();
+	}
+
+	function showQ() {
+		qAnswered = false;
+		var q   = qSet.questions[qCurrent];
+		document.getElementById('quiz-progress').textContent  = 'Câu ' + (qCurrent+1) + ' / ' + qSet.questions.length;
+		document.getElementById('quiz-question').textContent  = q.q;
+		document.getElementById('quiz-feedback').style.display= 'none';
+		document.getElementById('quiz-next').style.display   = 'none';
+
+		var html = '';
+		q.o.forEach(function(opt, i) {
+			html += '<button onclick="pickAnswer('+i+')" id="opt'+i+'" style="'+
+				'text-align:left;padding:.7em 1em;border:2px solid #ccc;border-radius:8px;'+
+				'background:#fff;cursor:pointer;font-size:.9em;line-height:1.5;width:100%;'+
+				'transition:background .15s;">'+
+				'<strong>'+OPTS[i]+'.</strong> '+opt+'</button>';
+		});
+		document.getElementById('quiz-choices').innerHTML = html;
+	}
+
+	function pickAnswer(idx) {
+		if (qAnswered) return;
+		qAnswered = true;
+		var correct = qSet.questions[qCurrent].a;
+		var fb      = document.getElementById('quiz-feedback');
+
+		// Màu các nút
+		for (var i=0; i<qSet.questions[qCurrent].o.length; i++) {
+			var btn = document.getElementById('opt'+i);
+			if (!btn) continue;
+			btn.style.cursor    = 'default';
+			if (i === correct)  { btn.style.background='#d4edda'; btn.style.borderColor='#28a745'; }
+			else if (i === idx) { btn.style.background='#f8d7da'; btn.style.borderColor='#dc3545'; }
+		}
+
+		if (idx === correct) {
+			qScore++;
+			fb.style.background='#d4edda'; fb.style.color='#155724';
+			fb.textContent='✅ Chính xác! +1 điểm';
+		} else {
+			fb.style.background='#f8d7da'; fb.style.color='#721c24';
+			fb.textContent='❌ Chưa đúng! Đáp án đúng: '+OPTS[correct]+'. '+qSet.questions[qCurrent].o[correct];
+		}
+		fb.style.display='block';
+		var nxt=document.getElementById('quiz-next');
+		nxt.textContent = qCurrent < qSet.questions.length-1 ? 'Câu tiếp theo ➡️' : '🏁 Xem kết quả';
+		nxt.style.display='inline-block';
+	}
+
+	function quizNext() {
+		qCurrent++;
+		if (qCurrent < qSet.questions.length) {
+			showQ();
+		} else {
+			// Kết quả
+			var pct   = Math.round(qScore/qSet.questions.length*100);
+			var emoji = pct>=80?'🏆':pct>=60?'👍':'📚';
+			document.getElementById('quiz-choices').innerHTML  ='';
+			document.getElementById('quiz-question').textContent='';
+			document.getElementById('quiz-feedback').style.display='none';
+			document.getElementById('quiz-next').style.display='none';
+			var res = document.getElementById('quiz-result');
+			res.style.display='block';
+			res.innerHTML='<div style="font-size:3em;margin-bottom:.3em;">'+emoji+'</div>'+
+				'<h3>Kết quả: '+qScore+'/'+qSet.questions.length+' câu đúng</h3>'+
+				'<p style="font-size:1.2em;font-weight:700;">'+pct+'%</p>'+
+				'<p>'+( pct>=80?'Xuất sắc! Bạn đã nắm vững chủ đề này.':
+					pct>=60?'Tốt! Ôn thêm một chút nữa nhé.':
+					'Cần cố gắng thêm. Hãy xem lại bài học!' )+'</p>'+
+				'<button onclick="startQuiz(QUIZ_DATA.indexOf(qSet))" class="button" style="margin-top:1em;margin-right:.5em;">🔁 Làm lại</button>'+
+				'<button onclick="backToTopics()" class="button" style="margin-top:1em;">↩ Chọn đề khác</button>';
+		}
+	}
+
+	function backToTopics() {
+		document.getElementById('quiz-tabs').style.display='';
+		document.getElementById('quiz-area').style.display='none';
+	}
+
+	function toggleSubMenu(id) {
+		var el = document.getElementById(id);
+		if (!el) return;
+		el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+	}
 	</script>
 </body>
 
