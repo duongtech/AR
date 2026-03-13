@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <!--
 	Massively by HTML5 UP
 	html5up.net | @ajlkn
@@ -504,37 +504,31 @@
 					<p style="text-align:center;opacity:.7;margin-bottom:1.5em;">Chọn bộ đề để bắt đầu ôn tập</p>
 
 					<!-- Tabs chọn đề -->
-					<div id="quiz-tabs" style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
-
+					<div id="quiz-tabs-on-tap" style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
 						<!-- Nhóm: Trái Đất và Bầu trời -->
 						<div style="display:flex;flex-direction:column;align-items:center;gap:.5em;">
 							<button onclick="toggleSubMenu('sub-trai-dat')" class="button" style="font-size:.82em;">🌏 Trái Đất và Bầu trời ▾</button>
 							<div id="sub-trai-dat" style="display:none;flex-wrap:wrap;gap:.5em;justify-content:center;padding:.4em .6em;background:#f5f5f5;border:1px solid #ddd;border-radius:8px;">
-								<button onclick="startQuiz(0)" class="button" style="font-size:.78em;background:#fff;">📋 Đề 1</button>
-								<button onclick="startQuiz(1)" class="button" style="font-size:.78em;background:#fff;">📋 Đề 2</button>
+								<button onclick="startQuiz(0, 'on-tap')" class="button" style="font-size:.78em;background:#fff;">📋 Đề 1</button>
+								<button onclick="startQuiz(1, 'on-tap')" class="button" style="font-size:.78em;background:#fff;">📋 Đề 2</button>
 							</div>
 						</div>
-
-						<button onclick="startQuiz(2)" class="button" style="font-size:.82em;">🧭 Xác định phương hướng</button>
-						<button onclick="startQuiz(3)" class="button" style="font-size:.82em;">🌡️ Đới khí hậu</button>
-						<button onclick="startQuiz(4)" class="button" style="font-size:.82em;">🌍 Bề mặt Trái Đất</button>
-						<button onclick="startQuiz(5)" class="button" style="font-size:.82em;">☀️ Mặt Trời – Trái Đất – Mặt Trăng</button>
 					</div>
 
 					<!-- Khu vực làm bài -->
-					<div id="quiz-area" style="display:none;max-width:760px;margin:0 auto;">
-						<div id="quiz-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
-							<span id="quiz-title" style="font-weight:700;font-size:1.05em;"></span>
-							<span id="quiz-progress" style="opacity:.6;font-size:.88em;"></span>
+					<div id="quiz-area-on-tap" style="display:none;max-width:760px;margin:0 auto;">
+						<div id="quiz-header-on-tap" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
+							<span id="quiz-title-on-tap" style="font-weight:700;font-size:1.05em;"></span>
+							<span id="quiz-progress-on-tap" style="opacity:.6;font-size:.88em;"></span>
 						</div>
-						<div id="quiz-question" style="font-size:1em;font-weight:600;margin-bottom:1em;line-height:1.6;"></div>
-						<div id="quiz-choices" style="display:grid;gap:.6em;"></div>
-						<div id="quiz-feedback" style="margin-top:.9em;padding:.7em 1em;border-radius:8px;display:none;font-size:.93em;"></div>
+						<div id="quiz-question-on-tap" style="font-size:1em;font-weight:600;margin-bottom:1em;line-height:1.6;"></div>
+						<div id="quiz-choices-on-tap" style="display:grid;gap:.6em;"></div>
+						<div id="quiz-feedback-on-tap" style="margin-top:.9em;padding:.7em 1em;border-radius:8px;display:none;font-size:.93em;"></div>
 						<div style="margin-top:1.2em;display:flex;gap:.8em;flex-wrap:wrap;">
-							<button id="quiz-next" onclick="quizNext()" class="button" style="display:none;">Câu tiếp theo ➡️</button>
+							<button id="quiz-next-on-tap" onclick="quizNext()" class="button" style="display:none;">Câu tiếp theo ➡️</button>
 							<button onclick="backToTopics()" class="button" style="background:transparent;color:inherit;border-color:rgba(0,0,0,.3);font-size:.82em;">↩ Chọn đề khác</button>
 						</div>
-						<div id="quiz-result" style="display:none;text-align:center;padding:1.5em;"></div>
+						<div id="quiz-result-on-tap" style="display:none;text-align:center;padding:1.5em;"></div>
 					</div>
 				</article>
 			</section>
@@ -542,8 +536,33 @@
 			<!-- ======= LUYỆN TẬP SECTION ======= -->
 			<section id="luyen-tap" style="display:none;padding:0 0 2em;">
 				<article class="post featured" style="padding:2em;text-align:center;">
-					<h2>📝 Luyện tập</h2>
-					<p style="opacity:.7;">Nội dung đang được cập nhật...</p>
+					<h2 style="margin-bottom:.3em;">📝 Luyện tập</h2>
+					<p style="opacity:.7;margin-bottom:1.5em;">Chọn chủ đề để bắt đầu luyện tập</p>
+
+					<!-- Tabs chọn đề -->
+					<div id="quiz-tabs-luyen-tap" style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
+						<button onclick="startQuiz(2, 'luyen-tap')" class="button" style="font-size:.82em;">🧭 Xác định phương hướng</button>
+						<button onclick="startQuiz(3, 'luyen-tap')" class="button" style="font-size:.82em;">🌡️ Đới khí hậu</button>
+						<button onclick="startQuiz(4, 'luyen-tap')" class="button" style="font-size:.82em;">🌍 Bề mặt Trái Đất</button>
+						<button onclick="startQuiz(5, 'luyen-tap')" class="button" style="font-size:.82em;">☀️ Mặt Trời – Trái Đất – Mặt Trăng</button>
+					</div>
+
+					<!-- Khu vực làm bài -->
+					<div id="quiz-area-luyen-tap" style="display:none;max-width:760px;margin:0 auto;text-align:left;">
+						<div id="quiz-header-luyen-tap" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
+							<span id="quiz-title-luyen-tap" style="font-weight:700;font-size:1.05em;"></span>
+							<span id="quiz-progress-luyen-tap" style="opacity:.6;font-size:.88em;"></span>
+						</div>
+						<div id="quiz-question-luyen-tap" style="font-size:1em;font-weight:600;margin-bottom:1em;line-height:1.6;"></div>
+						<div id="quiz-choices-luyen-tap" style="display:grid;gap:.6em;"></div>
+						<div id="quiz-feedback-luyen-tap" style="margin-top:.9em;padding:.7em 1em;border-radius:8px;display:none;font-size:.93em;"></div>
+						<div style="margin-top:1.2em;display:flex;gap:.8em;flex-wrap:wrap;">
+							<button id="quiz-next-luyen-tap" onclick="quizNext()" class="button" style="display:none;">Câu tiếp theo ➡️</button>
+							<button onclick="backToTopics()" class="button" style="background:transparent;color:inherit;border-color:rgba(0,0,0,.3);font-size:.82em;">↩ Chọn chủ đề khác</button>
+						</div>
+						<div id="quiz-result-luyen-tap" style="display:none;text-align:center;padding:1.5em;"></div>
+					</div>
+
 				</article>
 			</section>
 
@@ -810,47 +829,50 @@
 	];
 
 	var qCurrent = 0, qScore = 0, qSet = null, qAnswered = false;
+	var activeSection = 'on-tap'; // lưu trữ section đang active: 'on-tap' hoặc 'luyen-tap'
 	var OPTS = ['A','B','C','D'];
 
-	function startQuiz(idx) {
+	function startQuiz(idx, sectionId) {
 		qSet     = QUIZ_DATA[idx];
 		qCurrent = 0;
 		qScore   = 0;
-		document.getElementById('quiz-tabs').style.display  = 'none';
-		document.getElementById('quiz-area').style.display  = '';
-		document.getElementById('quiz-result').style.display= 'none';
-		document.getElementById('quiz-title').textContent   = qSet.title;
+		activeSection = sectionId || 'on-tap';
+
+		document.getElementById('quiz-tabs-' + activeSection).style.display  = 'none';
+		document.getElementById('quiz-area-' + activeSection).style.display  = '';
+		document.getElementById('quiz-result-' + activeSection).style.display= 'none';
+		document.getElementById('quiz-title-' + activeSection).textContent   = qSet.title;
 		showQ();
 	}
 
 	function showQ() {
 		qAnswered = false;
 		var q   = qSet.questions[qCurrent];
-		document.getElementById('quiz-progress').textContent  = 'Câu ' + (qCurrent+1) + ' / ' + qSet.questions.length;
-		document.getElementById('quiz-question').textContent  = q.q;
-		document.getElementById('quiz-feedback').style.display= 'none';
-		document.getElementById('quiz-next').style.display   = 'none';
+		document.getElementById('quiz-progress-' + activeSection).textContent  = 'Câu ' + (qCurrent+1) + ' / ' + qSet.questions.length;
+		document.getElementById('quiz-question-' + activeSection).textContent  = q.q;
+		document.getElementById('quiz-feedback-' + activeSection).style.display= 'none';
+		document.getElementById('quiz-next-' + activeSection).style.display   = 'none';
 
 		var html = '';
 		q.o.forEach(function(opt, i) {
-			html += '<button onclick="pickAnswer('+i+')" id="opt'+i+'" style="'+
+			html += '<button onclick="pickAnswer('+i+')" id="opt'+i+'-'+activeSection+'" style="'+
 				'text-align:left;padding:.7em 1em;border:2px solid #ccc;border-radius:8px;'+
 				'background:#fff;cursor:pointer;font-size:.9em;line-height:1.5;width:100%;'+
 				'transition:background .15s;">'+
 				'<strong>'+OPTS[i]+'.</strong> '+opt+'</button>';
 		});
-		document.getElementById('quiz-choices').innerHTML = html;
+		document.getElementById('quiz-choices-' + activeSection).innerHTML = html;
 	}
 
 	function pickAnswer(idx) {
 		if (qAnswered) return;
 		qAnswered = true;
 		var correct = qSet.questions[qCurrent].a;
-		var fb      = document.getElementById('quiz-feedback');
+		var fb      = document.getElementById('quiz-feedback-' + activeSection);
 
 		// Màu các nút
 		for (var i=0; i<qSet.questions[qCurrent].o.length; i++) {
-			var btn = document.getElementById('opt'+i);
+			var btn = document.getElementById('opt'+i+'-'+activeSection);
 			if (!btn) continue;
 			btn.style.cursor    = 'default';
 			if (i === correct)  { btn.style.background='#d4edda'; btn.style.borderColor='#28a745'; }
@@ -866,7 +888,7 @@
 			fb.textContent='❌ Chưa đúng! Đáp án đúng: '+OPTS[correct]+'. '+qSet.questions[qCurrent].o[correct];
 		}
 		fb.style.display='block';
-		var nxt=document.getElementById('quiz-next');
+		var nxt=document.getElementById('quiz-next-' + activeSection);
 		nxt.textContent = qCurrent < qSet.questions.length-1 ? 'Câu tiếp theo ➡️' : '🏁 Xem kết quả';
 		nxt.style.display='inline-block';
 	}
@@ -879,11 +901,11 @@
 			// Kết quả
 			var pct   = Math.round(qScore/qSet.questions.length*100);
 			var emoji = pct>=80?'🏆':pct>=60?'👍':'📚';
-			document.getElementById('quiz-choices').innerHTML  ='';
-			document.getElementById('quiz-question').textContent='';
-			document.getElementById('quiz-feedback').style.display='none';
-			document.getElementById('quiz-next').style.display='none';
-			var res = document.getElementById('quiz-result');
+			document.getElementById('quiz-choices-' + activeSection).innerHTML  ='';
+			document.getElementById('quiz-question-' + activeSection).textContent='';
+			document.getElementById('quiz-feedback-' + activeSection).style.display='none';
+			document.getElementById('quiz-next-' + activeSection).style.display='none';
+			var res = document.getElementById('quiz-result-' + activeSection);
 			res.style.display='block';
 			res.innerHTML='<div style="font-size:3em;margin-bottom:.3em;">'+emoji+'</div>'+
 				'<h3>Kết quả: '+qScore+'/'+qSet.questions.length+' câu đúng</h3>'+
@@ -891,14 +913,14 @@
 				'<p>'+( pct>=80?'Xuất sắc! Bạn đã nắm vững chủ đề này.':
 					pct>=60?'Tốt! Ôn thêm một chút nữa nhé.':
 					'Cần cố gắng thêm. Hãy xem lại bài học!' )+'</p>'+
-				'<button onclick="startQuiz(QUIZ_DATA.indexOf(qSet))" class="button" style="margin-top:1em;margin-right:.5em;">🔁 Làm lại</button>'+
-				'<button onclick="backToTopics()" class="button" style="margin-top:1em;">↩ Chọn đề khác</button>';
+				'<button onclick="startQuiz('+QUIZ_DATA.indexOf(qSet)+', \''+activeSection+'\')" class="button" style="margin-top:1em;margin-right:.5em;">🔁 Làm lại</button>'+
+				'<button onclick="backToTopics()" class="button" style="margin-top:1em;">↩ Chọn chủ đề khác</button>';
 		}
 	}
 
 	function backToTopics() {
-		document.getElementById('quiz-tabs').style.display='';
-		document.getElementById('quiz-area').style.display='none';
+		document.getElementById('quiz-tabs-' + activeSection).style.display='';
+		document.getElementById('quiz-area-' + activeSection).style.display='none';
 	}
 
 	function toggleSubMenu(id) {
