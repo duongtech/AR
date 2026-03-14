@@ -680,23 +680,26 @@
 
 		/* ══ EXPLORE SCREEN & COMPASS ══ */
 		.explore-screen {
-			background: linear-gradient(135deg,#f0f8ff 0%,#e8f4ff 100%);
+			background: linear-gradient(135deg, #f0f8ff 0%, #e8f4ff 100%);
 			border: 2px solid #b8d9f5;
 			border-radius: 20px;
 			padding: 2em 1.5em;
 			text-align: center;
 			margin-bottom: 1em;
 		}
+
 		.explore-screen h3 {
 			color: #0f3460;
 			font-size: 1.1em;
 			margin-bottom: .4em;
 		}
+
 		.explore-hint {
 			font-size: .85em;
 			color: #667;
 			margin: .6em 0 1.2em;
 		}
+
 		.compass-wrap {
 			width: 180px;
 			height: 180px;
@@ -705,9 +708,13 @@
 			user-select: none;
 			touch-action: none;
 		}
-		.compass-wrap:active { cursor: grabbing; }
+
+		.compass-wrap:active {
+			cursor: grabbing;
+		}
+
 		.compass-fact {
-			background: rgba(15,52,96,.08);
+			background: rgba(15, 52, 96, .08);
 			border-left: 3px solid #0f3460;
 			border-radius: 8px;
 			padding: .6em 1em;
@@ -717,6 +724,116 @@
 			margin: 0 auto 1.2em;
 			max-width: 380px;
 		}
+
+		/* Climate zone tab click-highlight */
+		.cz-zone {
+			cursor: pointer;
+			transition: opacity .2s;
+		}
+
+		.cz-zone:hover {
+			opacity: .85;
+		}
+
+		.cz-label {
+			font-size: 11px;
+			font-weight: 700;
+		}
+
+		.cz-info {
+			font-size: .82em;
+			color: #0f3460;
+			background: rgba(15, 52, 96, .07);
+			border-radius: 8px;
+			padding: .5em .9em;
+			margin: .5em auto 0;
+			max-width: 400px;
+			min-height: 2.2em;
+			transition: all .25s;
+		}
+
+		/* Solar system animation */
+		@keyframes earth-orbit {
+			from {
+				transform: rotate(0deg) translateX(70px) rotate(0deg);
+			}
+
+			to {
+				transform: rotate(360deg) translateX(70px) rotate(-360deg);
+			}
+		}
+
+		@keyframes moon-orbit {
+			from {
+				transform: rotate(0deg) translateX(22px);
+			}
+
+			to {
+				transform: rotate(360deg) translateX(22px);
+			}
+		}
+
+		@keyframes earth-spin {
+			from {
+				transform: rotate(0deg);
+			}
+
+			to {
+				transform: rotate(360deg);
+			}
+		}
+
+		@keyframes sun-glow {
+			from {
+				filter: drop-shadow(0 0 8px #f5c842);
+			}
+
+			to {
+				filter: drop-shadow(0 0 22px #ff8c00);
+			}
+		}
+
+		.solar-wrap {
+			width: 220px;
+			height: 220px;
+			margin: 0 auto 1em;
+			position: relative;
+		}
+
+		.solar-sun {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			animation: sun-glow 1.5s ease-in-out infinite alternate;
+		}
+
+		.solar-earth-orbit {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform-origin: 0 0;
+			animation: earth-orbit 6s linear infinite;
+		}
+
+		.solar-moon-orbit {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform-origin: 0 0;
+			animation: moon-orbit 2s linear infinite;
+		}
+
+		/* Earth surface proportion */
+		.earth-bar {
+			display: flex;
+			border-radius: 12px;
+			overflow: hidden;
+			height: 40px;
+			margin: .8em auto;
+			max-width: 380px;
+		}
+
 		/* Hình minh họa trong câu hỏi */
 		.q-visual-wrap {
 			display: flex;
@@ -724,11 +841,15 @@
 			align-items: flex-start;
 			margin-bottom: .6em;
 		}
+
 		.q-visual-wrap svg {
 			flex-shrink: 0;
-			filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
+			filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .12));
 		}
-		.q-visual-text { flex: 1; }
+
+		.q-visual-text {
+			flex: 1;
+		}
 
 		/* ══ INTRO TITLE GLOW ══ */
 		#intro h1 {
@@ -1458,13 +1579,15 @@
 					<!-- Tabs chọn đề -->
 					<div id="quiz-tabs-luyen-tap"
 						style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
-						<button onclick="startQuiz(2, 'luyen-tap')" class="button" style="font-size:.82em;">🧭 Xác định
-							phương hướng</button>
-						<button onclick="startQuiz(3, 'luyen-tap')" class="button" style="font-size:.82em;">🌡️ Đới khí
-							hậu</button>
-						<button onclick="startQuiz(4, 'luyen-tap')" class="button" style="font-size:.82em;">🌍 Bề mặt
+						<button onclick="startQuiz(2, 'luyen-tap')" class="button" style="font-size:.82em;">🧭1. Xác
+							định các phương trong không gian
+						</button>
+						<button onclick="startQuiz(3, 'luyen-tap')" class="button" style="font-size:.82em;">🌡️ 2. trái
+							đất và các đới khí hậu</button>
+						<button onclick="startQuiz(4, 'luyen-tap')" class="button" style="font-size:.82em;">🌍 3. Bề mặt
 							Trái Đất</button>
-						<button onclick="startQuiz(5, 'luyen-tap')" class="button" style="font-size:.82em;">☀️ Mặt Trời
+						<button onclick="startQuiz(5, 'luyen-tap')" class="button" style="font-size:.82em;">☀️ 4. Mặt
+							Trời
 							– Trái Đất – Mặt Trăng</button>
 					</div>
 
@@ -1478,24 +1601,34 @@
 								<p class="explore-hint">Kéo để xoay mặt la bàn · Kim đỏ luôn chỉ về Bắc</p>
 								<div class="compass-wrap" id="compassWrap">
 									<svg id="compassSvg" viewBox="0 0 180 180" width="180" height="180">
-										<circle cx="90" cy="90" r="86" fill="#1a2a4a" stroke="#f5c842" stroke-width="3"/>
-										<circle cx="90" cy="90" r="80" fill="#243050"/>
+										<circle cx="90" cy="90" r="86" fill="#1a2a4a" stroke="#f5c842"
+											stroke-width="3" />
+										<circle cx="90" cy="90" r="80" fill="#243050" />
 										<g stroke="#f5c842" stroke-width="1.5" opacity=".5">
-											<line x1="90" y1="12" x2="90" y2="22"/><line x1="90" y1="158" x2="90" y2="168"/>
-											<line x1="12" y1="90" x2="22" y2="90"/><line x1="158" y1="90" x2="168" y2="90"/>
-											<line x1="30" y1="34" x2="37" y2="42"/><line x1="150" y1="34" x2="143" y2="42"/>
-											<line x1="143" y1="138" x2="150" y2="146"/><line x1="30" y1="138" x2="37" y2="130"/>
+											<line x1="90" y1="12" x2="90" y2="22" />
+											<line x1="90" y1="158" x2="90" y2="168" />
+											<line x1="12" y1="90" x2="22" y2="90" />
+											<line x1="158" y1="90" x2="168" y2="90" />
+											<line x1="30" y1="34" x2="37" y2="42" />
+											<line x1="150" y1="34" x2="143" y2="42" />
+											<line x1="143" y1="138" x2="150" y2="146" />
+											<line x1="30" y1="138" x2="37" y2="130" />
 										</g>
 										<g id="compassFace">
-											<text x="90" y="32" text-anchor="middle" fill="#e74c3c" font-weight="900" font-size="16" font-family="Arial">N</text>
-											<text x="90" y="160" text-anchor="middle" fill="#fff" font-weight="700" font-size="14" font-family="Arial">S</text>
-											<text x="162" y="95" text-anchor="middle" fill="#fff" font-weight="700" font-size="14" font-family="Arial">E</text>
-											<text x="18" y="95" text-anchor="middle" fill="#fff" font-weight="700" font-size="14" font-family="Arial">W</text>
+											<text x="90" y="32" text-anchor="middle" fill="#e74c3c" font-weight="900"
+												font-size="16" font-family="Arial">N</text>
+											<text x="90" y="160" text-anchor="middle" fill="#fff" font-weight="700"
+												font-size="14" font-family="Arial">S</text>
+											<text x="162" y="95" text-anchor="middle" fill="#fff" font-weight="700"
+												font-size="14" font-family="Arial">E</text>
+											<text x="18" y="95" text-anchor="middle" fill="#fff" font-weight="700"
+												font-size="14" font-family="Arial">W</text>
 										</g>
 										<g id="compassNeedle">
-											<polygon points="90,25 85,90 95,90" fill="#e74c3c"/>
-											<polygon points="90,155 85,90 95,90" fill="#ecf0f1"/>
-											<circle cx="90" cy="90" r="6" fill="#f5c842" stroke="#fff" stroke-width="2"/>
+											<polygon points="90,25 85,90 95,90" fill="#e74c3c" />
+											<polygon points="90,155 85,90 95,90" fill="#ecf0f1" />
+											<circle cx="90" cy="90" r="6" fill="#f5c842" stroke="#fff"
+												stroke-width="2" />
 										</g>
 									</svg>
 								</div>
@@ -1509,6 +1642,125 @@
 								</button>
 							</div>
 						</div><!-- /explore-compass -->
+
+						<!-- ╔╡ KHÁM PHÁ: Đới khí hậu ╞╩ -->
+						<div id="explore-climate" style="display:none;">
+							<div class="explore-screen">
+								<h3>🌡️ Khám phá: Các đới khí hậu trên Trái Đất</h3>
+								<p class="explore-hint">Nhấn vào từng vùng để xem thông tin &middot; 5 đới từ cực đến
+									xích đạo</p>
+								<svg viewBox="0 0 200 200" width="200" height="200"
+									style="margin:0 auto 0;display:block;">
+									<ellipse class="cz-zone" cx="100" cy="18" rx="80" ry="18" fill="#a8d8f0"
+										onclick="czShow('Hàn đới Bắc ❄', 'Vùng cực Bắc: lạnh quanh năm, băng tuyết bao phủ, nhiệt độ dưới 0°C.')" />
+									<text class="cz-label" x="100" y="22" text-anchor="middle" fill="#0a3d62">HÀN ĐỚI
+										BẮC</text>
+									<ellipse class="cz-zone" cx="100" cy="60" rx="90" ry="28" fill="#b8e6b0"
+										onclick="czShow('Ôn đới Bắc 🍂', 'Bốn mùa rõ rệt: xuân, hạ, thu, đông. Khí hậu ôn hòa, thích hợp canh tác.')" />
+									<text class="cz-label" x="100" y="64" text-anchor="middle" fill="#1a5e20">ÔN ĐỚI
+										BẮC</text>
+									<ellipse class="cz-zone" cx="100" cy="100" rx="100" ry="30" fill="#ffb347"
+										onclick="czShow('Nhiệt đới ☀️', 'Nằm giữa hai chí tuyến. Nóng quanh năm, mưa nhiều, rừng rậm nhiệt đới phát triển.')" />
+									<text class="cz-label" x="100" y="104" text-anchor="middle" fill="#7d3c00">NHIỆT
+										ĐỚI</text>
+									<ellipse class="cz-zone" cx="100" cy="140" rx="90" ry="28" fill="#b8e6b0"
+										onclick="czShow('Ôn đới Nam 🍃', 'Tương tự ôn đới Bắc nhưng mùa ngược chiều. Khí hậu ôn hòa, đa dạng sinh học.')" />
+									<text class="cz-label" x="100" y="144" text-anchor="middle" fill="#1a5e20">ÔN ĐỚI
+										NAM</text>
+									<ellipse class="cz-zone" cx="100" cy="182" rx="80" ry="18" fill="#a8d8f0"
+										onclick="czShow('Hàn đới Nam ❄', 'Vùng Nam Cực: lạnh nhất Trái Đất, lớp băng dày hàng nghìn mét.')" />
+									<text class="cz-label" x="100" y="186" text-anchor="middle" fill="#0a3d62">HÀN ĐỚI
+										NAM</text>
+								</svg>
+								<div class="cz-info" id="czInfo">👆 Nhấn vào vùng màu để xem thông tin đới khí hậu</div>
+								<button onclick="startQuizFromExplore()" class="button ripple-btn"
+									style="background:linear-gradient(135deg,#2ea44f,#1a7a35);color:#fff;border:none;font-size:.95em;padding:.75em 2em;margin-top:.8em;">✅
+									Đã hiểu — Làm bài ngay</button>
+							</div>
+						</div><!-- /explore-climate -->
+
+						<!-- ╔╡ KHÁM PHÁ: Bề mặt Trái Đất ╞╩ -->
+						<div id="explore-earth" style="display:none;">
+							<div class="explore-screen">
+								<h3>🌍 Khám phá: Bề mặt Trái Đất gồm những gì?</h3>
+								<p class="explore-hint">Trái Đất có ⅓ đất liền và ⅔ nước</p>
+								<div class="earth-bar">
+									<div
+										style="width:29%;background:#4caf50;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.75em;flex-direction:column;">
+										🏔 29%<br>Đất liền</div>
+									<div
+										style="width:71%;background:#1a6bb5;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.75em;flex-direction:column;">
+										🌊 71%<br>Biển &amp; Đại dương</div>
+								</div>
+								<svg viewBox="0 0 300 90" width="300" height="90"
+									style="margin:.5em auto;display:block;max-width:100%;">
+									<rect x="0" y="0" width="300" height="90" fill="#1a6bb5" rx="10" />
+									<rect x="0" y="0" width="87" height="90" fill="#6dbb6d" rx="10" />
+									<polygon points="10,75 28,35 46,75" fill="#8d6e63" />
+									<polygon points="28,75 50,45 72,75" fill="#9e7b6a" />
+									<circle cx="28" cy="35" r="4" fill="#ecf0f1" opacity=".85" />
+									<rect x="0" y="73" width="87" height="17" fill="#81c784" />
+									<text x="43" y="85" text-anchor="middle" fill="#fff" font-size="7"
+										font-weight="700">ĐẤT LIỀN</text>
+									<path
+										d="M95 45 Q110 35 125 45 Q140 55 155 45 Q170 35 185 45 Q200 55 215 45 Q230 35 245 45 Q260 55 275 45"
+										stroke="#fff" stroke-width="2" fill="none" opacity=".4" />
+									<text x="195" y="30" text-anchor="middle" fill="#fff" font-size="7"
+										font-weight="700">BIỂN &amp; ĐẠI DƯƠNG</text>
+								</svg>
+								<div class="compass-fact">📌 Địa hình đất liền: <strong>Núi · Đồi · Đồng bằng · Cao
+										nguyên</strong><br>Nước: biển, sông, hồ, nước ngầm</div>
+								<button onclick="startQuizFromExplore()" class="button ripple-btn"
+									style="background:linear-gradient(135deg,#2ea44f,#1a7a35);color:#fff;border:none;font-size:.95em;padding:.75em 2em;">✅
+									Đã hiểu — Làm bài ngay</button>
+							</div>
+						</div><!-- /explore-earth -->
+
+						<!-- ╔╡ KHÁM PHÁ: Mặt Trời – Trái Đất – Mặt Trăng ╞╩ -->
+						<div id="explore-solar" style="display:none;">
+							<div class="explore-screen">
+								<h3>☀️ Khám phá: Hệ Mặt Trời – Trái Đất – Mặt Trăng</h3>
+								<p class="explore-hint">Quan sát chuyển động: Trái Đất quay quanh Mặt Trời &middot; Mặt
+									Trăng quay quanh Trái Đất</p>
+								<div style="width:210px;height:210px;margin:0 auto .8em;position:relative;">
+									<svg viewBox="0 0 210 210" width="210" height="210" style="overflow:visible;">
+										<circle cx="105" cy="105" r="70" fill="none" stroke="#f5c842" stroke-width="1"
+											stroke-dasharray="6 4" opacity=".4" />
+										<g style="animation:sun-glow 1.5s ease-in-out infinite alternate;">
+											<circle cx="105" cy="105" r="22" fill="#f5c842" />
+											<circle cx="105" cy="105" r="16" fill="#ffd400" />
+											<text x="105" y="111" text-anchor="middle" fill="#7d3c00" font-size="16"
+												font-weight="900">☀</text>
+										</g>
+										<g
+											style="transform-origin:105px 105px;animation:earth-orbit 8s linear infinite;">
+											<g transform="translate(70,0)">
+												<circle cx="0" cy="0" r="22" fill="none" stroke="#aaa" stroke-width="1"
+													stroke-dasharray="3 3" opacity=".5" />
+												<circle cx="0" cy="0" r="10" fill="#1a6bb5" />
+												<ellipse cx="0" cy="0" rx="6" ry="10" fill="none" stroke="#4caf50"
+													stroke-width="3" opacity=".7" />
+												<g
+													style="transform-origin:0px 0px;animation:moon-orbit 2s linear infinite;">
+													<circle cx="22" cy="0" r="4" fill="#bdc3c7" />
+												</g>
+											</g>
+										</g>
+									</svg>
+								</div>
+								<div class="compass-fact">
+									📌 <strong>Trái Đất</strong> quay quanh <strong>Mặt Trời</strong> → tạo ra
+									<strong>các mùa</strong><br>
+									<strong>Mặt Trăng</strong> quay quanh <strong>Trái Đất</strong> → tạo ra
+									<strong>thủy triều &amp; pha trăng</strong><br>
+									Mặt Trăng <em>không tự phát sáng</em> — phản chiếu ánh sáng Mặt Trời
+								</div>
+								<button onclick="startQuizFromExplore()" class="button ripple-btn"
+									style="background:linear-gradient(135deg,#2ea44f,#1a7a35);color:#fff;border:none;font-size:.95em;padding:.75em 2em;">✅
+									Đã hiểu — Làm bài ngay</button>
+							</div>
+						</div><!-- /explore-solar -->
+
 						<div id="quiz-header-luyen-tap"
 							style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
 							<span id="quiz-title-luyen-tap" style="font-weight:700;font-size:1.05em;"></span>
@@ -1793,17 +2045,22 @@
 			qScore = 0;
 			activeSection = sectionId || 'on-tap';
 
-			// Chủ đề phương hướng (idx=2) → hiện Explore trước
-			if (idx === 2 && sectionId === 'luyen-tap') {
+			// Chủ đề luyện tập → hiện màn hình Khám phá trước
+			var exploreIds = { 2: 'explore-compass', 3: 'explore-climate', 4: 'explore-earth', 5: 'explore-solar' };
+			if (sectionId === 'luyen-tap' && exploreIds[idx]) {
 				document.getElementById('quiz-tabs-luyen-tap').style.display = 'none';
 				document.getElementById('quiz-area-luyen-tap').style.display = '';
-				document.getElementById('explore-compass').style.display = '';
+				// Ẩn tất cả explore screens
+				Object.values(exploreIds).forEach(function (id) {
+					var el = document.getElementById(id); if (el) el.style.display = 'none';
+				});
+				document.getElementById(exploreIds[idx]).style.display = '';
 				document.getElementById('quiz-header-luyen-tap').style.display = 'none';
 				document.getElementById('quiz-question-luyen-tap').style.display = 'none';
 				document.getElementById('quiz-choices-luyen-tap').style.display = 'none';
 				document.getElementById('quiz-feedback-luyen-tap').style.display = 'none';
 				document.getElementById('quiz-result-luyen-tap').style.display = 'none';
-				initCompass();
+				if (idx === 2) initCompass();
 				return;
 			}
 			_launchQuiz();
@@ -1966,13 +2223,22 @@
 			var qq = document.getElementById('quiz-question-luyen-tap');
 			var qc = document.getElementById('quiz-choices-luyen-tap');
 			var qf = document.getElementById('quiz-feedback-luyen-tap');
-			if (ec) ec.style.display = 'none';
+			// Ẩn tất cả explore screens
+			['explore-compass', 'explore-climate', 'explore-earth', 'explore-solar'].forEach(function (id) {
+				var el = document.getElementById(id); if (el) el.style.display = 'none';
+			});
 			if (qh) qh.style.display = '';
 			if (qq) qq.style.display = '';
 			if (qc) qc.style.display = 'grid';
 			if (qf) qf.style.display = 'none';
 			document.getElementById('quiz-tabs-' + activeSection).style.display = '';
 			document.getElementById('quiz-area-' + activeSection).style.display = 'none';
+		}
+
+		/* Hàm click vùng đới khí hậu */
+		function czShow(name, desc) {
+			var el = document.getElementById('czInfo');
+			if (el) el.innerHTML = '<strong>' + name + '</strong> — ' + desc;
 		}
 
 		function toggleSubMenu(id) {
@@ -1998,7 +2264,7 @@
 				// Chuyển đổi sang tọa độ SVG (scale 180/rect.width)
 				var scale = 180 / rect.width;
 				var x = (clientX - rect.left) * scale - cx;
-				var y = (clientY - rect.top)  * scale - cy;
+				var y = (clientY - rect.top) * scale - cy;
 				return Math.atan2(y, x) * 180 / Math.PI;
 			}
 
@@ -2016,13 +2282,13 @@
 			}
 			function onEnd() { dragging = false; }
 
-			wrap.addEventListener('mousedown',  onStart);
-			wrap.addEventListener('mousemove',  onMove);
-			wrap.addEventListener('mouseup',    onEnd);
+			wrap.addEventListener('mousedown', onStart);
+			wrap.addEventListener('mousemove', onMove);
+			wrap.addEventListener('mouseup', onEnd);
 			wrap.addEventListener('mouseleave', onEnd);
 			wrap.addEventListener('touchstart', onStart, { passive: false });
-			wrap.addEventListener('touchmove',  onMove,  { passive: false });
-			wrap.addEventListener('touchend',   onEnd);
+			wrap.addEventListener('touchmove', onMove, { passive: false });
+			wrap.addEventListener('touchend', onEnd);
 		}
 	</script>
 
