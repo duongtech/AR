@@ -5,7 +5,7 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 	Content adapted for: AR Science Lab – ĐHSP Đà Nẵng
 -->
-<html>
+<html lang="vi">
 
 <head>
 	<title>Học Liệu Số – AR Science Lab · ĐHSP Đà Nẵng</title>
@@ -47,6 +47,215 @@
 			}
 		}
 
+		/* New section layout blocks on Trang chu */
+		/* Full-width section wrappers với nền xen kẽ */
+		.home-section-wrap {
+			width: 100%;
+			padding: 3em 2em;
+			position: relative;
+		}
+
+		.home-section-wrap::before {
+			content: '';
+			display: block;
+			width: 80px;
+			height: 3px;
+			background: linear-gradient(90deg, #f5c842, #ff6f00);
+			border-radius: 99px;
+			margin: 0 auto 2.6em;
+		}
+
+		.home-section-wrap:first-child::before {
+			display: none;
+		}
+
+		.home-section-wrap.bg-white {
+			background: #ffffff;
+		}
+
+		.home-section-wrap.bg-light {
+			background: #f7f8fc;
+		}
+
+		.home-section-wrap.bg-soft {
+			background: linear-gradient(180deg, #f0f4ff 0%, #f7f9ff 100%);
+		}
+
+		.home-section {
+			max-width: 1000px;
+			margin: 0 auto;
+		}
+
+		.home-section-header {
+			text-align: center;
+			margin-bottom: 1.4em;
+		}
+
+		.home-section-header h2 {
+			margin-bottom: .35em;
+			font-size: 1.5em;
+		}
+
+		.home-section-header p {
+			opacity: .72;
+			margin: 0;
+		}
+
+		.topic-card .topic-btn-wrap {
+			margin-top: auto;
+			padding-top: 1.1em;
+		}
+
+		.topic-card {
+			display: flex !important;
+			flex-direction: column !important;
+		}
+
+		.topic-card .topic-btn-wrap .button {
+			display: inline-block;
+			font-size: .78em;
+			padding: 0 1.2em;
+		}
+
+		.intro-grid {
+			display: grid;
+			grid-template-columns: 1.1fr .9fr;
+			gap: 1.4em;
+			align-items: stretch;
+		}
+
+		.intro-card {
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 6px 24px rgba(0, 0, 0, .08);
+			padding: 1.6em;
+		}
+
+		.intro-feature-list {
+			list-style: none;
+			margin: 1em 0 0;
+			padding: 0;
+		}
+
+		.intro-feature-list li {
+			padding: .4em 0;
+			font-weight: 600;
+		}
+
+		.intro-demo {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+			color: #fff;
+			text-align: center;
+		}
+
+		.intro-demo img {
+			width: 100%;
+			max-height: 280px;
+			object-fit: cover;
+			border-radius: 12px;
+		}
+
+		.tech-grid {
+			display: grid;
+			grid-template-columns: repeat(5, minmax(110px, 1fr));
+			gap: .8em;
+		}
+
+		.tech-item {
+			background: #fff;
+			border: 1px solid rgba(0, 0, 0, .08);
+			border-radius: 12px;
+			padding: .9em .7em;
+			text-align: center;
+			font-weight: 700;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, .06);
+		}
+
+		.project-info {
+			max-width: 760px;
+			margin: 0 auto;
+			background: #fff;
+			border-radius: 16px;
+			box-shadow: 0 6px 26px rgba(0, 0, 0, .09);
+			padding: 1.3em 1.5em;
+		}
+
+		@media (max-width: 820px) {
+			.intro-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.tech-grid {
+				grid-template-columns: repeat(2, minmax(120px, 1fr));
+			}
+		}
+
+		/* Layout fix: stable grid + readable card content */
+		.topic-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.8em;
+			max-width: 960px;
+			margin: 0 auto;
+		}
+
+		.topic-card h3 {
+			letter-spacing: .06em;
+			line-height: 1.35;
+			min-height: 2.7em;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center !important;
+		}
+
+		.topic-card p {
+			font-size: .9em !important;
+			line-height: 1.75 !important;
+			min-height: 9.5em;
+			margin: 0;
+		}
+
+		.home-section-header p {
+			max-width: 860px;
+			margin: 0 auto;
+		}
+
+		.tech-item {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 50px;
+		}
+
+		#footer section {
+			max-width: 860px;
+			margin: 0 auto;
+		}
+
+		@media (max-width: 980px) {
+			.topic-grid {
+				grid-template-columns: 1fr;
+				max-width: 620px;
+			}
+
+			.topic-card p {
+				min-height: auto;
+				text-align: left !important;
+			}
+		}
+
+		@media (max-width: 560px) {
+			.tech-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+	<style>
+		/* Hoisted orphan CSS block: keep valid head structure */
 		/* ── Logo nhỏ trong header/nav ── */
 		#header .logo {
 			display: flex;
@@ -252,10 +461,526 @@
 				transform: translateY(-8px);
 			}
 		}
+
+		/* ══ SPLASH SCREEN ══ */
+		#splash-screen {
+			position: fixed;
+			inset: 0;
+			z-index: 99999;
+			background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #1a1a2e 100%);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			transition: opacity .7s ease, visibility .7s ease;
+		}
+
+		#splash-screen.hidden {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+		}
+
+		.splash-logo {
+			width: 110px;
+			height: 110px;
+			border-radius: 50%;
+			border: 3px solid rgba(245, 200, 66, .6);
+			overflow: hidden;
+			box-shadow: 0 0 60px rgba(245, 200, 66, .35);
+			animation: splash-pulse 1.5s ease-in-out infinite alternate;
+			margin-bottom: 1.8em;
+		}
+
+		.splash-logo img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		@keyframes splash-pulse {
+			from {
+				box-shadow: 0 0 30px rgba(245, 200, 66, .3);
+				transform: scale(1);
+			}
+
+			to {
+				box-shadow: 0 0 80px rgba(245, 200, 66, .6);
+				transform: scale(1.05);
+			}
+		}
+
+		.splash-title {
+			color: #fff;
+			font-size: 1.6em;
+			font-weight: 800;
+			letter-spacing: 2px;
+			text-align: center;
+			margin-bottom: .4em;
+			text-shadow: 0 2px 20px rgba(245, 200, 66, .5);
+		}
+
+		.splash-sub {
+			color: rgba(255, 255, 255, .55);
+			font-size: .82em;
+			letter-spacing: 1.5px;
+			text-transform: uppercase;
+			margin-bottom: 2em;
+		}
+
+		.splash-bar-wrap {
+			width: 220px;
+			height: 4px;
+			background: rgba(255, 255, 255, .12);
+			border-radius: 99px;
+			overflow: hidden;
+		}
+
+		.splash-bar {
+			height: 100%;
+			width: 0%;
+			background: linear-gradient(90deg, #f5c842, #ff8c00);
+			border-radius: 99px;
+			animation: splash-load 1.8s cubic-bezier(.4, 0, .2, 1) forwards;
+		}
+
+		@keyframes splash-load {
+			to {
+				width: 100%;
+			}
+		}
+
+
+		/* ══ TOPIC CARDS ENHANCED ══ */
+		.topic-card {
+			background: #fff;
+			border: none !important;
+			border-radius: 18px !important;
+			padding: 2.2em 1.6em !important;
+			text-align: center;
+			cursor: pointer;
+			position: relative;
+			overflow: hidden;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+			transition: transform .35s cubic-bezier(.25, .8, .25, 1), box-shadow .35s ease !important;
+		}
+
+		.topic-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 4px;
+			background: linear-gradient(90deg, #f5c842, #ff8c00, #f5c842);
+			background-size: 200%;
+			animation: card-top-shimmer 3s linear infinite;
+		}
+
+		@keyframes card-top-shimmer {
+			0% {
+				background-position: 0%;
+			}
+
+			100% {
+				background-position: 200%;
+			}
+		}
+
+		.topic-card:hover {
+			transform: translateY(-10px) scale(1.02) !important;
+			box-shadow: 0 24px 60px rgba(0, 0, 0, .15) !important;
+		}
+
+		.topic-card .card-icon {
+			font-size: 2.8em;
+			margin-bottom: .5em;
+			display: block;
+			transition: transform .3s ease;
+			filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .1));
+		}
+
+		.topic-card:hover .card-icon {
+			transform: scale(1.2) rotate(-5deg);
+		}
+
+		/* ══ RIPPLE EFFECT ══ */
+		.ripple-btn {
+			position: relative;
+			overflow: hidden;
+		}
+
+		.ripple-circle {
+			position: absolute;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, .3);
+			transform: scale(0);
+			animation: ripple-anim .6s linear;
+			pointer-events: none !important;
+			z-index: 0;
+		}
+
+		@keyframes ripple-anim {
+			to {
+				transform: scale(4);
+				opacity: 0;
+			}
+		}
+
+		/* ══ CONFETTI CANVAS ══ */
+		#confetti-canvas {
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			z-index: 9998;
+		}
+
+		/* ══ QUIZ RESULT RING ══ */
+		.result-ring-wrap {
+			position: relative;
+			width: 130px;
+			height: 130px;
+			margin: 0 auto 1em;
+		}
+
+		.result-ring-wrap svg {
+			transform: rotate(-90deg);
+		}
+
+		.result-ring-bg {
+			stroke: rgba(0, 0, 0, .08);
+			fill: none;
+			stroke-width: 8;
+		}
+
+		.result-ring-fg {
+			fill: none;
+			stroke-width: 8;
+			stroke-linecap: round;
+			transition: stroke-dashoffset 1.2s cubic-bezier(.4, 0, .2, 1);
+		}
+
+		.result-ring-text {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			font-weight: 800;
+			font-size: 1.5em;
+			color: #0f3460;
+		}
+
+		.result-ring-text small {
+			font-size: .38em;
+			font-weight: 500;
+			opacity: .65;
+		}
+
+		/* ══ EXPLORE SCREEN & COMPASS ══ */
+		.explore-screen {
+			background: linear-gradient(135deg,#f0f8ff 0%,#e8f4ff 100%);
+			border: 2px solid #b8d9f5;
+			border-radius: 20px;
+			padding: 2em 1.5em;
+			text-align: center;
+			margin-bottom: 1em;
+		}
+		.explore-screen h3 {
+			color: #0f3460;
+			font-size: 1.1em;
+			margin-bottom: .4em;
+		}
+		.explore-hint {
+			font-size: .85em;
+			color: #667;
+			margin: .6em 0 1.2em;
+		}
+		.compass-wrap {
+			width: 180px;
+			height: 180px;
+			margin: 0 auto 1.2em;
+			cursor: grab;
+			user-select: none;
+			touch-action: none;
+		}
+		.compass-wrap:active { cursor: grabbing; }
+		.compass-fact {
+			background: rgba(15,52,96,.08);
+			border-left: 3px solid #0f3460;
+			border-radius: 8px;
+			padding: .6em 1em;
+			font-size: .85em;
+			color: #0f3460;
+			text-align: left;
+			margin: 0 auto 1.2em;
+			max-width: 380px;
+		}
+		/* Hình minh họa trong câu hỏi */
+		.q-visual-wrap {
+			display: flex;
+			gap: 1em;
+			align-items: flex-start;
+			margin-bottom: .6em;
+		}
+		.q-visual-wrap svg {
+			flex-shrink: 0;
+			filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
+		}
+		.q-visual-text { flex: 1; }
+
+		/* ══ INTRO TITLE GLOW ══ */
+		#intro h1 {
+			text-shadow: 0 0 40px rgba(245, 200, 66, .3), 0 2px 4px rgba(0, 0, 0, .3);
+			animation: title-glow 4s ease-in-out infinite alternate;
+		}
+
+		@keyframes title-glow {
+			from {
+				text-shadow: 0 0 20px rgba(245, 200, 66, .2), 0 2px 4px rgba(0, 0, 0, .3);
+			}
+
+			to {
+				text-shadow: 0 0 60px rgba(245, 200, 66, .5), 0 2px 4px rgba(0, 0, 0, .3);
+			}
+		}
+
+		/* ══ SCROLL-TO-TOP ══ */
+		#back-top {
+			position: fixed;
+			bottom: 28px;
+			right: 28px;
+			width: 44px;
+			height: 44px;
+			background: linear-gradient(135deg, #f5c842, #ff8c00);
+			border: none;
+			border-radius: 50%;
+			color: #fff;
+			font-size: 1.2em;
+			cursor: pointer;
+			box-shadow: 0 4px 20px rgba(245, 150, 0, .4);
+			opacity: 0;
+			transform: translateY(20px);
+			transition: opacity .3s, transform .3s;
+			z-index: 9990;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		#back-top.show {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		#back-top:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 8px 30px rgba(245, 150, 0, .6);
+		}
+
+		/* ══ FOOTER ENTRANCE ══ */
+		#footer {
+			transition: opacity .8s ease, transform .8s ease;
+			opacity: 0;
+			transform: translateY(20px);
+		}
+
+		#footer.in-view {
+			opacity: 1;
+			transform: none;
+		}
+
+		/* ══ MODULE CARD SWEEP ══ */
+		.posts article {
+			position: relative;
+			overflow: hidden;
+		}
+
+		.posts article::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(120deg, transparent 40%, rgba(245, 200, 66, .06) 50%, transparent 60%);
+			transition: left .6s ease;
+			pointer-events: none;
+		}
+
+		.posts article:hover::after {
+			left: 100%;
+		}
+
+		/* ══ INFO ROW (Tác giả + Công nghệ ở Trang chủ) ══ */
+		.info-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 1.6em;
+			max-width: 960px;
+			margin: 2em auto 0;
+		}
+
+		@media (max-width: 640px) {
+			.info-row {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.info-card {
+			background: #fff;
+			border-radius: 18px;
+			padding: 0;
+			overflow: hidden;
+			box-shadow: 0 4px 24px rgba(0, 0, 0, .09);
+			position: relative;
+			transition: transform .35s cubic-bezier(.25, .8, .25, 1), box-shadow .35s ease;
+		}
+
+		.info-card:hover {
+			transform: translateY(-8px);
+			box-shadow: 0 20px 50px rgba(0, 0, 0, .14);
+		}
+
+		.info-card-header {
+			background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+			padding: 1.4em 1.6em 1.2em;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.info-card-header::after {
+			content: '';
+			position: absolute;
+			top: -30px;
+			right: -30px;
+			width: 100px;
+			height: 100px;
+			background: rgba(245, 200, 66, .12);
+			border-radius: 50%;
+		}
+
+		.info-card-header .ic-label {
+			font-size: .7em;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			color: rgba(245, 200, 66, .8);
+			margin-bottom: .4em;
+		}
+
+		.info-card-header .ic-title {
+			color: #fff;
+			font-size: 1.1em;
+			font-weight: 800;
+			margin: 0;
+			text-shadow: 0 1px 6px rgba(0, 0, 0, .3);
+		}
+
+		.info-card-header .ic-icon {
+			font-size: 2.2em;
+			position: absolute;
+			right: 1.2em;
+			top: 50%;
+			transform: translateY(-50%);
+			opacity: .85;
+			animation: float-up 4s ease-in-out infinite;
+		}
+
+		.info-card-body {
+			padding: 1.4em 1.6em;
+		}
+
+		/* Tech pills */
+		.tech-pills {
+			display: flex;
+			flex-wrap: wrap;
+			gap: .5em;
+			margin-top: .6em;
+		}
+
+		.tech-pill {
+			background: linear-gradient(135deg, #f5c842, #ff8c00);
+			color: #fff;
+			font-size: .75em;
+			font-weight: 700;
+			padding: .3em .9em;
+			border-radius: 99px;
+			letter-spacing: .5px;
+			box-shadow: 0 2px 8px rgba(245, 150, 0, .3);
+			transition: transform .2s, box-shadow .2s;
+		}
+
+		.tech-pill:hover {
+			transform: scale(1.1);
+			box-shadow: 0 4px 14px rgba(245, 150, 0, .5);
+		}
+
+		/* Author meta rows */
+		.author-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: .55em 0;
+			border-bottom: 1px solid rgba(0, 0, 0, .06);
+			font-size: .88em;
+		}
+
+		.author-row:last-child {
+			border-bottom: none;
+		}
+
+		.author-row .ar-key {
+			opacity: .5;
+			font-size: .85em;
+		}
+
+		.author-row .ar-val {
+			font-weight: 600;
+			color: #0f3460;
+			text-align: right;
+		}
+
+		/* Shimmer sweep on hover */
+		.info-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(120deg, transparent 35%, rgba(245, 200, 66, .07) 50%, transparent 65%);
+			transition: left .55s ease;
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		.info-card:hover::before {
+			left: 100%;
+		}
 	</style>
 </head>
 
 <body class="is-preload">
+
+	<!-- Splash Screen -->
+	<div id="splash-screen">
+		<div class="splash-logo">
+			<img src="images/logo.png" alt="Logo"
+				onerror="this.parentElement.innerHTML='<span style=font-size:3rem;line-height:110px;display:block;text-align:center>🎓</span>'">
+		</div>
+		<div class="splash-title">HỌC LIỆU SỐ AR</div>
+		<div class="splash-sub">ĐHSP Đà Nẵng · Khóa luận tốt nghiệp</div>
+		<div class="splash-bar-wrap">
+			<div class="splash-bar"></div>
+		</div>
+	</div>
+
+	<!-- Confetti Canvas -->
+	<canvas id="confetti-canvas"></canvas>
+
+	<!-- Scroll-to-top -->
+	<button id="back-top" title="Lên đầu trang" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
 
 	<!-- Wrapper -->
 	<div id="wrapper" class="fade-in">
@@ -285,75 +1010,325 @@
 		<!-- Nav -->
 		<nav id="nav">
 			<ul class="links">
-				<li id="tab-tong-quan" class="active"><a href="#" onclick="showSection('tong-quan'); return false;" style="font-weight:700;letter-spacing:0px;">Trang chủ</a></li>
-				<li id="tab-bai-hoc"><a href="#" onclick="showSection('bai-hoc'); return false;" style="font-weight:700;letter-spacing:0px;">Bài học tương tác</a></li>
-				<li id="tab-luyen-tap"><a href="#" onclick="showSection('luyen-tap'); return false;" style="font-weight:700;letter-spacing:0px;">Luyện tập</a></li>
-				<li id="tab-on-tap"><a href="#" onclick="showSection('on-tap'); return false;" style="font-weight:700;letter-spacing:0px;">Ôn tập chủ đề</a></li>
+				<li id="tab-tong-quan" class="active"><a href="#" onclick="showSection('tong-quan'); return false;"
+						style="font-weight:700;letter-spacing:0px;">Trang chủ</a></li>
+				<li id="tab-bai-hoc"><a href="#" onclick="showSection('bai-hoc'); return false;"
+						style="font-weight:700;letter-spacing:0px;">Bài học tương tác</a></li>
+				<li id="tab-luyen-tap"><a href="#" onclick="showSection('luyen-tap'); return false;"
+						style="font-weight:700;letter-spacing:0px;">Luyện tập</a></li>
+				<li id="tab-on-tap"><a href="#" onclick="showSection('on-tap'); return false;"
+						style="font-weight:700;letter-spacing:0px;">Ôn tập chủ đề</a></li>
 			</ul>
 			<ul class="icons" style="display:flex;align-items:center;">
-				<li><span style="font-size:1.05em;font-weight:800;color:#18bfef;margin-right:15px;letter-spacing:1px;text-transform:uppercase;">Học liệu số AR</span></li>
+				<li><span
+						style="font-size:1.05em;font-weight:800;color:#18bfef;margin-right:15px;letter-spacing:1px;text-transform:uppercase;">Học
+						liệu số AR</span></li>
 			</ul>
 		</nav>
 
 		<style>
 			/* Custom Style cho Tab giống màu vẽ của user */
-			#nav > ul.links > li.active > a {
+			#nav>ul.links>li.active>a {
 				background-color: #2ea44f !important;
 				color: #ffffff !important;
 			}
-			#nav > ul.links > li > a {
+
+			#nav>ul.links>li>a {
 				transition: background-color 0.2s, color 0.2s;
-				padding: 0 1.5rem !important; /* Make tab shorter */
+				padding: 0 1.5rem !important;
 			}
-			#nav > ul.links > li:not(.active) > a:hover {
+
+			#nav>ul.links>li:not(.active)>a:hover {
 				background-color: rgba(46, 164, 79, 0.1) !important;
 				color: #2ea44f !important;
 			}
+
+			/* Topic grid 3 cột */
+			.topic-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1.8em;
+				max-width: 960px;
+				margin: 0 auto 2em;
+			}
+
+			@media (max-width: 768px) {
+				.topic-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			/* Readability + alignment for overview cards */
+			.topic-card h3 {
+				font-size: 1.02em !important;
+				color: #0f3460;
+				letter-spacing: 0.02em;
+			}
+
+			.topic-card p {
+				font-size: 0.91em !important;
+				line-height: 1.75 !important;
+				text-align: left !important;
+				color: #445;
+			}
+
+			.topic-btn-wrap .button {
+				letter-spacing: 0.04em;
+			}
+
+			/* ── Section header gradient underline ── */
+			.home-section-header h2 {
+				position: relative;
+				display: inline-block;
+				padding-bottom: .3em;
+				color: #0f3460;
+				font-size: 1.45em;
+				font-weight: 800;
+				letter-spacing: .5px;
+			}
+
+			.home-section-header h2::after {
+				content: '';
+				display: block;
+				width: 60px;
+				height: 4px;
+				margin: .4em auto 0;
+				border-radius: 99px;
+				background: linear-gradient(90deg, #f5c842, #ff6f00);
+			}
+
+			.home-section-header p {
+				color: #556;
+				font-size: .95em;
+				margin-top: .5em;
+			}
+
+			/* ── Tech grid cards ── */
+			.tech-grid {
+				display: grid !important;
+				grid-template-columns: repeat(5, 1fr) !important;
+				gap: 1em !important;
+				max-width: 860px;
+				margin: 0 auto;
+			}
+
+			@media (max-width: 700px) {
+				.tech-grid {
+					grid-template-columns: repeat(3, 1fr) !important;
+				}
+			}
+
+			.tech-item {
+				display: flex !important;
+				flex-direction: column !important;
+				align-items: center !important;
+				justify-content: center !important;
+				padding: 1.4em .8em !important;
+				border-radius: 16px !important;
+				text-align: center;
+				font-weight: 800;
+				font-size: .85em;
+				line-height: 1.3;
+				color: #fff !important;
+				border: none !important;
+				transition: transform .25s, box-shadow .25s !important;
+				cursor: default;
+				box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
+				min-height: 130px;
+			}
+
+			.tech-item:hover {
+				transform: translateY(-6px) scale(1.04) !important;
+				box-shadow: 0 12px 28px rgba(0, 0, 0, .18) !important;
+			}
+
+			.tech-item-html {
+				background: linear-gradient(135deg, #e44d26, #f16529);
+			}
+
+			.tech-item-css {
+				background: linear-gradient(135deg, #264de4, #2965f1);
+			}
+
+			.tech-item-js {
+				background: linear-gradient(135deg, #f0db4f, #e8c10e);
+				color: #222 !important;
+			}
+
+			.tech-item-three {
+				background: linear-gradient(135deg, #049ef4, #018bcc);
+			}
+
+			.tech-item-webgl {
+				background: linear-gradient(135deg, #990000, #cc0000);
+			}
+
+			/* ── Project info rows ── */
+			.project-info {
+				max-width: 720px;
+				margin: 0 auto;
+				border-radius: 18px !important;
+				overflow: hidden;
+				box-shadow: 0 6px 28px rgba(0, 0, 0, .1) !important;
+			}
+
+			.author-row {
+				padding: .7em 1.4em !important;
+				border-bottom: 1px solid rgba(0, 0, 0, .05) !important;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				transition: background .2s;
+			}
+
+			.author-row:hover {
+				background: #f9f5e8;
+			}
+
+			.author-row .ar-key {
+				font-weight: 700;
+				color: #888 !important;
+				text-transform: uppercase;
+				font-size: .75em !important;
+				letter-spacing: 1px;
+			}
+
+			.author-row .ar-val {
+				color: #0f3460 !important;
+				font-weight: 700 !important;
+				font-size: .95em;
+			}
+
+			/* ── Intro feature list icons ── */
+			.intro-feature-list li {
+				padding: .45em 0;
+				color: #334;
+				font-size: .94em;
+			}
 		</style>
 		<!-- Main -->
+
 		<div id="main">
 
-			<!-- 3 Ô Lớn - đặt trên cùng -->
+			<!-- 3 chủ đề chính - đặt trên cùng -->
 			<article class="post featured" id="tong-quan" style="padding:2.5em 2em 2em;">
-				<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.8em;max-width:960px;margin:0 auto;">
+				<div class="topic-grid">
 
-					<!-- Ô 1: Bài học tương tác -->
-					<div onclick="showSection('bai-hoc')"
-						style="background:#f5f5f5;border:2px solid #ccc;border-radius:14px;padding:2em 1.4em;text-align:center;cursor:pointer;transition:box-shadow .2s;"
-						onmouseover="this.style.boxShadow='0 6px 24px rgba(0,0,0,.13)'"
-						onmouseout="this.style.boxShadow='none'">
-						<div style="font-size:2.4em;margin-bottom:.4em;">📖</div>
-						<h3 style="margin-bottom:.7em;font-size:1.05em;">Bài học tương tác</h3>
-						<p style="font-size:0.84em;line-height:1.8;text-align:left;">Cung cấp nội dung bài học dưới dạng
-							các hoạt động tương tác giúp học sinh quan sát, khám phá và tìm hiểu kiến thức một cách trực
-							quan, đồng thời tham gia trả lời câu hỏi liên quan đến nội dung bài học.</p>
+					<div onclick="showSection('bai-hoc')" class="topic-card ripple-btn">
+						<span class="card-icon">📖</span>
+						<h3>BÀI HỌC TƯƠNG TÁC</h3>
+						<p>Cung cấp nội dung bài học dưới dạng các hoạt động tương tác giúp học sinh quan sát, khám phá
+							và tìm hiểu kiến thức một cách trực quan, đồng thời tham gia trả lời câu hỏi liên quan đến
+							nội dung bài học.</p>
+						<div class="topic-btn-wrap"><span class="button">Khám phá</span></div>
 					</div>
 
-					<!-- Ô 2: Luyện tập -->
-					<div onclick="showSection('luyen-tap')"
-						style="background:#f5f5f5;border:2px solid #ccc;border-radius:14px;padding:2em 1.4em;text-align:center;cursor:pointer;transition:box-shadow .2s;"
-						onmouseover="this.style.boxShadow='0 6px 24px rgba(0,0,0,.13)'"
-						onmouseout="this.style.boxShadow='none'">
-						<div style="font-size:2.4em;margin-bottom:.4em;">📝</div>
-						<h3 style="margin-bottom:.7em;font-size:1.05em;">Luyện tập</h3>
-						<p style="font-size:0.84em;line-height:1.8;text-align:left;">Cung cấp bài tập giúp học sinh củng
-							cố kiến thức đã học và tự đánh giá mức độ hiểu bài. Thông qua các câu hỏi, học sinh được rèn
-							luyện và phát triển năng lực nhận thức khoa học.</p>
+					<div onclick="showSection('luyen-tap')" class="topic-card ripple-btn">
+						<span class="card-icon">📝</span>
+						<h3>LUYỆN TẬP</h3>
+						<p>Cung cấp bài tập giúp học sinh củng cố kiến thức đã học và tự đánh giá mức độ hiểu bài. Thông
+							qua các câu hỏi, học sinh được rèn luyện và phát triển năng lực nhận thức khoa học.</p>
+						<div class="topic-btn-wrap"><span class="button">Bắt đầu</span></div>
 					</div>
 
-					<!-- Ô 3: Ôn tập chủ đề -->
-					<div onclick="showSection('on-tap')"
-						style="background:#f5f5f5;border:2px solid #ccc;border-radius:14px;padding:2em 1.4em;text-align:center;cursor:pointer;transition:box-shadow .2s;"
-						onmouseover="this.style.boxShadow='0 6px 24px rgba(0,0,0,.13)'"
-						onmouseout="this.style.boxShadow='none'">
-						<div style="font-size:2.4em;margin-bottom:.4em;">🌟</div>
-						<h3 style="margin-bottom:.7em;font-size:1.05em;">Ôn tập chủ đề</h3>
-						<p style="font-size:0.84em;line-height:1.8;text-align:left;">Giúp học sinh hệ thống lại những
-							kiến thức chính của chủ đề và củng cố hiểu biết thường qua chủ đề về Trái Đất và bầu trời.
-						</p>
+					<div onclick="showSection('on-tap')" class="topic-card ripple-btn">
+						<span class="card-icon">🌟</span>
+						<h3>ÔN TẬP CHỦ ĐỀ</h3>
+						<p>Giúp học sinh hệ thống lại những kiến thức chính của chủ đề và củng cố hiểu biết về Trái Đất
+							và bầu trời.</p>
+						<div class="topic-btn-wrap"><span class="button">Ôn tập ngay</span></div>
 					</div>
 
 				</div>
+
+				<!-- Section 1: Giới thiệu – nền trắng -->
+				<div class="home-section-wrap bg-white">
+					<section class="home-section">
+						<div class="home-section-header">
+							<h2>🎓 Giới Thiệu AR Science Lab</h2>
+							<p>Bộ học liệu số tương tác 3D, hỗ trợ dạy học Khoa học Tự nhiên – sử dụng trực tiếp trên
+								trình duyệt.</p>
+						</div>
+						<div class="intro-grid">
+							<div class="intro-card">
+								<p>Hệ thống học tập được xây dựng để học sinh có thể thao tác trực tiếp, quan sát 3D và
+									tiếp cận kiến thức khoa học ngay trên trình duyệt — không cần cài đặt.</p>
+								<ul class="intro-feature-list">
+									<li>🌍 Mô phỏng 3D Trái Đất &amp; Hệ Mặt Trời</li>
+									<li>🖱 Tương tác trực tiếp – xoay, zoom, click</li>
+									<li>🌐 Học ngay trên trình duyệt, không cần cài đặt</li>
+									<li>🎮 Tích hợp mini-game &amp; câu hỏi kiểm tra</li>
+								</ul>
+							</div>
+							<div class="intro-card intro-demo">
+								<img src="images/ar2.jpg" alt="Demo AR Science Lab">
+							</div>
+						</div>
+					</section>
+				</div><!-- /bg-white -->
+
+				<!-- Section 2: Công nghệ – nền xanh nhạt -->
+				<div class="home-section-wrap bg-soft">
+					<section class="home-section">
+						<div class="home-section-header">
+							<h2>⚙️ Công Nghệ Sử Dụng</h2>
+							<p>Toàn bộ ứng dụng chạy trực tiếp trên trình duyệt, không cần backend hay cài đặt.</p>
+						</div>
+						<div class="tech-grid">
+							<div class="tech-item tech-item-html">
+								<div style="font-size:2em;margin-bottom:.4em">🌐</div>
+								<div>HTML5</div>
+								<div style="font-size:.75em;opacity:.85;margin-top:.3em;font-weight:500">Cấu trúc trang
+								</div>
+							</div>
+							<div class="tech-item tech-item-css">
+								<div style="font-size:2em;margin-bottom:.4em">🎨</div>
+								<div>CSS3</div>
+								<div style="font-size:.75em;opacity:.85;margin-top:.3em;font-weight:500">Giao diện &amp;
+									Hiệu ứng</div>
+							</div>
+							<div class="tech-item tech-item-js">
+								<div style="font-size:2em;margin-bottom:.4em">⚡</div>
+								<div>JavaScript</div>
+								<div style="font-size:.75em;opacity:.7;margin-top:.3em;font-weight:500">Logic ứng dụng
+								</div>
+							</div>
+							<div class="tech-item tech-item-three">
+								<div style="font-size:2em;margin-bottom:.4em">🧩</div>
+								<div>Three.js</div>
+								<div style="font-size:.75em;opacity:.85;margin-top:.3em;font-weight:500">Đồ họa 3D</div>
+							</div>
+							<div class="tech-item tech-item-webgl">
+								<div style="font-size:2em;margin-bottom:.4em">🛰</div>
+								<div>WebGL</div>
+								<div style="font-size:.75em;opacity:.85;margin-top:.3em;font-weight:500">Render GPU
+								</div>
+							</div>
+						</div>
+					</section>
+				</div><!-- /bg-soft -->
+
+				<!-- Section 3: Thông tin dự án – nền trắng -->
+				<div class="home-section-wrap bg-light">
+					<section class="home-section">
+						<div class="home-section-header">
+							<h2>📋 Thông Tin Dự Án</h2>
+						</div>
+						<div class="project-info">
+							<div class="author-row"><span class="ar-key">Tác giả</span><span class="ar-val">Lê Thị Khánh
+									Linh</span></div>
+							<div class="author-row"><span class="ar-key">MSSV</span><span
+									class="ar-val">3220122138</span></div>
+							<div class="author-row"><span class="ar-key">Trường</span><span class="ar-val">Đại học Sư
+									Phạm – Đại học Đà Nẵng</span></div>
+							<div class="author-row"><span class="ar-key">Loại dự án</span><span class="ar-val">Khóa luận
+									tốt nghiệp</span></div>
+							<div class="author-row"><span class="ar-key">Thời gian</span><span class="ar-val">2025 –
+									2026</span></div>
+						</div>
+					</section>
+				</div><!-- /bg-light -->
+
 			</article>
 
 			<!-- Posts: 4 module Bài Học Tương Tác (ẩn mặc định) -->
@@ -362,8 +1337,7 @@
 				<!-- AR1 -->
 				<article>
 					<header>
-						<span class="date">Mô-đun 01 · AR1</span>
-						<h2><a href="../../AR1/index.html">Chuyển Động<br />Mặt Trời</a></h2>
+						<h2><a href="../../AR1/index.html">Xác định các phương trong không gian</a></h2>
 					</header>
 					<a href="../../AR1/index.html" class="image fit">
 						<img src="images/ar1.jpg" alt="AR1 – Chuyển Động Mặt Trời" />
@@ -379,8 +1353,7 @@
 				<!-- AR2 -->
 				<article>
 					<header>
-						<span class="date">Mô-đun 02 · AR2</span>
-						<h2><a href="../../AR2/index.html">Hệ Mặt Trời<br />3D Tương Tác</a></h2>
+						<h2><a href="../../AR2/index.html">Mặt Trời, Trái Đất, Mặt Trăng</a></h2>
 					</header>
 					<a href="../../AR2/index.html" class="image fit">
 						<img src="images/ar2.jpg" alt="AR2 – Hệ Mặt Trời 3D" />
@@ -396,8 +1369,7 @@
 				<!-- AR3 -->
 				<article>
 					<header>
-						<span class="date">Mô-đun 03 · AR3</span>
-						<h2><a href="../../AR3/index.html">Bản Đồ Châu Lục<br />&amp; Đại Dương</a></h2>
+						<h2><a href="../../AR3/index.html">Bề mặt Trái Đất</a></h2>
 					</header>
 					<a href="../../AR3/index.html" class="image fit">
 						<img src="images/ar3.jpg" alt="AR3 – Bản Đồ Châu Lục" />
@@ -413,8 +1385,7 @@
 				<!-- AR4 -->
 				<article>
 					<header>
-						<span class="date">Mô-đun 04 · AR4</span>
-						<h2><a href="../../AR4/index.html">Đới Khí Hậu<br />Trái Đất</a></h2>
+						<h2><a href="../../AR4/index.html">Trái Đất và các đới khí hậu</a></h2>
 					</header>
 					<a href="../../AR4/index.html" class="image fit">
 						<img src="images/ar4.jpg" alt="AR4 – Đới Khí Hậu Trái Đất" />
@@ -427,91 +1398,6 @@
 					</ul>
 				</article>
 
-				<!-- Công nghệ -->
-				<article>
-					<header>
-						<span class="date">Stack Công Nghệ</span>
-						<h2><a href="#">Công Cụ &amp; Công<br />Nghệ Xây Dựng</a></h2>
-					</header>
-
-					<!-- Info panel thay ảnh -->
-					<div
-						style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.1);border-radius:6px;padding:1.4em 1.6em;margin:0 0 1.5em;">
-						<table style="width:100%;border-collapse:collapse;font-size:0.92em;">
-							<tbody>
-								<tr style="border-bottom:1px solid rgba(0,0,0,0.07);">
-									<td style="padding:0.7em 0.5em;width:36px;font-size:1.3em;">&#128250;</td>
-									<td style="padding:0.7em 0.5em;"><strong>Visual Studio Code</strong><br /><span
-											style="opacity:0.6;font-size:0.88em;">IDE &middot; Trình soạn thảo
-											chính</span></td>
-								</tr>
-								<tr style="border-bottom:1px solid rgba(0,0,0,0.07);">
-									<td style="padding:0.7em 0.5em;font-size:1.3em;">&#127760;</td>
-									<td style="padding:0.7em 0.5em;"><strong>HTML5 &middot; CSS3 &middot; JavaScript
-											ES6+</strong><br /><span style="opacity:0.6;font-size:0.88em;">Ngôn ngữ nền
-											tảng Web</span></td>
-								</tr>
-								<tr style="border-bottom:1px solid rgba(0,0,0,0.07);">
-									<td style="padding:0.7em 0.5em;font-size:1.3em;">&#128311;</td>
-									<td style="padding:0.7em 0.5em;"><strong>Three.js / WebGL</strong><br /><span
-											style="opacity:0.6;font-size:0.88em;">Thư viện đồ hoạ 3D trình duyệt</span>
-									</td>
-								</tr>
-								<tr>
-									<td style="padding:0.7em 0.5em;font-size:1.3em;">&#9989;</td>
-									<td style="padding:0.7em 0.5em;"><strong>Không cần cài đặt</strong><br /><span
-											style="opacity:0.6;font-size:0.88em;">Chạy thẳng trên trình duyệt hiện
-											đại</span></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</article>
-
-				<!-- Tác giả -->
-				<article>
-					<header>
-						<span class="date">Tác Giả · Author</span>
-						<h2><a href="#">Lê Thị Khánh Linh<br />MSSV 3220122138</a></h2>
-					</header>
-
-					<!-- Info card thay ảnh -->
-					<div
-						style="background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.1);border-radius:6px;padding:1.4em 1.6em;margin:0 0 1.5em;">
-						<div style="text-align:center;font-size:3.5em;margin-bottom:0.35em;">&#128105;&#8205;&#127891;
-						</div>
-						<table style="width:100%;border-collapse:collapse;font-size:0.92em;">
-							<tbody>
-								<tr style="border-bottom:1px solid rgba(0,0,0,0.07);">
-									<td style="padding:0.6em 0.5em;opacity:0.55;width:40%;font-size:0.85em;">Họ và tên
-									</td>
-									<td style="padding:0.6em 0.5em;"><strong>Lê Thị Khánh Linh</strong></td>
-								</tr>
-								<tr style="border-bottom:1px solid rgba(0,0,0,0.07);">
-									<td style="padding:0.6em 0.5em;opacity:0.55;font-size:0.85em;">Mã sinh viên</td>
-									<td style="padding:0.6em 0.5em;"><strong>3220122138</strong></td>
-								</tr>
-								<tr style="border-bottom:1px solid rgba(0,0,0,0.07);">
-									<td style="padding:0.6em 0.5em;opacity:0.55;font-size:0.85em;">Trường</td>
-									<td style="padding:0.6em 0.5em;">ĐHSP &ndash; Đại học Đà Nẵng</td>
-								</tr>
-								<tr style="border-bottom:1px solid rgba(0,0,0,0.07);">
-									<td style="padding:0.6em 0.5em;opacity:0.55;font-size:0.85em;">Loại dự án</td>
-									<td style="padding:0.6em 0.5em;">Khóa luận tốt nghiệp</td>
-								</tr>
-								<tr style="border-bottom:1px solid rgba(0,0,0,0.07);">
-									<td style="padding:0.6em 0.5em;opacity:0.55;font-size:0.85em;">Năm thực hiện</td>
-									<td style="padding:0.6em 0.5em;">2025 &ndash; 2026</td>
-								</tr>
-								<tr>
-									<td style="padding:0.6em 0.5em;opacity:0.55;font-size:0.85em;">Công nghệ</td>
-									<td style="padding:0.6em 0.5em;">HTML &middot; CSS &middot; JS &middot; Three.js
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</article>
 
 			</section>
 
@@ -522,29 +1408,41 @@
 					<p style="text-align:center;opacity:.7;margin-bottom:1.5em;">Chọn bộ đề để bắt đầu ôn tập</p>
 
 					<!-- Tabs chọn đề -->
-					<div id="quiz-tabs-on-tap" style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
+					<div id="quiz-tabs-on-tap"
+						style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
 						<!-- Nhóm: Trái Đất và Bầu trời -->
 						<div style="display:flex;flex-direction:column;align-items:center;gap:.5em;">
-							<button onclick="toggleSubMenu('sub-trai-dat')" class="button" style="font-size:.82em;">🌏 Trái Đất và Bầu trời ▾</button>
-							<div id="sub-trai-dat" style="display:none;flex-wrap:wrap;gap:.5em;justify-content:center;padding:.4em .6em;background:#f5f5f5;border:1px solid #ddd;border-radius:8px;">
-								<button onclick="startQuiz(0, 'on-tap')" class="button" style="font-size:.78em;background:#fff;">📋 Đề 1</button>
-								<button onclick="startQuiz(1, 'on-tap')" class="button" style="font-size:.78em;background:#fff;">📋 Đề 2</button>
+							<button onclick="toggleSubMenu('sub-trai-dat')" class="button" style="font-size:.82em;">🌏
+								Trái Đất và Bầu trời ▾</button>
+							<div id="sub-trai-dat"
+								style="display:none;flex-wrap:wrap;gap:.5em;justify-content:center;padding:.4em .6em;background:#f5f5f5;border:1px solid #ddd;border-radius:8px;">
+								<button onclick="startQuiz(0, 'on-tap')" class="button"
+									style="font-size:.78em;background:#fff;">📋 Đề 1</button>
+								<button onclick="startQuiz(1, 'on-tap')" class="button"
+									style="font-size:.78em;background:#fff;">📋 Đề 2</button>
 							</div>
 						</div>
 					</div>
 
 					<!-- Khu vực làm bài -->
 					<div id="quiz-area-on-tap" style="display:none;max-width:760px;margin:0 auto;">
-						<div id="quiz-header-on-tap" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
+						<div id="quiz-header-on-tap"
+							style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
 							<span id="quiz-title-on-tap" style="font-weight:700;font-size:1.05em;"></span>
 							<span id="quiz-progress-on-tap" style="opacity:.6;font-size:.88em;"></span>
 						</div>
-						<div id="quiz-question-on-tap" style="font-size:1em;font-weight:600;margin-bottom:1em;line-height:1.6;"></div>
+						<div id="quiz-question-on-tap"
+							style="font-size:1em;font-weight:600;margin-bottom:1em;line-height:1.6;"></div>
 						<div id="quiz-choices-on-tap" style="display:grid;gap:.6em;"></div>
-						<div id="quiz-feedback-on-tap" style="margin-top:.9em;padding:.7em 1em;border-radius:8px;display:none;font-size:.93em;"></div>
+						<div id="quiz-feedback-on-tap"
+							style="margin-top:.9em;padding:.7em 1em;border-radius:8px;display:none;font-size:.93em;">
+						</div>
 						<div style="margin-top:1.2em;display:flex;gap:.8em;flex-wrap:wrap;">
-							<button id="quiz-next-on-tap" onclick="quizNext()" class="button" style="display:none;">Câu tiếp theo ➡️</button>
-							<button onclick="backToTopics()" class="button" style="background:transparent;color:inherit;border-color:rgba(0,0,0,.3);font-size:.82em;">↩ Chọn đề khác</button>
+							<button id="quiz-next-on-tap" onclick="quizNext()" class="button" style="display:none;">Câu
+								tiếp theo ➡️</button>
+							<button onclick="backToTopics()" class="button"
+								style="background:transparent;color:inherit;border-color:rgba(0,0,0,.3);font-size:.82em;">↩
+								Chọn đề khác</button>
 						</div>
 						<div id="quiz-result-on-tap" style="display:none;text-align:center;padding:1.5em;"></div>
 					</div>
@@ -558,25 +1456,76 @@
 					<p style="opacity:.7;margin-bottom:1.5em;">Chọn chủ đề để bắt đầu luyện tập</p>
 
 					<!-- Tabs chọn đề -->
-					<div id="quiz-tabs-luyen-tap" style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
-						<button onclick="startQuiz(2, 'luyen-tap')" class="button" style="font-size:.82em;">🧭 Xác định phương hướng</button>
-						<button onclick="startQuiz(3, 'luyen-tap')" class="button" style="font-size:.82em;">🌡️ Đới khí hậu</button>
-						<button onclick="startQuiz(4, 'luyen-tap')" class="button" style="font-size:.82em;">🌍 Bề mặt Trái Đất</button>
-						<button onclick="startQuiz(5, 'luyen-tap')" class="button" style="font-size:.82em;">☀️ Mặt Trời – Trái Đất – Mặt Trăng</button>
+					<div id="quiz-tabs-luyen-tap"
+						style="display:flex;flex-wrap:wrap;gap:.7em;justify-content:center;margin-bottom:1.5em;">
+						<button onclick="startQuiz(2, 'luyen-tap')" class="button" style="font-size:.82em;">🧭 Xác định
+							phương hướng</button>
+						<button onclick="startQuiz(3, 'luyen-tap')" class="button" style="font-size:.82em;">🌡️ Đới khí
+							hậu</button>
+						<button onclick="startQuiz(4, 'luyen-tap')" class="button" style="font-size:.82em;">🌍 Bề mặt
+							Trái Đất</button>
+						<button onclick="startQuiz(5, 'luyen-tap')" class="button" style="font-size:.82em;">☀️ Mặt Trời
+							– Trái Đất – Mặt Trăng</button>
 					</div>
 
 					<!-- Khu vực làm bài -->
 					<div id="quiz-area-luyen-tap" style="display:none;max-width:760px;margin:0 auto;text-align:left;">
-						<div id="quiz-header-luyen-tap" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
+
+						<!-- ‼️ KHÁM PHÁ LA BÀN (chỉ hiện cho Xác định phương hướng) -->
+						<div id="explore-compass" style="display:none;">
+							<div class="explore-screen">
+								<h3>🧭 Khám phá: La bàn hoạt động ra sao?</h3>
+								<p class="explore-hint">Kéo để xoay mặt la bàn · Kim đỏ luôn chỉ về Bắc</p>
+								<div class="compass-wrap" id="compassWrap">
+									<svg id="compassSvg" viewBox="0 0 180 180" width="180" height="180">
+										<circle cx="90" cy="90" r="86" fill="#1a2a4a" stroke="#f5c842" stroke-width="3"/>
+										<circle cx="90" cy="90" r="80" fill="#243050"/>
+										<g stroke="#f5c842" stroke-width="1.5" opacity=".5">
+											<line x1="90" y1="12" x2="90" y2="22"/><line x1="90" y1="158" x2="90" y2="168"/>
+											<line x1="12" y1="90" x2="22" y2="90"/><line x1="158" y1="90" x2="168" y2="90"/>
+											<line x1="30" y1="34" x2="37" y2="42"/><line x1="150" y1="34" x2="143" y2="42"/>
+											<line x1="143" y1="138" x2="150" y2="146"/><line x1="30" y1="138" x2="37" y2="130"/>
+										</g>
+										<g id="compassFace">
+											<text x="90" y="32" text-anchor="middle" fill="#e74c3c" font-weight="900" font-size="16" font-family="Arial">N</text>
+											<text x="90" y="160" text-anchor="middle" fill="#fff" font-weight="700" font-size="14" font-family="Arial">S</text>
+											<text x="162" y="95" text-anchor="middle" fill="#fff" font-weight="700" font-size="14" font-family="Arial">E</text>
+											<text x="18" y="95" text-anchor="middle" fill="#fff" font-weight="700" font-size="14" font-family="Arial">W</text>
+										</g>
+										<g id="compassNeedle">
+											<polygon points="90,25 85,90 95,90" fill="#e74c3c"/>
+											<polygon points="90,155 85,90 95,90" fill="#ecf0f1"/>
+											<circle cx="90" cy="90" r="6" fill="#f5c842" stroke="#fff" stroke-width="2"/>
+										</g>
+									</svg>
+								</div>
+								<div class="compass-fact">
+									📌 <strong>Nhận xét:</strong> Dù xoay mặt la bàn theo bất kỳ hướng nào,
+									kim đỏ luôn chỉ về <strong>hướng Bắc</strong> nhờ từ trường Trái Đất.
+								</div>
+								<button onclick="startQuizFromExplore()" class="button"
+									style="background:linear-gradient(135deg,#2ea44f,#1a7a35);color:#fff;border:none;font-size:.95em;padding:.75em 2em;">
+									✅ Đã hiểu — Làm bài ngay
+								</button>
+							</div>
+						</div><!-- /explore-compass -->
+						<div id="quiz-header-luyen-tap"
+							style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1em;">
 							<span id="quiz-title-luyen-tap" style="font-weight:700;font-size:1.05em;"></span>
 							<span id="quiz-progress-luyen-tap" style="opacity:.6;font-size:.88em;"></span>
 						</div>
-						<div id="quiz-question-luyen-tap" style="font-size:1em;font-weight:600;margin-bottom:1em;line-height:1.6;"></div>
+						<div id="quiz-question-luyen-tap"
+							style="font-size:1em;font-weight:600;margin-bottom:1em;line-height:1.6;"></div>
 						<div id="quiz-choices-luyen-tap" style="display:grid;gap:.6em;"></div>
-						<div id="quiz-feedback-luyen-tap" style="margin-top:.9em;padding:.7em 1em;border-radius:8px;display:none;font-size:.93em;"></div>
+						<div id="quiz-feedback-luyen-tap"
+							style="margin-top:.9em;padding:.7em 1em;border-radius:8px;display:none;font-size:.93em;">
+						</div>
 						<div style="margin-top:1.2em;display:flex;gap:.8em;flex-wrap:wrap;">
-							<button id="quiz-next-luyen-tap" onclick="quizNext()" class="button" style="display:none;">Câu tiếp theo ➡️</button>
-							<button onclick="backToTopics()" class="button" style="background:transparent;color:inherit;border-color:rgba(0,0,0,.3);font-size:.82em;">↩ Chọn chủ đề khác</button>
+							<button id="quiz-next-luyen-tap" onclick="quizNext()" class="button"
+								style="display:none;">Câu tiếp theo ➡️</button>
+							<button onclick="backToTopics()" class="button"
+								style="background:transparent;color:inherit;border-color:rgba(0,0,0,.3);font-size:.82em;">↩
+								Chọn chủ đề khác</button>
 						</div>
 						<div id="quiz-result-luyen-tap" style="display:none;text-align:center;padding:1.5em;"></div>
 					</div>
@@ -588,58 +1537,18 @@
 
 		<!-- Footer -->
 		<footer id="footer">
-			<section>
-				<h3>Về Bộ Học Liệu Số</h3>
-				<p>Bộ ứng dụng web AR Science Lab là học liệu số thuộc nhóm
-					<em>Thí nghiệm mô phỏng &amp; phần mềm dạy học</em>, phát triển
-					phục vụ giảng dạy Khoa Học Tự Nhiên tại các trường phổ thông.
-					Toàn bộ chạy trực tiếp trên trình duyệt, miễn phí, không cần cài đặt.
-				</p>
-				<div class="student-box">
-					<div class="sv-name">👩‍🎓 Lê Thị Khánh Linh</div>
-					<div class="sv-meta">
-						MSSV: 3220122138<br>
-						Đại học Sư Phạm – Đại học Đà Nẵng<br>
-						Khóa luận tốt nghiệp · 2025–2026
-					</div>
-				</div>
-			</section>
-			<section class="split contact">
-				<section class="alt">
-					<h3>Trường</h3>
-					<p>Đại học Sư Phạm<br />
-						Đại học Đà Nẵng, Việt Nam</p>
-				</section>
-				<section>
-					<h3>Công nghệ</h3>
-					<p>HTML5 · CSS3 · JavaScript<br />Three.js · WebGL · VS Code</p>
-				</section>
-				<section>
-					<h3>Loại học liệu</h3>
-					<p>Thí nghiệm mô phỏng<br />Phần mềm dạy học tương tác</p>
-				</section>
-				<section>
-					<h3>Mô-đun</h3>
-					<ul class="icons alt">
-						<li><a href="../../AR1/index.html" class="icon solid alt fa-sun"><span class="label">AR1</span></a>
-						</li>
-						<li><a href="../../AR2/index.html" class="icon solid alt fa-globe"><span
-									class="label">AR2</span></a></li>
-						<li><a href="../../AR3/index.html" class="icon solid alt fa-map"><span class="label">AR3</span></a>
-						</li>
-						<li><a href="../../AR4/index.html" class="icon solid alt fa-cloud"><span
-									class="label">AR4</span></a></li>
-					</ul>
-				</section>
+			<section style="text-align:center;">
+				<h3>🎓 AR Science Lab</h3>
+				<p>Bộ học liệu số tương tác hỗ trợ dạy học Khoa học Tự nhiên</p>
+				<p style="margin:.7em 0 0;opacity:.8;">&copy; 2025 Lê Thị Khánh Linh<br>Đại học Sư Phạm – Đại học Đà
+					Nẵng</p>
 			</section>
 		</footer>
 
-		<!-- Copyright -->
 		<div id="copyright">
 			<ul>
-				<li>&copy; 2025–2026 AR Science Lab · Lê Thị Khánh Linh – MSSV 3220122138</li>
-				<li>ĐHSP – Đại học Đà Nẵng</li>
-				<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+				<li>&copy; 2025 Lê Thị Khánh Linh</li>
+				<li>Đại học Sư Phạm – Đại học Đà Nẵng</li>
 			</ul>
 		</div>
 
@@ -709,6 +1618,11 @@
 			articles.forEach(function (el, i) {
 				el.classList.add('reveal');
 				el.style.transitionDelay = (i % 2 * 0.12) + 's';
+				// Nếu article đang nằm trong section bị ẩn → add visible ngay
+				var parentSection = el.closest('section[id], article[id]');
+				if (parentSection && parentSection.style.display === 'none') {
+					el.classList.add('visible');
+				}
 			});
 			var observer = new IntersectionObserver(function (entries) {
 				entries.forEach(function (e) {
@@ -764,10 +1678,9 @@
 
 		function showSection(id) {
 			// Ẩn tất cả
-			SECTIONS.forEach(function(sid) {
+			SECTIONS.forEach(function (sid) {
 				var el = document.getElementById(sid);
 				if (el) el.style.display = 'none';
-				// Xoá trạng thái active của tab
 				var tab = document.getElementById('tab-' + sid);
 				if (tab) tab.classList.remove('active');
 			});
@@ -775,11 +1688,13 @@
 			var target = document.getElementById(id);
 			if (target) {
 				target.style.display = '';
-				// Thêm trạng thái active cho tab mới
+				// Force visible cho tất cả article trong section (fix scroll-reveal ẩn)
+				target.querySelectorAll('article.reveal').forEach(function (a) {
+					a.classList.add('visible');
+				});
 				var activeTab = document.getElementById('tab-' + id);
 				if (activeTab) activeTab.classList.add('active');
-				// Thực hiện cuộn mượt mà
-				setTimeout(function() {
+				setTimeout(function () {
 					if (id === 'tong-quan') {
 						window.scrollTo({ top: document.getElementById('nav').offsetTop - 20, behavior: 'smooth' });
 					} else {
@@ -792,171 +1707,421 @@
 
 	<!-- ======= QUIZ ENGINE ======= -->
 	<script>
-	var QUIZ_DATA = [
-		// 0: Đề 1
-		{ title:'📋 Đề 1 – Ôn tập tổng hợp', questions:[
-			{q:'Câu 1: Đới khí hậu phân bố trong phạm vi từ chí tuyến đến hai vòng cực là',o:['Ôn đới','Nhiệt đới','Hàn đới','Cận nhiệt đới'],a:0},
-			{q:'Câu 2: Đới khí hậu nào nhận được lượng nhiệt và góc chiếu sáng từ mặt trời ít nhất',o:['Ôn đới','Nhiệt đới','Hàn đới','Cận nhiệt đới'],a:2},
-			{q:'Câu 3: Có bao nhiêu đới khí hậu trên bề mặt của Trái Đất',o:['3','4','5','6'],a:0},
-			{q:'Câu 4: Có mấy loại la bàn thường được dùng hiện nay?',o:['2','3','4','5'],a:1},
-			{q:'Câu 5: Hằng ngày, chúng ta vẫn nhìn thấy',o:['Mặt Trời mọc ở đằng Đông lặn ở đằng Tây.','Trái Đất quay quanh trục của nó.','Trái Đất quay quanh Mặt Trời.','Mặt Trăng quay quanh Trái Đất.'],a:0},
-			{q:'Câu 6: Bề mặt Trái Đất luôn có một nửa được Mặt Trời chiếu sáng là ngày, nguyên nhân là do?',o:['Trái Đất tự quay quanh trục.','Trục Trái Đất nghiêng.','Trái Đất chuyển động quanh Mặt Trời.','Trái Đất có dạng hình khối cầu.'],a:0},
-			{q:'Câu 7: Hệ Mặt trời là',o:['khoảng không gian vô tận chứa các thiên hà.','dải Ngân Hà chứa các hành tinh, các ngôi sao.','một tập hợp các thiên thể trong Dải Ngân Hà.','một tập hợp của rất nhiều ngôi sao và vệ tinh.'],a:2},
-			{q:'Câu 8: Hệ Mặt Trời gồm có Mặt Trời ở trung tâm cùng với các',o:['hành tinh, vệ tinh, sao chổi, thiên thạch, bụi và các thiên hà.','hành tinh, vệ tinh, sao chổi, thiên thạch và các đám bụi khí.','hành tinh, vệ tinh, sao chổi, thiên thạch, khí và Dải Ngân Hà.','hành tinh, vệ tinh, vũ trụ, các thiên thạch và các đám bụi khí.'],a:1},
-			{q:'Câu 9: Hệ quả của vận động theo phương thẳng đứng là',o:['làm cho các lớp đất đá bị uốn thành nếp nhưng không phá vỡ tính liên tục.','làm cho các lớp đất đá bị gãy đứt ra rồi dịch chuyển ngược hướng nhau.','làm cho bộ phận này của lục địa được nâng lên khi bộ phận khác bị hạ xuống.','làm cho đất đá di chuyển từ chỗ cao xuống chỗ thấp.'],a:2},
-			{q:'Câu 10: Hiện tượng đứt gãy xảy ra ở nơi nào sau đây?',o:['Đất đá có độ dẻo cao.','Đất đá có độ cứng cao.','Nơi có hoạt động động đất.','Nơi tiếp xúc giữa các mảng kiến tạo.'],a:1}
-		]},
-		// 1: Đề 2
-		{ title:'📋 Đề 2 – Ôn tập tổng hợp', questions:[
-			{q:'Câu 1: Phát biểu nào sau đây là đúng?',o:['Trái Đất tự quay quanh trục của nó theo hướng từ tây sang đông.','Mặt Trời mọc ở đằng tây, lặn ở đằng đông.','Chuyển động nhìn thấy là chuyển động Mặt Trăng quay quanh Trái Đất.','Cả 3 phát biểu trên'],a:0},
-			{q:'Câu 2: Hành tinh nào sau đây không nằm trong hệ Mặt Trời?',o:['Thiên Vương tinh.','Hải Vương tinh.','Diêm Vương tinh.','Thổ tinh.'],a:2},
-			{q:'Câu 3: Hành tinh gần Mặt Trời nhất là',o:['Thủy tinh.','Kim tinh.','Mộc tinh.','Hỏa tinh.'],a:0},
-			{q:'Câu 4: Hệ Mặt trời là',o:['Khoảng không gian vô tận chứa các thiên hà.','Dải Ngân Hà chứa các hành tinh, các ngôi sao.','Một tập hợp các thiên thể trong Dải Ngân Hà.','Một tập hợp của rất nhiều ngôi sao và vệ tinh.'],a:2},
-			{q:'Câu 5: Hệ Mặt Trời gồm có Mặt Trời ở trung tâm cùng với các',o:['Hành tinh, vệ tinh, sao chổi, thiên thạch, bụi và các thiên hà.','Hành tinh, vệ tinh, sao chổi, thiên thạch và các đám bụi khí.','Hành tinh, vệ tinh, sao chổi, thiên thạch, khí và Dải Ngân Hà.','Hành tinh, vệ tinh, vũ trụ, các thiên thạch và các đám bụi khí.'],a:1},
-			{q:'Câu 6: Ban ngày sẽ xuất hiện khi nào?',o:['Trái Đất được Mặt Trăng chiếu sáng.','Mặt Trăng không che lấp Trái Đất.','Phần Trái Đất được Mặt Trời chiếu sáng.','Phần Trái Đất không được Mặt Trời chiếu sáng.'],a:2},
-			{q:'Câu 7: Chúng ta thấy Mặt Trời mọc ở hướng Đông và lặn ở hướng Tây là do',o:['Trái Đất tự quay quanh trục của nó theo hướng từ Tây sang Đông.','Mặt Trời mọc ở đằng tây, lặn ở đằng đông.','Trái Đất quay quanh Mặt Trời.','Mặt Trời quay quanh Trái Đất.'],a:0},
-			{q:'Câu 8: Khi quan sát bầu trời đêm vào những đêm trời quang và không trăng, ta có thể nhìn thấy',o:['Mặt Trời.','Mặt Trăng.','Hỏa tinh.','Ngân Hà.'],a:3},
-			{q:'Câu 9: Trong hệ Mặt Trời, các __ quay quanh Mặt Trời còn các __ quay quanh các hành tinh.',o:['Hành tinh - vệ tinh.','Vệ tinh - vệ tinh.','Thiên thể - thiên thể.','Vệ tinh - thiên thể.'],a:0},
-			{q:'Câu 10: Vì sao chúng ta quan sát được nhiều pha của Mặt Trăng từ Trái Đất?',o:['Mặt Trăng có thể thay đổi hình dạng.','Trái Đất quay quanh Mặt Trăng.','Mặt Trăng quay quanh Trái Đất và sự thay đổi vị trí giữa Mặt Trăng, Trái Đất.','Mặt Trăng quay quanh Trái Đất và sự thay đổi vị trí giữa Mặt Trăng, Mặt Trời, Trái Đất.'],a:3}
-		]},
-		// 2: Phương hướng
-		{ title:'🧭 Xác định các phương trong không gian', questions:[
-			{q:'Câu 1: Công cụ chính xác và phổ biến nhất để xác định phương hướng trong không gian là gì?',o:['Dựa vào bóng nắng','Quan sát sao Bắc cực','La bàn','Xem hướng rêu mọc trên cây'],a:2},
-			{q:'Câu 2: Trên la bàn, kim có màu đỏ (hoặc mũi tên đánh dấu) thường chỉ về hướng nào?',o:['Đông','Tây','Nam','Bắc'],a:3},
-			{q:'Câu 3: Để xác định hướng Đông, Tây, Nam, Bắc trên bản đồ, người ta quy ước phía trên của bản đồ là hướng nào?',o:['Bắc','Nam','Đông','Tây'],a:0},
-			{q:'Câu 4: Khi sử dụng phương pháp bóng cọc (bóng nắng) để xác định phương hướng, bóng của cọc đổ về hướng nào vào buổi trưa (ở bán cầu Bắc)?',o:['Hướng Đông','Hướng Tây','Hướng Bắc','Hướng Nam'],a:2},
-			{q:'Câu 5: Khi đứng nhìn về hướng Bắc, tay phải của bạn chỉ về hướng nào?',o:['Đông','Tây','Nam','Đông Bắc'],a:0}
-		]},
-		// 3: Đới khí hậu
-		{ title:'🌡️ Trái Đất và các đới khí hậu', questions:[
-			{q:'Câu 1: Trên mỗi bán cầu, các đới khí hậu theo thứ tự từ Xích đạo về phía cực là:',o:['Nhiệt đới, Ôn đới, Hàn đới.','Hàn đới, Ôn đới, Nhiệt đới.','Ôn đới, Nhiệt đới, Hàn đới.','Nhiệt đới, Hàn đới, Ôn đới.'],a:0},
-			{q:'Câu 2: Đới khí hậu nằm giữa chí tuyến Bắc và chí tuyến Nam được gọi là:',o:['Đới nóng (Nhiệt đới).','Đới ôn hòa (Ôn đới).','Đới lạnh (Hàn đới).','Đới cận nhiệt.'],a:0},
-			{q:'Câu 3: Việt Nam nằm trong đới khí hậu nào?',o:['Ôn đới.','Hàn đới.','Nhiệt đới.','Cận cực.'],a:2},
-			{q:'Câu 4: Đặc điểm nổi bật của đới lạnh (Hàn đới) là:',o:['Nhiệt độ cao, mưa nhiều quanh năm.','Nhiệt độ trung bình, có 4 mùa rõ rệt.','Nhiệt độ rất thấp, quanh năm băng tuyết bao phủ.','Nhiệt độ cao, ít mưa.'],a:2},
-			{q:'Câu 5: Cảnh quan đặc trưng của đới nóng là:',o:['Rừng lá kim.','Rừng rậm nhiệt đới.','Hoang mạc băng.','Thảo nguyên khô hạn.'],a:1},
-			{q:'Câu 6: Đới khí hậu nào có nhiệt độ chênh lệch lớn nhất giữa mùa hạ và mùa đông?',o:['Đới nóng.','Đới ôn hòa.','Đới lạnh.','Đới cận xích đạo.'],a:1}
-		]},
-		// 4: Bề mặt Trái Đất
-		{ title:'🌍 Bề mặt Trái Đất', questions:[
-			{q:'Câu 1: Bề mặt Trái Đất chủ yếu bao gồm những thành phần nào?',o:['Chỉ có đất liền','Chỉ có nước (đại dương)','Cả đất liền và nước','Chỉ có núi và rừng'],a:2},
-			{q:'Câu 2: Phần lớn diện tích trên bề mặt Trái Đất là gì?',o:['Đất liền','Nước (biển và đại dương)','Rừng rậm','Sa mạc'],a:1},
-			{q:'Câu 3: Đâu là các dạng địa hình nổi bật trên đất liền?',o:['Đại dương, biển, vịnh','Núi, đồi, đồng bằng','Sông, hồ, kênh rạch','Rạn san hô'],a:1},
-			{q:'Câu 4: Đặc điểm của đồng bằng là gì?',o:['Đất cao, nhấp nhô','Đất phẳng, rộng lớn','Nơi cao nhất của Trái Đất','Được bao bọc bởi bốn bề là biển'],a:1},
-			{q:'Câu 5: Nơi có địa hình cao, đỉnh nhọn, sườn dốc được gọi là gì?',o:['Đồi','Đồng bằng','Núi','Thung lũng'],a:2},
-			{q:'Câu 6: Nước ở sông, hồ, suối thường là loại nước gì?',o:['Nước mặn','Nước ngọt','Nước khoáng','Nước có ga'],a:1},
-			{q:'Câu 7: Tại sao chúng ta cần bảo vệ môi trường trên bề mặt Trái Đất?',o:['Vì Trái Đất là ngôi nhà chung của con người và sinh vật.','Vì tài nguyên là vô hạn.','Vì con người có thể sống trên bất kỳ hành tinh nào khác.','Vì bảo vệ môi trường không quan trọng.'],a:0}
-		]},
-		// 5: Mặt Trời – Trái Đất – Mặt Trăng
-		{ title:'☀️ Mặt Trời – Trái Đất – Mặt Trăng', questions:[
-			{q:'Câu 1: Ngôi sao nào chiếu sáng và sưởi ấm cho Trái Đất?',o:['Mặt Trăng','Sao Hỏa','Mặt Trời','Sao Kim'],a:2},
-			{q:'Câu 2: Ban ngày xảy ra khi',o:['Mặt Trăng chiếu sáng Trái Đất','Phần Trái Đất được Mặt Trời chiếu sáng','Trái Đất ngừng quay','Có nhiều ngôi sao trên trời'],a:1},
-			{q:'Câu 3: Thiên thể nào quay quanh Trái Đất?',o:['Mặt Trời','Sao Kim','Mặt Trăng','Sao Hỏa'],a:2},
-			{q:'Câu 4: Mặt Trăng có ánh sáng vì',o:['Tự phát sáng','Phản chiếu ánh sáng của Mặt Trời','Nhờ ánh sáng của các ngôi sao','Nhờ ánh sáng của Trái Đất'],a:1},
-			{q:'Câu 5: Chúng ta đang sống trên hành tinh nào?',o:['Sao Hỏa','Sao Kim','Trái Đất','Sao Thổ'],a:2}
-		]}
-	];
+		var QUIZ_DATA = [
+			// 0: Đề 1
+			{
+				title: '📋 Đề 1 – Ôn tập tổng hợp', questions: [
+					{ q: 'Câu 1: Đới khí hậu phân bố trong phạm vi từ chí tuyến đến hai vòng cực là', o: ['Ôn đới', 'Nhiệt đới', 'Hàn đới', 'Cận nhiệt đới'], a: 0 },
+					{ q: 'Câu 2: Đới khí hậu nào nhận được lượng nhiệt và góc chiếu sáng từ mặt trời ít nhất', o: ['Ôn đới', 'Nhiệt đới', 'Hàn đới', 'Cận nhiệt đới'], a: 2 },
+					{ q: 'Câu 3: Có bao nhiêu đới khí hậu trên bề mặt của Trái Đất', o: ['3', '4', '5', '6'], a: 0 },
+					{ q: 'Câu 4: Có mấy loại la bàn thường được dùng hiện nay?', o: ['2', '3', '4', '5'], a: 1 },
+					{ q: 'Câu 5: Hằng ngày, chúng ta vẫn nhìn thấy', o: ['Mặt Trời mọc ở đằng Đông lặn ở đằng Tây.', 'Trái Đất quay quanh trục của nó.', 'Trái Đất quay quanh Mặt Trời.', 'Mặt Trăng quay quanh Trái Đất.'], a: 0 },
+					{ q: 'Câu 6: Bề mặt Trái Đất luôn có một nửa được Mặt Trời chiếu sáng là ngày, nguyên nhân là do?', o: ['Trái Đất tự quay quanh trục.', 'Trục Trái Đất nghiêng.', 'Trái Đất chuyển động quanh Mặt Trời.', 'Trái Đất có dạng hình khối cầu.'], a: 0 },
+					{ q: 'Câu 7: Hệ Mặt trời là', o: ['khoảng không gian vô tận chứa các thiên hà.', 'dải Ngân Hà chứa các hành tinh, các ngôi sao.', 'một tập hợp các thiên thể trong Dải Ngân Hà.', 'một tập hợp của rất nhiều ngôi sao và vệ tinh.'], a: 2 },
+					{ q: 'Câu 8: Hệ Mặt Trời gồm có Mặt Trời ở trung tâm cùng với các', o: ['hành tinh, vệ tinh, sao chổi, thiên thạch, bụi và các thiên hà.', 'hành tinh, vệ tinh, sao chổi, thiên thạch và các đám bụi khí.', 'hành tinh, vệ tinh, sao chổi, thiên thạch, khí và Dải Ngân Hà.', 'hành tinh, vệ tinh, vũ trụ, các thiên thạch và các đám bụi khí.'], a: 1 },
+					{ q: 'Câu 9: Hệ quả của vận động theo phương thẳng đứng là', o: ['làm cho các lớp đất đá bị uốn thành nếp nhưng không phá vỡ tính liên tục.', 'làm cho các lớp đất đá bị gãy đứt ra rồi dịch chuyển ngược hướng nhau.', 'làm cho bộ phận này của lục địa được nâng lên khi bộ phận khác bị hạ xuống.', 'làm cho đất đá di chuyển từ chỗ cao xuống chỗ thấp.'], a: 2 },
+					{ q: 'Câu 10: Hiện tượng đứt gãy xảy ra ở nơi nào sau đây?', o: ['Đất đá có độ dẻo cao.', 'Đất đá có độ cứng cao.', 'Nơi có hoạt động động đất.', 'Nơi tiếp xúc giữa các mảng kiến tạo.'], a: 1 }
+				]
+			},
+			// 1: Đề 2
+			{
+				title: '📋 Đề 2 – Ôn tập tổng hợp', questions: [
+					{ q: 'Câu 1: Phát biểu nào sau đây là đúng?', o: ['Trái Đất tự quay quanh trục của nó theo hướng từ tây sang đông.', 'Mặt Trời mọc ở đằng tây, lặn ở đằng đông.', 'Chuyển động nhìn thấy là chuyển động Mặt Trăng quay quanh Trái Đất.', 'Cả 3 phát biểu trên'], a: 0 },
+					{ q: 'Câu 2: Hành tinh nào sau đây không nằm trong hệ Mặt Trời?', o: ['Thiên Vương tinh.', 'Hải Vương tinh.', 'Diêm Vương tinh.', 'Thổ tinh.'], a: 2 },
+					{ q: 'Câu 3: Hành tinh gần Mặt Trời nhất là', o: ['Thủy tinh.', 'Kim tinh.', 'Mộc tinh.', 'Hỏa tinh.'], a: 0 },
+					{ q: 'Câu 4: Hệ Mặt trời là', o: ['Khoảng không gian vô tận chứa các thiên hà.', 'Dải Ngân Hà chứa các hành tinh, các ngôi sao.', 'Một tập hợp các thiên thể trong Dải Ngân Hà.', 'Một tập hợp của rất nhiều ngôi sao và vệ tinh.'], a: 2 },
+					{ q: 'Câu 5: Hệ Mặt Trời gồm có Mặt Trời ở trung tâm cùng với các', o: ['Hành tinh, vệ tinh, sao chổi, thiên thạch, bụi và các thiên hà.', 'Hành tinh, vệ tinh, sao chổi, thiên thạch và các đám bụi khí.', 'Hành tinh, vệ tinh, sao chổi, thiên thạch, khí và Dải Ngân Hà.', 'Hành tinh, vệ tinh, vũ trụ, các thiên thạch và các đám bụi khí.'], a: 1 },
+					{ q: 'Câu 6: Ban ngày sẽ xuất hiện khi nào?', o: ['Trái Đất được Mặt Trăng chiếu sáng.', 'Mặt Trăng không che lấp Trái Đất.', 'Phần Trái Đất được Mặt Trời chiếu sáng.', 'Phần Trái Đất không được Mặt Trời chiếu sáng.'], a: 2 },
+					{ q: 'Câu 7: Chúng ta thấy Mặt Trời mọc ở hướng Đông và lặn ở hướng Tây là do', o: ['Trái Đất tự quay quanh trục của nó theo hướng từ Tây sang Đông.', 'Mặt Trời mọc ở đằng tây, lặn ở đằng đông.', 'Trái Đất quay quanh Mặt Trời.', 'Mặt Trời quay quanh Trái Đất.'], a: 0 },
+					{ q: 'Câu 8: Khi quan sát bầu trời đêm vào những đêm trời quang và không trăng, ta có thể nhìn thấy', o: ['Mặt Trời.', 'Mặt Trăng.', 'Hỏa tinh.', 'Ngân Hà.'], a: 3 },
+					{ q: 'Câu 9: Trong hệ Mặt Trời, các __ quay quanh Mặt Trời còn các __ quay quanh các hành tinh.', o: ['Hành tinh - vệ tinh.', 'Vệ tinh - vệ tinh.', 'Thiên thể - thiên thể.', 'Vệ tinh - thiên thể.'], a: 0 },
+					{ q: 'Câu 10: Vì sao chúng ta quan sát được nhiều pha của Mặt Trăng từ Trái Đất?', o: ['Mặt Trăng có thể thay đổi hình dạng.', 'Trái Đất quay quanh Mặt Trăng.', 'Mặt Trăng quay quanh Trái Đất và sự thay đổi vị trí giữa Mặt Trăng, Trái Đất.', 'Mặt Trăng quay quanh Trái Đất và sự thay đổi vị trí giữa Mặt Trăng, Mặt Trời, Trái Đất.'], a: 3 }
+				]
+			},
+			// 2: Phương hướng
+			{
+				title: '🧭 Xác định các phương trong không gian', questions: [
+					{ q: 'Câu 1: Công cụ chính xác và phổ biến nhất để xác định phương hướng trong không gian là gì?', img: 'compass', o: ['Dựa vào bóng nắng', 'Quan sát sao Bắc cực', 'La bàn', 'Xem hướng rêu mọc trên cây'], a: 2 },
+					{ q: 'Câu 2: Trên la bàn, kim có màu đỏ (hoặc mũi tên đánh dấu) thường chỉ về hướng nào?', img: 'compass', o: ['Đông', 'Tây', 'Nam', 'Bắc'], a: 3 },
+					{ q: 'Câu 3: Để xác định hướng Đông, Tây, Nam, Bắc trên bản đồ, người ta quy ước phía trên của bản đồ là hướng nào?', o: ['Bắc', 'Nam', 'Đông', 'Tây'], a: 0 },
+					{ q: 'Câu 4: Khi sử dụng phương pháp bóng cọc (ánh nắng) để xác định phương hướng, bóng của cọc đổ về hướng nào vào buổi trưa (ở bán cầu Bắc)?', o: ['Hướng Đông', 'Hướng Tây', 'Hướng Bắc', 'Hướng Nam'], a: 2 },
+					{ q: 'Câu 5: Khi đứng nhìn về hướng Bắc, tay phải của bạn chỉ về hướng nào?', img: 'compass', o: ['Đông', 'Tây', 'Nam', 'Đông Bắc'], a: 0 }
+				]
+			},
+			// 3: Đới khí hậu
+			{
+				title: '🌡️ Trái Đất và các đới khí hậu', questions: [
+					{ q: 'Câu 1: Trên mỗi bán cầu, các đới khí hậu theo thứ tự từ Xích đạo về phía cực là:', o: ['Nhiệt đới, Ôn đới, Hàn đới.', 'Hàn đới, Ôn đới, Nhiệt đới.', 'Ôn đới, Nhiệt đới, Hàn đới.', 'Nhiệt đới, Hàn đới, Ôn đới.'], a: 0 },
+					{ q: 'Câu 2: Đới khí hậu nằm giữa chí tuyến Bắc và chí tuyến Nam được gọi là:', o: ['Đới nóng (Nhiệt đới).', 'Đới ôn hòa (Ôn đới).', 'Đới lạnh (Hàn đới).', 'Đới cận nhiệt.'], a: 0 },
+					{ q: 'Câu 3: Việt Nam nằm trong đới khí hậu nào?', o: ['Ôn đới.', 'Hàn đới.', 'Nhiệt đới.', 'Cận cực.'], a: 2 },
+					{ q: 'Câu 4: Đặc điểm nổi bật của đới lạnh (Hàn đới) là:', o: ['Nhiệt độ cao, mưa nhiều quanh năm.', 'Nhiệt độ trung bình, có 4 mùa rõ rệt.', 'Nhiệt độ rất thấp, quanh năm băng tuyết bao phủ.', 'Nhiệt độ cao, ít mưa.'], a: 2 },
+					{ q: 'Câu 5: Cảnh quan đặc trưng của đới nóng là:', o: ['Rừng lá kim.', 'Rừng rậm nhiệt đới.', 'Hoang mạc băng.', 'Thảo nguyên khô hạn.'], a: 1 },
+					{ q: 'Câu 6: Đới khí hậu nào có nhiệt độ chênh lệch lớn nhất giữa mùa hạ và mùa đông?', o: ['Đới nóng.', 'Đới ôn hòa.', 'Đới lạnh.', 'Đới cận xích đạo.'], a: 1 }
+				]
+			},
+			// 4: Bề mặt Trái Đất
+			{
+				title: '🌍 Bề mặt Trái Đất', questions: [
+					{ q: 'Câu 1: Bề mặt Trái Đất chủ yếu bao gồm những thành phần nào?', o: ['Chỉ có đất liền', 'Chỉ có nước (đại dương)', 'Cả đất liền và nước', 'Chỉ có núi và rừng'], a: 2 },
+					{ q: 'Câu 2: Phần lớn diện tích trên bề mặt Trái Đất là gì?', o: ['Đất liền', 'Nước (biển và đại dương)', 'Rừng rậm', 'Sa mạc'], a: 1 },
+					{ q: 'Câu 3: Đâu là các dạng địa hình nổi bật trên đất liền?', o: ['Đại dương, biển, vịnh', 'Núi, đồi, đồng bằng', 'Sông, hồ, kênh rạch', 'Rạn san hô'], a: 1 },
+					{ q: 'Câu 4: Đặc điểm của đồng bằng là gì?', o: ['Đất cao, nhấp nhô', 'Đất phẳng, rộng lớn', 'Nơi cao nhất của Trái Đất', 'Được bao bọc bởi bốn bề là biển'], a: 1 },
+					{ q: 'Câu 5: Nơi có địa hình cao, đỉnh nhọn, sườn dốc được gọi là gì?', o: ['Đồi', 'Đồng bằng', 'Núi', 'Thung lũng'], a: 2 },
+					{ q: 'Câu 6: Nước ở sông, hồ, suối thường là loại nước gì?', o: ['Nước mặn', 'Nước ngọt', 'Nước khoáng', 'Nước có ga'], a: 1 },
+					{ q: 'Câu 7: Tại sao chúng ta cần bảo vệ môi trường trên bề mặt Trái Đất?', o: ['Vì Trái Đất là ngôi nhà chung của con người và sinh vật.', 'Vì tài nguyên là vô hạn.', 'Vì con người có thể sống trên bất kỳ hành tinh nào khác.', 'Vì bảo vệ môi trường không quan trọng.'], a: 0 }
+				]
+			},
+			// 5: Mặt Trời – Trái Đất – Mặt Trăng
+			{
+				title: '☀️ Mặt Trời – Trái Đất – Mặt Trăng', questions: [
+					{ q: 'Câu 1: Ngôi sao nào chiếu sáng và sưởi ấm cho Trái Đất?', img: 'earth-sun', o: ['Mặt Trăng', 'Sao Hỏa', 'Mặt Trời', 'Sao Kim'], a: 2 },
+					{ q: 'Câu 2: Ban ngày xảy ra khi', img: 'earth-sun', o: ['Mặt Trăng chiếu sáng Trái Đất', 'Phần Trái Đất được Mặt Trời chiếu sáng', 'Trái Đất ngừng quay', 'Có nhiều ngôi sao trên trời'], a: 1 },
+					{ q: 'Câu 3: Thiên thể nào quay quanh Trái Đất?', o: ['Mặt Trời', 'Sao Kim', 'Mặt Trăng', 'Sao Hỏa'], a: 2 },
+					{ q: 'Câu 4: Mặt Trăng có ánh sáng vì', o: ['Tự phát sáng', 'Phản chiếu ánh sáng của Mặt Trời', 'Nhờ ánh sáng của các ngôi sao', 'Nhờ ánh sáng của Trái Đất'], a: 1 },
+					{ q: 'Câu 5: Chúng ta đang sống trên hành tinh nào?', o: ['Sao Hỏa', 'Sao Kim', 'Trái Đất', 'Sao Thổ'], a: 2 }
+				]
+			}
+		];
 
-	var qCurrent = 0, qScore = 0, qSet = null, qAnswered = false;
-	var activeSection = 'on-tap'; // lưu trữ section đang active: 'on-tap' hoặc 'luyen-tap'
-	var OPTS = ['A','B','C','D'];
+		var qCurrent = 0, qScore = 0, qSet = null, qAnswered = false;
+		var activeSection = 'on-tap'; // lưu trữ section đang active: 'on-tap' hoặc 'luyen-tap'
+		var OPTS = ['A', 'B', 'C', 'D'];
 
-	function startQuiz(idx, sectionId) {
-		qSet     = QUIZ_DATA[idx];
-		qCurrent = 0;
-		qScore   = 0;
-		activeSection = sectionId || 'on-tap';
+		function startQuiz(idx, sectionId) {
+			qSet = QUIZ_DATA[idx];
+			qCurrent = 0;
+			qScore = 0;
+			activeSection = sectionId || 'on-tap';
 
-		document.getElementById('quiz-tabs-' + activeSection).style.display  = 'none';
-		document.getElementById('quiz-area-' + activeSection).style.display  = '';
-		document.getElementById('quiz-result-' + activeSection).style.display= 'none';
-		document.getElementById('quiz-title-' + activeSection).textContent   = qSet.title;
-		showQ();
-	}
-
-	function showQ() {
-		qAnswered = false;
-		var q   = qSet.questions[qCurrent];
-		document.getElementById('quiz-progress-' + activeSection).textContent  = 'Câu ' + (qCurrent+1) + ' / ' + qSet.questions.length;
-		document.getElementById('quiz-question-' + activeSection).textContent  = q.q;
-		document.getElementById('quiz-feedback-' + activeSection).style.display= 'none';
-		document.getElementById('quiz-next-' + activeSection).style.display   = 'none';
-
-		var html = '';
-		q.o.forEach(function(opt, i) {
-			html += '<button onclick="pickAnswer('+i+')" id="opt'+i+'-'+activeSection+'" style="'+
-				'text-align:left;padding:.7em 1em;border:2px solid #ccc;border-radius:8px;'+
-				'background:#fff;cursor:pointer;font-size:.9em;line-height:1.5;width:100%;'+
-				'transition:background .15s;">'+
-				'<strong>'+OPTS[i]+'.</strong> '+opt+'</button>';
-		});
-		document.getElementById('quiz-choices-' + activeSection).innerHTML = html;
-	}
-
-	function pickAnswer(idx) {
-		if (qAnswered) return;
-		qAnswered = true;
-		var correct = qSet.questions[qCurrent].a;
-		var fb      = document.getElementById('quiz-feedback-' + activeSection);
-
-		// Màu các nút
-		for (var i=0; i<qSet.questions[qCurrent].o.length; i++) {
-			var btn = document.getElementById('opt'+i+'-'+activeSection);
-			if (!btn) continue;
-			btn.style.cursor    = 'default';
-			if (i === correct)  { btn.style.background='#d4edda'; btn.style.borderColor='#28a745'; }
-			else if (i === idx) { btn.style.background='#f8d7da'; btn.style.borderColor='#dc3545'; }
+			// Chủ đề phương hướng (idx=2) → hiện Explore trước
+			if (idx === 2 && sectionId === 'luyen-tap') {
+				document.getElementById('quiz-tabs-luyen-tap').style.display = 'none';
+				document.getElementById('quiz-area-luyen-tap').style.display = '';
+				document.getElementById('explore-compass').style.display = '';
+				document.getElementById('quiz-header-luyen-tap').style.display = 'none';
+				document.getElementById('quiz-question-luyen-tap').style.display = 'none';
+				document.getElementById('quiz-choices-luyen-tap').style.display = 'none';
+				document.getElementById('quiz-feedback-luyen-tap').style.display = 'none';
+				document.getElementById('quiz-result-luyen-tap').style.display = 'none';
+				initCompass();
+				return;
+			}
+			_launchQuiz();
 		}
 
-		if (idx === correct) {
-			qScore++;
-			fb.style.background='#d4edda'; fb.style.color='#155724';
-			fb.textContent='✅ Chính xác! +1 điểm';
-		} else {
-			fb.style.background='#f8d7da'; fb.style.color='#721c24';
-			fb.textContent='❌ Chưa đúng! Đáp án đúng: '+OPTS[correct]+'. '+qSet.questions[qCurrent].o[correct];
+		function startQuizFromExplore() {
+			document.getElementById('explore-compass').style.display = 'none';
+			document.getElementById('quiz-header-luyen-tap').style.display = '';
+			document.getElementById('quiz-question-luyen-tap').style.display = '';
+			document.getElementById('quiz-choices-luyen-tap').style.display = 'grid';
+			_launchQuiz();
 		}
-		fb.style.display='block';
-		var nxt=document.getElementById('quiz-next-' + activeSection);
-		nxt.textContent = qCurrent < qSet.questions.length-1 ? 'Câu tiếp theo ➡️' : '🏁 Xem kết quả';
-		nxt.style.display='inline-block';
-	}
 
-	function quizNext() {
-		qCurrent++;
-		if (qCurrent < qSet.questions.length) {
+		function _launchQuiz() {
+			document.getElementById('quiz-tabs-' + activeSection).style.display = 'none';
+			document.getElementById('quiz-area-' + activeSection).style.display = '';
+			document.getElementById('quiz-result-' + activeSection).style.display = 'none';
+			document.getElementById('quiz-title-' + activeSection).textContent = qSet.title;
 			showQ();
-		} else {
-			// Kết quả
-			var pct   = Math.round(qScore/qSet.questions.length*100);
-			var emoji = pct>=80?'🏆':pct>=60?'👍':'📚';
-			document.getElementById('quiz-choices-' + activeSection).innerHTML  ='';
-			document.getElementById('quiz-question-' + activeSection).textContent='';
-			document.getElementById('quiz-feedback-' + activeSection).style.display='none';
-			document.getElementById('quiz-next-' + activeSection).style.display='none';
-			var res = document.getElementById('quiz-result-' + activeSection);
-			res.style.display='block';
-			res.innerHTML='<div style="font-size:3em;margin-bottom:.3em;">'+emoji+'</div>'+
-				'<h3>Kết quả: '+qScore+'/'+qSet.questions.length+' câu đúng</h3>'+
-				'<p style="font-size:1.2em;font-weight:700;">'+pct+'%</p>'+
-				'<p>'+( pct>=80?'Xuất sắc! Bạn đã nắm vững chủ đề này.':
-					pct>=60?'Tốt! Ôn thêm một chút nữa nhé.':
-					'Cần cố gắng thêm. Hãy xem lại bài học!' )+'</p>'+
-				'<button onclick="startQuiz('+QUIZ_DATA.indexOf(qSet)+', \''+activeSection+'\')" class="button" style="margin-top:1em;margin-right:.5em;">🔁 Làm lại</button>'+
-				'<button onclick="backToTopics()" class="button" style="margin-top:1em;">↩ Chọn chủ đề khác</button>';
 		}
-	}
 
-	function backToTopics() {
-		document.getElementById('quiz-tabs-' + activeSection).style.display='';
-		document.getElementById('quiz-area-' + activeSection).style.display='none';
-	}
+		function showQ() {
+			qAnswered = false;
+			var q = qSet.questions[qCurrent];
+			document.getElementById('quiz-progress-' + activeSection).textContent = 'Câu ' + (qCurrent + 1) + ' / ' + qSet.questions.length;
+			document.getElementById('quiz-feedback-' + activeSection).style.display = 'none';
+			document.getElementById('quiz-next-' + activeSection).style.display = 'none';
 
-	function toggleSubMenu(id) {
-		var el = document.getElementById(id);
-		if (!el) return;
-		el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
-	}
+			// Hình minh họa SVG theo từng loại câu hỏi
+			var visualHtml = '';
+			if (q.img === 'compass') {
+				visualHtml = '<div class="q-visual-wrap">' +
+					'<svg viewBox="0 0 80 80" width="80" height="80">' +
+					'<circle cx="40" cy="40" r="38" fill="#1a2a4a" stroke="#f5c842" stroke-width="2"/>' +
+					'<text x="40" y="16" text-anchor="middle" fill="#e74c3c" font-size="11" font-weight="900" font-family="Arial">N</text>' +
+					'<text x="40" y="72" text-anchor="middle" fill="#fff" font-size="10" font-family="Arial">S</text>' +
+					'<text x="68" y="44" text-anchor="middle" fill="#fff" font-size="10" font-family="Arial">E</text>' +
+					'<text x="12" y="44" text-anchor="middle" fill="#fff" font-size="10" font-family="Arial">W</text>' +
+					'<polygon points="40,12 37,40 43,40" fill="#e74c3c"/>' +
+					'<polygon points="40,68 37,40 43,40" fill="#ecf0f1"/>' +
+					'<circle cx="40" cy="40" r="4" fill="#f5c842"/>' +
+					'</svg>' +
+					'<div class="q-visual-text"><strong>' + q.q + '</strong></div>' +
+					'</div>';
+			} else if (q.img === 'earth-sun') {
+				visualHtml = '<div class="q-visual-wrap">' +
+					'<svg viewBox="0 0 90 80" width="90" height="80">' +
+					'<!-- Mặt Trời -->' +
+					'<circle cx="18" cy="40" r="14" fill="#f5c842"/>' +
+					'<line x1="32" y1="40" x2="38" y2="40" stroke="#f5c842" stroke-width="2"/>' +
+					'<line x1="18" y1="26" x2="18" y2="22" stroke="#f5c842" stroke-width="2"/>' +
+					'<line x1="18" y1="54" x2="18" y2="58" stroke="#f5c842" stroke-width="2"/>' +
+					'<line x1="28" y1="30" x2="31" y2="27" stroke="#f5c842" stroke-width="2"/>' +
+					'<line x1="8" y1="51" x2="5" y2="54" stroke="#f5c842" stroke-width="2"/>' +
+					'<!-- Trái Đất -->' +
+					'<circle cx="68" cy="40" r="18" fill="#1a6bb5"/>' +
+					'<ellipse cx="68" cy="40" rx="10" ry="18" fill="none" stroke="#2ea44f" stroke-width="4" opacity=".6"/>' +
+					'<!-- Tênạ́ sáng Ngày -->' +
+					'<path d="M50 40 Q60 30 68 22" stroke="#f5c842" stroke-width="1.5" fill="none" opacity=".7"/>' +
+					'<text x="68" y="64" text-anchor="middle" fill="#fff" font-size="8" font-family="Arial">Trái Đất</text>' +
+					'</svg>' +
+					'<div class="q-visual-text"><strong>' + q.q + '</strong></div>' +
+					'</div>';
+			}
+
+			var qEl = document.getElementById('quiz-question-' + activeSection);
+			if (visualHtml) {
+				qEl.innerHTML = visualHtml;
+			} else {
+				qEl.textContent = q.q;
+			}
+
+			var html = '';
+			q.o.forEach(function (opt, i) {
+				html += '<button onclick="pickAnswer(' + i + ')" id="opt' + i + '-' + activeSection + '" style="' +
+					'text-align:left;padding:.7em 1em;border:2px solid #ccc;border-radius:8px;' +
+					'background:#fff;cursor:pointer;font-size:.9em;line-height:1.5;width:100%;' +
+					'transition:background .15s;position:relative;overflow:hidden;">' +
+					'<strong>' + OPTS[i] + '.</strong> ' + opt + '</button>';
+			});
+			document.getElementById('quiz-choices-' + activeSection).innerHTML = html;
+		}
+
+		function pickAnswer(idx) {
+			if (qAnswered) return;
+			qAnswered = true;
+			var correct = qSet.questions[qCurrent].a;
+			var fb = document.getElementById('quiz-feedback-' + activeSection);
+
+			// Màu các nút
+			for (var i = 0; i < qSet.questions[qCurrent].o.length; i++) {
+				var btn = document.getElementById('opt' + i + '-' + activeSection);
+				if (!btn) continue;
+				btn.style.cursor = 'default';
+				if (i === correct) { btn.style.background = '#d4edda'; btn.style.borderColor = '#28a745'; }
+				else if (i === idx) { btn.style.background = '#f8d7da'; btn.style.borderColor = '#dc3545'; }
+			}
+
+			if (idx === correct) {
+				qScore++;
+				fb.style.background = '#d4edda'; fb.style.color = '#155724';
+				fb.textContent = '✅ Chính xác! +1 điểm';
+				if (typeof launchConfetti === 'function') launchConfetti();
+			} else {
+				fb.style.background = '#f8d7da'; fb.style.color = '#721c24';
+				fb.textContent = '❌ Chưa đúng! Đáp án đúng: ' + OPTS[correct] + '. ' + qSet.questions[qCurrent].o[correct];
+			}
+			fb.style.display = 'block';
+			var nxt = document.getElementById('quiz-next-' + activeSection);
+			nxt.textContent = qCurrent < qSet.questions.length - 1 ? 'Câu tiếp theo ➡️' : '🏁 Xem kết quả';
+			nxt.style.display = 'inline-block';
+		}
+
+		function quizNext() {
+			qCurrent++;
+			if (qCurrent < qSet.questions.length) {
+				showQ();
+			} else {
+				// Kết quả
+				var pct = Math.round(qScore / qSet.questions.length * 100);
+				var emoji = pct >= 80 ? '🏆' : pct >= 60 ? '👍' : '📚';
+				var ringColor = pct >= 80 ? '#2ea44f' : pct >= 60 ? '#f5c842' : '#e74c3c';
+				var circumference = 2 * Math.PI * 54;
+				var dashOffset = circumference * (1 - pct / 100);
+				document.getElementById('quiz-choices-' + activeSection).innerHTML = '';
+				document.getElementById('quiz-question-' + activeSection).textContent = '';
+				document.getElementById('quiz-feedback-' + activeSection).style.display = 'none';
+				document.getElementById('quiz-next-' + activeSection).style.display = 'none';
+				var res = document.getElementById('quiz-result-' + activeSection);
+				res.style.display = 'block';
+				res.innerHTML =
+					'<div class="result-ring-wrap">' +
+					'<svg width="130" height="130" viewBox="0 0 130 130">' +
+					'<circle class="result-ring-bg" cx="65" cy="65" r="54"/>' +
+					'<circle class="result-ring-fg" cx="65" cy="65" r="54" stroke="' + ringColor + '"' +
+					' stroke-dasharray="' + circumference + '" stroke-dashoffset="' + circumference + '" id="ring-fg-' + activeSection + '"/>' +
+					'</svg>' +
+					'<div class="result-ring-text">' + pct + '<small>%</small></div>' +
+					'</div>' +
+					'<div style="font-size:2em;margin-bottom:.3em;">' + emoji + '</div>' +
+					'<h3>Kết quả: ' + qScore + '/' + qSet.questions.length + ' câu đúng</h3>' +
+					'<p>' + (pct >= 80 ? 'Xuất sắc! Bạn đã nắm vững chủ đề này.' :
+						pct >= 60 ? 'Tốt! Ôn thêm một chút nữa nhé.' :
+							'Cần cố gắng thêm. Hãy xem lại bài học!') + '</p>' +
+					'<button onclick="startQuiz(' + QUIZ_DATA.indexOf(qSet) + ', \'' + activeSection + '\')" class="button ripple-btn" style="margin-top:1em;margin-right:.5em;">🔁 Làm lại</button>' +
+					'<button onclick="backToTopics()" class="button ripple-btn" style="margin-top:1em;">↩ Chọn chủ đề khác</button>';
+				// Animate ring after render
+				setTimeout(function () {
+					var fg = document.getElementById('ring-fg-' + activeSection);
+					if (fg) fg.style.strokeDashoffset = dashOffset;
+				}, 100);
+				if (pct >= 80 && typeof launchConfetti === 'function') launchConfetti();
+			}
+		}
+
+		function backToTopics() {
+			// Reset trạng thái quiz area về mặc định trước khi ẩn
+			var ec = document.getElementById('explore-compass');
+			var qh = document.getElementById('quiz-header-luyen-tap');
+			var qq = document.getElementById('quiz-question-luyen-tap');
+			var qc = document.getElementById('quiz-choices-luyen-tap');
+			var qf = document.getElementById('quiz-feedback-luyen-tap');
+			if (ec) ec.style.display = 'none';
+			if (qh) qh.style.display = '';
+			if (qq) qq.style.display = '';
+			if (qc) qc.style.display = 'grid';
+			if (qf) qf.style.display = 'none';
+			document.getElementById('quiz-tabs-' + activeSection).style.display = '';
+			document.getElementById('quiz-area-' + activeSection).style.display = 'none';
+		}
+
+		function toggleSubMenu(id) {
+			var el = document.getElementById(id);
+			if (!el) return;
+			el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+		}
+
+		/* ══ LA BÀN TƯƠNG TÁC ══ */
+		function initCompass() {
+			var wrap = document.getElementById('compassWrap');
+			var face = document.getElementById('compassFace');
+			if (!wrap || !face) return;
+			var angle = 0;
+			var dragging = false;
+			var startAngle = 0;
+			var cx = 90, cy = 90; // tâm SVG
+
+			function getAngle(e) {
+				var rect = wrap.getBoundingClientRect();
+				var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+				var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+				// Chuyển đổi sang tọa độ SVG (scale 180/rect.width)
+				var scale = 180 / rect.width;
+				var x = (clientX - rect.left) * scale - cx;
+				var y = (clientY - rect.top)  * scale - cy;
+				return Math.atan2(y, x) * 180 / Math.PI;
+			}
+
+			function onStart(e) {
+				e.preventDefault();
+				dragging = true;
+				startAngle = getAngle(e) - angle;
+			}
+			function onMove(e) {
+				if (!dragging) return;
+				e.preventDefault();
+				angle = getAngle(e) - startAngle;
+				// Chỉ xoay mặt (chữ N/S/E/W), kim KHÔNG xoay
+				face.setAttribute('transform', 'rotate(' + angle + ' ' + cx + ' ' + cy + ')');
+			}
+			function onEnd() { dragging = false; }
+
+			wrap.addEventListener('mousedown',  onStart);
+			wrap.addEventListener('mousemove',  onMove);
+			wrap.addEventListener('mouseup',    onEnd);
+			wrap.addEventListener('mouseleave', onEnd);
+			wrap.addEventListener('touchstart', onStart, { passive: false });
+			wrap.addEventListener('touchmove',  onMove,  { passive: false });
+			wrap.addEventListener('touchend',   onEnd);
+		}
 	</script>
+
+	<!-- ══ EXTRA EFFECTS JS ══ -->
+	<script>
+		(function () {
+
+			/* ── Splash Screen ── */
+			window.addEventListener('load', function () {
+				setTimeout(function () {
+					var sp = document.getElementById('splash-screen');
+					if (sp) sp.classList.add('hidden');
+				}, 2000);
+			});
+
+
+			/* ── Ripple Effect ── */
+			document.addEventListener('click', function (e) {
+				var btn = e.target.closest('.ripple-btn, .button');
+				if (!btn) return;
+				// Không áp ripple cho nút quiz (có id bắt đầu bằng "opt")
+				if (btn.id && btn.id.indexOf('opt') === 0) return;
+				var rect = btn.getBoundingClientRect();
+				var size = Math.max(rect.width, rect.height);
+				var x = e.clientX - rect.left - size / 2;
+				var y = e.clientY - rect.top - size / 2;
+				var rip = document.createElement('span');
+				rip.className = 'ripple-circle';
+				rip.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + x + 'px;top:' + y + 'px;pointer-events:none;position:absolute;';
+				btn.style.position = btn.style.position || 'relative';
+				btn.appendChild(rip);
+				setTimeout(function () { if (rip.parentNode) rip.remove(); }, 700);
+			});
+
+			/* ── Scroll-to-top ── */
+			var backTop = document.getElementById('back-top');
+			window.addEventListener('scroll', function () {
+				if (backTop) {
+					backTop.classList.toggle('show', window.scrollY > 400);
+				}
+			});
+
+			/* ── Footer Entrance ── */
+			var footer = document.getElementById('footer');
+			if (footer) {
+				var footObs = new IntersectionObserver(function (entries) {
+					entries.forEach(function (e) { if (e.isIntersecting) footer.classList.add('in-view'); });
+				}, { threshold: 0.1 });
+				footObs.observe(footer);
+			}
+
+		})();
+
+		/* ── Confetti Engine ── */
+		var _confettiCanvas = document.getElementById('confetti-canvas');
+		var _confettiCtx = _confettiCanvas ? _confettiCanvas.getContext('2d') : null;
+		var _confettiParts = [];
+		var _confettiRunning = false;
+
+		function launchConfetti() {
+			if (!_confettiCtx) return;
+			_confettiCanvas.width = window.innerWidth;
+			_confettiCanvas.height = window.innerHeight;
+			var colors = ['#f5c842', '#ff8c00', '#2ea44f', '#18bfef', '#e74c3c', '#9b59b6'];
+			for (var i = 0; i < 120; i++) {
+				_confettiParts.push({
+					x: Math.random() * _confettiCanvas.width,
+					y: -10 - Math.random() * 40,
+					w: 7 + Math.random() * 7,
+					h: 4 + Math.random() * 4,
+					color: colors[Math.floor(Math.random() * colors.length)],
+					rot: Math.random() * Math.PI * 2,
+					rSpeed: (Math.random() - .5) * .12,
+					dy: 2 + Math.random() * 3,
+					dx: (Math.random() - .5) * 1.5,
+					life: 1
+				});
+			}
+			if (!_confettiRunning) { _confettiRunning = true; _animateConfetti(); }
+			setTimeout(function () { _confettiParts = []; _confettiRunning = false; }, 3500);
+		}
+
+		function _animateConfetti() {
+			if (!_confettiRunning) { _confettiCtx.clearRect(0, 0, _confettiCanvas.width, _confettiCanvas.height); return; }
+			_confettiCtx.clearRect(0, 0, _confettiCanvas.width, _confettiCanvas.height);
+			_confettiParts.forEach(function (p) {
+				p.y += p.dy; p.x += p.dx; p.rot += p.rSpeed;
+				_confettiCtx.save();
+				_confettiCtx.translate(p.x, p.y);
+				_confettiCtx.rotate(p.rot);
+				_confettiCtx.fillStyle = p.color;
+				_confettiCtx.globalAlpha = Math.min(1, ((_confettiCanvas.height - p.y) / _confettiCanvas.height) * 2);
+				_confettiCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+				_confettiCtx.restore();
+			});
+			requestAnimationFrame(_animateConfetti);
+		}
+	</script>
+
 </body>
 
 </html>
